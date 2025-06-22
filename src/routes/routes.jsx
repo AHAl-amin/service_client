@@ -9,9 +9,14 @@ import OTP_Verification from "../Pages/Authentication/OTP_Verification";
 import ResetPassword from "../Pages/Authentication/ResetPassword";
 import Admin_Home from "../Layout/Admin/Admin_Home";
 import FeaturedPropertiesDettails from "../Pages/Componants/FeaturedPropertiesDettails";
+import CostCalculation from "../Pages/CostCalculation/CostCalculation";
+import { View } from "lucide-react";
+import ViewProfice from "../Pages/Componants/ViewProfice";
 
 
 export const router = createBrowserRouter([
+
+  // landing page
   {
     path: "/",
     element: <Main />,
@@ -21,9 +26,17 @@ export const router = createBrowserRouter([
         path: '/dettails/:id',
         element: <FeaturedPropertiesDettails />
       },
+      {
+        path: '/cost_calculation',
+        element: <CostCalculation />
+      },
+      {
+        path: '/view_profice',
+        element: <ViewProfice />
+      },
     ]
   },
-
+// dashboard
   {
     path: '/dashboard',
     element: <DashboardLayout />,
@@ -32,6 +45,8 @@ export const router = createBrowserRouter([
       { path: 'admin_home', element: <Admin_Home /> }
     ]
   },
+
+// authentication
 
   { path: '/sign_up', element: <Registration /> },
   { path: '/login', element: <Login /> },

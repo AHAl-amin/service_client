@@ -51,8 +51,8 @@ const Navbar = () => {
             Seller Plans
           </Link>
           <Link
-            to="/cost-calculator"
-            className={`text-lg ${location.pathname === '/cost-calculator' ? activeClass : 'text-gray-600'}`}
+            to="/cost_calculation"
+            className={`text-lg ${location.pathname === '/cost_calculation' ? activeClass : 'text-gray-600'}`}
           >
             Cost Calculator
           </Link>

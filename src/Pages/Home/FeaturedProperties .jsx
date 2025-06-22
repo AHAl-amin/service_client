@@ -1,5 +1,6 @@
 
 import { MapPin, Users } from "lucide-react";
+import { IoIosHeartEmpty } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 // Featured Properties Section
@@ -105,7 +106,8 @@ export const FeaturedProperties = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {properties.map((property, index) => (
-            <div key={index} className="card w-full bg-white shadow-lg rounded-lg overflow-hidden">
+            <div key={index} className="card w-full bg-white shadow-lg rounded-lg overflow-hidden relative">
+              <IoIosHeartEmpty className="absolute right-2 top-2 text-2xl text bg-gray-300 rounded " />
               <img src={property.image} alt={property.title} className="w-full h-48 object-cover" />
               <div className="p-6">
                 <h3 className="text-xl font-semibold text-start text-[#1C3988]">{property.title}</h3>
