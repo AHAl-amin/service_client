@@ -3,11 +3,11 @@ import Main from "../Layout/Main";
 import Home from "../Pages/Home/Home";
 import Registration from "../Pages/Authentication/Registration";
 import Login from "../Pages/Authentication/Login";
-import DashboardLayout from "../Layout/Admin/DashboardLayout";
+import DashboardLayout from "../Layout/BuyerDashboard/DashboardLayout";
 import EmailVerification from "../Pages/Authentication/EmailVerification";
 import OTP_Verification from "../Pages/Authentication/OTP_Verification";
 import ResetPassword from "../Pages/Authentication/ResetPassword";
-import Admin_Home from "../Layout/Admin/Admin_Home";
+import Admin_Home from "../Layout/BuyerDashboard/BuyerDashboard";
 import FeaturedPropertiesDettails from "../Pages/Componants/FeaturedPropertiesDettails";
 import CostCalculation from "../Pages/CostCalculation/CostCalculation";
 import { View } from "lucide-react";
@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
   },
 // dashboard
   {
-    path: '/dashboard',
+    path: '/buyer_dashboard',
     element: <DashboardLayout />,
     children: [
       { index: true, element: <Admin_Home /> },

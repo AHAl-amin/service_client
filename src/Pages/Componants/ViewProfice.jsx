@@ -142,17 +142,17 @@ export default function ViewProfice() {
                         <div className="max-w-5xl  p-6  rounded-lg  mt-6">
                             {/* Stats Section */}
                             <div className="flex gap-4 mb-6">
-                                <div className="text-center bg-white rounded  space-y-2 p-10 shadow">
+                                <div className="text-center bg-white rounded  space-y-2 p-6 shadow">
                                     <NotebookPen className="text size-10 mx-auto" />
                                     <p className="text-2xl font-bold text ">12</p>
                                     <p className="text-gray-600">Active Listings</p>
                                 </div>
-                                <div className="text-center bg-white   rounded  space-y-2 p-10 shadow">
+                                <div className="text-center bg-white   rounded  space-y-2 p-6 shadow">
                                     <ShoppingBag className="text size-10 mx-auto  " />
                                     <p className="text-2xl font-bold text">12</p>
                                     <p className="text-gray-600">Properties Sold</p>
                                 </div>
-                                <div className="text-center bg-white  rounded p-10 space-y-2 shadow">
+                                <div className="text-center bg-white  rounded p-6 space-y-2 shadow">
                                     <Mails className="text size-10 mx-auto" />
                                     <p className="text-2xl font-bold text">98%</p>
                                     <p className="text-gray-600">Response Rate</p>
@@ -214,7 +214,7 @@ export default function ViewProfice() {
                         </div>
                     </div>
                 </div>
-                <div className="">
+                <div className="py-16">
                     <img src='https://i.ibb.co/7d2fXmCc/image-5.png' className="w-full h-[600px]" alt="LOCATION" />
                 </div>
             </div>
