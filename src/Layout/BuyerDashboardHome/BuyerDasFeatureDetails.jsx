@@ -310,11 +310,11 @@ function BuyerDasFeatureDetails() {
               >
                 Send
               </button>
-            <Link to="/buyer_dashboard/buyer_das_profile_view">
-  <button className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-2 rounded font-medium transition-colors cursor-pointer">
-    View Profile
-  </button>
-</Link>
+              <Link to="/buyer_dashboard/buyer_das_profile_view">
+                <button className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-2 rounded font-medium transition-colors cursor-pointer">
+                  View Profile
+                </button>
+              </Link>
 
             </div>
           </form>

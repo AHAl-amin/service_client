@@ -7,15 +7,17 @@ import DashboardLayout from "../Layout/BuyerDashboardHome/DashboardLayout";
 import EmailVerification from "../Pages/Authentication/EmailVerification";
 import OTP_Verification from "../Pages/Authentication/OTP_Verification";
 import ResetPassword from "../Pages/Authentication/ResetPassword";
-// import Admin_Home from "../Layout/BuyerDashboardHome/BuyerDashboardHome";
+
 import FeaturedPropertiesDettails from "../Pages/Componants/FeaturedPropertiesDettails";
 import CostCalculation from "../Pages/CostCalculation/CostCalculation";
-// import { View } from "lucide-react";
+
 import ViewProfice from "../Pages/Componants/ViewProfice";
 import BuyerDashboardHome from "../Layout/BuyerDashboardHome/BuyerDashboardHome";
 import BuyerDasFeatureDetails from "../Layout/BuyerDashboardHome/BuyerDasFeatureDetails";
 import BuyerDasProfileView from "../Layout/BuyerDashboardHome/BuyerDasProfileView";
-// import BuyerDasFeatureDetails from "../Layout/BuyerDashboardHome/BuyerDasFeatureDetails";
+import WishList from "../Layout/BuyerDashboardHome/WishList/WishList";
+import Subscribtion from "../Layout/BuyerDashboardHome/Subscribtion";
+// import WishList from "../Layout/BuyerDashboardHome/WishList";
 
 
 export const router = createBrowserRouter([
@@ -51,6 +53,13 @@ export const router = createBrowserRouter([
       },
       { path: 'buyer_das_profile_view', 
         element: <BuyerDasProfileView/> 
+      },
+      { path: 'wish_list', 
+        element: <WishList/> 
+      },
+     
+      { path: 'subscribtion', 
+        element: <Subscribtion/> 
       },
      
       
