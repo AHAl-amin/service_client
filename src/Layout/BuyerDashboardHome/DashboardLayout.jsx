@@ -4,30 +4,33 @@
 import { useState, useEffect } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { LuLayoutDashboard } from "react-icons/lu";
-import { FaCalculator, FaRegHeart, FaUserGroup } from "react-icons/fa6";
-import { BadgePercent, Bell, CalendarDays, ChevronDown, ChevronsLeft, ChevronsRight, MessagesSquare } from "lucide-react";
-import { RiUserSettingsLine } from "react-icons/ri";
-import { BsFillBarChartFill } from "react-icons/bs";
+import { FaCalculator, FaRegHeart } from "react-icons/fa6";
+import { Bell, ChevronDown, ChevronsLeft, ChevronsRight } from "lucide-react";
+
+
 import Logo from '../../../public/img/logo.png'
 import { TiMessages } from "react-icons/ti";
 import { AiOutlineDollar } from "react-icons/ai";
 import { IoSettingsOutline } from "react-icons/io5";
+import BuyerNotification from "./BuyerNotification";
 
 export default function DashboardLayout() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selectedItem, setSelectedItem] = useState("Dashboard");
-  const location = useLocation(); 
-  const navigate = useNavigate(); 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const menuItems = [
     {
       items: [
         { name: "Dashboard", icon: <LuLayoutDashboard size={20} />, path: "/buyer_dashboard" },
-        { name: "My Wishlist", icon: <FaRegHeart  size={20} />, path: "buyer_dashboard/wish_list" },
-        { name: "Messages", icon: <TiMessages  size={20} />, path: "buyer_dashboard/subscribtion" },
-        { name: "Cost Calculator", icon: <FaCalculator  size={20} />, path: "buyer_dashboard/buyer_cost_calculation" },
-        { name: "Subscription", icon: <AiOutlineDollar  size={20} />, path: "buyer_dashboard/subscribtion" },
-        { name: "Settings", icon: <IoSettingsOutline  size={20} />, path: "buyer_dashboard/buyer_setting" },
-        
+        { name: "My Wishlist", icon: <FaRegHeart size={20} />, path: "buyer_dashboard/wish_list" },
+        { name: "Messages", icon: <TiMessages size={20} />, path: "buyer_dashboard/subscribtion" },
+        { name: "Cost Calculator", icon: <FaCalculator size={20} />, path: "buyer_dashboard/buyer_cost_calculation" },
+        { name: "Subscription", icon: <AiOutlineDollar size={20} />, path: "buyer_dashboard/subscribtion" },
+        { name: "Settings", icon: <IoSettingsOutline size={20} />, path: "buyer_dashboard/buyer_setting" },
+
       ],
     },
   ];
@@ -51,17 +54,15 @@ export default function DashboardLayout() {
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
       <aside
-        className={`${
-          isCollapsed ? "w-20" : "w-64"
-        } bg-[#1C3988] border-r border-gray-200 transition-all duration-500 ease-in-out`}
+        className={`${isCollapsed ? "w-20" : "w-64"
+          } bg-[#1C3988] border-r border-gray-200 transition-all duration-500 ease-in-out`}
       >
         {/* Logo */}
         <div className="h-16 flex items-center px-4">
           <div className="flex items-center ms-1 gap-2 mt-20">
             <div
-              className={`transform transition-all duration-500 ${
-                isCollapsed ? "opacity-0 -translate-x-full" : "opacity-100 translate-x-0"
-              }`}
+              className={`transform transition-all duration-500 ${isCollapsed ? "opacity-0 -translate-x-full" : "opacity-100 translate-x-0"
+                }`}
             >
               <img src={Logo} alt="Logo" />
             </div>
@@ -78,21 +79,18 @@ export default function DashboardLayout() {
                     <Link
                       to={item.path}
                       onClick={() => handleItemClick(item.name, item.path)}
-                      className={`flex items-center gap-3 px-3 py-2 text-gray-50 rounded-lg hover:bg-gray-400 group relative ${
-                        selectedItem === item.name ? "bg-gray-200 text-gray-900 font-semibold" : ""
-                      }`}
+                      className={`flex items-center gap-3 px-3 py-2 text-gray-50 rounded-lg hover:bg-gray-400 group relative ${selectedItem === item.name ? "bg-gray-200 text-gray-900 font-semibold" : ""
+                        }`}
                     >
                       <span
-                        className={`text-gray-50 transition-colors duration-300 ${
-                          selectedItem === item.name ? "text-gray-900" : "text-gray-50"
-                        }`}
+                        className={`text-gray-50 transition-colors duration-300 ${selectedItem === item.name ? "text-gray-900" : "text-gray-50"
+                          }`}
                       >
                         {item.icon}
                       </span>
                       <span
-                        className={`transform transition-all duration-500 ${
-                          isCollapsed ? "opacity-0 -translate-x-full" : "opacity-100 translate-x-0"
-                        } whitespace-nowrap`}
+                        className={`transform transition-all duration-500 ${isCollapsed ? "opacity-0 -translate-x-full" : "opacity-100 translate-x-0"
+                          } whitespace-nowrap`}
                       >
                         {item.name}
                       </span>
@@ -108,7 +106,7 @@ export default function DashboardLayout() {
             </div>
           ))}
         </nav>
-          <Link to="/signin" className="absolute left-20 bottom-10 cursor-pointer">Logout</Link>
+        <Link to="/signin" className="absolute left-20 bottom-10 cursor-pointer">Logout</Link>
       </aside>
 
       <div className="flex-1 flex flex-col overflow-hidden">
@@ -130,9 +128,14 @@ export default function DashboardLayout() {
               </div>
             </div>
             <div className="flex items-center gap-4 me-10">
-              <button className="p-2 bg-[#FAE08C1A] hover:bg-[#f8de91] border-2 border-[#B28D2833] rounded-full transition-colors duration-300">
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="p-2 bg-[#FAE08C1A] hover:bg-[#f8de91] border-2 border-[#B28D2833] rounded-full transition-colors duration-300 cursor-pointer"
+              >
                 <Bell size={24} className="text-[#B28D28]" />
               </button>
+
+
               <div className="flex items-center justify-center gap-2">
                 <div className="w-12">
                   <img
@@ -172,6 +175,7 @@ export default function DashboardLayout() {
 
         {/* Main Content */}
         <main className="flex-1 overflow-auto p-12 bg-[#F9F5ED]">
+           <BuyerNotification isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
           <Outlet />
         </main>
       </div>
