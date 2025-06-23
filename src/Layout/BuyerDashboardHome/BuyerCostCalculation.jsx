@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { BsCalculator } from "react-icons/bs"
 
-export default function ConstructionCalculator() {
+export default function BuyerCostCalculation() {
     const [activeTab, setActiveTab] = useState("basic")
 
     // Basic Info State (from the image)

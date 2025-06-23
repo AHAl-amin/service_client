@@ -17,6 +17,8 @@ import BuyerDasFeatureDetails from "../Layout/BuyerDashboardHome/BuyerDasFeature
 import BuyerDasProfileView from "../Layout/BuyerDashboardHome/BuyerDasProfileView";
 import WishList from "../Layout/BuyerDashboardHome/WishList/WishList";
 import Subscribtion from "../Layout/BuyerDashboardHome/Subscribtion";
+import BuyerCostCalculation from "../Layout/BuyerDashboardHome/BuyerCostCalculation";
+import BuyerSetting from "../Layout/BuyerDashboardHome/BuyerSetting";
 // import WishList from "../Layout/BuyerDashboardHome/WishList";
 
 
@@ -60,6 +62,12 @@ export const router = createBrowserRouter([
      
       { path: 'subscribtion', 
         element: <Subscribtion/> 
+      },
+      { path: 'buyer_cost_calculation',
+        element: <BuyerCostCalculation/>
+      },
+      { path: 'buyer_setting',
+        element: <BuyerSetting/>
       },
      
       

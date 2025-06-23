@@ -24,9 +24,9 @@ export default function DashboardLayout() {
         { name: "Dashboard", icon: <LuLayoutDashboard size={20} />, path: "/buyer_dashboard" },
         { name: "My Wishlist", icon: <FaRegHeart  size={20} />, path: "buyer_dashboard/wish_list" },
         { name: "Messages", icon: <TiMessages  size={20} />, path: "buyer_dashboard/subscribtion" },
-        { name: "Cost Calculator", icon: <FaCalculator  size={20} />, path: "/roles" },
+        { name: "Cost Calculator", icon: <FaCalculator  size={20} />, path: "buyer_dashboard/buyer_cost_calculation" },
         { name: "Subscription", icon: <AiOutlineDollar  size={20} />, path: "buyer_dashboard/subscribtion" },
-        { name: "Settings", icon: <IoSettingsOutline  size={20} />, path: "/promotions" },
+        { name: "Settings", icon: <IoSettingsOutline  size={20} />, path: "buyer_dashboard/buyer_setting" },
         
       ],
     },
