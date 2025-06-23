@@ -19,6 +19,8 @@ import WishList from "../Layout/BuyerDashboardHome/WishList/WishList";
 import Subscribtion from "../Layout/BuyerDashboardHome/Subscribtion";
 import BuyerCostCalculation from "../Layout/BuyerDashboardHome/BuyerCostCalculation";
 import BuyerSetting from "../Layout/BuyerDashboardHome/BuyerSetting";
+import SellerDashboardLayout from "../Layout/SellerDashboardHome/SellerDashboardLayout";
+import SellerDashboardHome from "../Layout/SellerDashboardHome/SellerDashboardHome";
 // import WishList from "../Layout/BuyerDashboardHome/WishList";
 
 
@@ -44,7 +46,7 @@ export const router = createBrowserRouter([
       },
     ]
   },
-// dashboard
+// Buyer dashboard
   {
     path: 'buyer_dashboard',
     element: <DashboardLayout />,
@@ -73,6 +75,20 @@ export const router = createBrowserRouter([
       
     ]
   },
+
+
+  // Seller dashboard
+  
+{
+  path: 'seller_dashboard',
+  element: <SellerDashboardLayout />,
+  children: [
+    { index: true, element: <SellerDashboardHome /> },
+    // Add more seller sub-routes here like
+    // { path: 'properties', element: <SellerProperties /> },
+    // { path: 'settings', element: <SellerSetting /> },
+  ]
+},
 
 // authentication
 

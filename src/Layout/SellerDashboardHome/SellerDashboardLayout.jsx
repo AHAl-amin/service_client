@@ -12,9 +12,12 @@ import Logo from '../../../public/img/logo.png'
 import { TiMessages } from "react-icons/ti";
 import { AiOutlineDollar } from "react-icons/ai";
 import { IoSettingsOutline } from "react-icons/io5";
-import BuyerNotification from "./BuyerNotification";
+import BuyerNotification from "../BuyerDashboardHome/BuyerNotification";
+import { MdOutlineAddHome, MdOutlineMapsHomeWork } from "react-icons/md";
+import { SiBosch } from "react-icons/si";
+// import BuyerNotification from "./BuyerNotification";
 
-export default function DashboardLayout() {
+export default function SellerDashboardLayout() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selectedItem, setSelectedItem] = useState("Dashboard");
   const location = useLocation();
@@ -24,12 +27,12 @@ export default function DashboardLayout() {
   const menuItems = [
     {
       items: [
-        { name: "Dashboard", icon: <LuLayoutDashboard size={20} />, path: "/buyer_dashboard" },
-        { name: "My Wishlist", icon: <FaRegHeart size={20} />, path: "buyer_dashboard/wish_list" },
-        // { name: "Messages", icon: <TiMessages size={20} />, path: "/subscribtion" },
-        { name: "Cost Calculator", icon: <FaCalculator size={20} />, path: "buyer_dashboard/buyer_cost_calculation" },
-        { name: "Subscription", icon: <AiOutlineDollar size={20} />, path: "buyer_dashboard/subscribtion" },
-        { name: "Settings", icon: <IoSettingsOutline size={20} />, path: "buyer_dashboard/buyer_setting" },
+        { name: "Dashboard", icon: <LuLayoutDashboard size={20} />, path: "/seller_dashboard" },
+        { name: "My Listings", icon: <MdOutlineMapsHomeWork  size={20} />, path: "seller_dashboard/my_listings" },
+        { name: "Boost Options", icon: <SiBosch  size={20} />, path: "seller_dashboard/bost_options" },
+        { name: "Add Properties ", icon: <MdOutlineAddHome size={20} />, path: "seller_dashboard/add_properties" },
+       
+        { name: "Settings", icon: <IoSettingsOutline size={20} />, path: "seller_dashboard/seller_settings" },
 
       ],
     },
@@ -125,7 +128,7 @@ export default function DashboardLayout() {
               <div className="flex flex-col">
                 <span className="text-gray-700 font-bold text-xl">{selectedItem}</span>
                 <h1 className="text-gray-900">
-                  Hi, Welcome <span className="text-[#B28D28] font-bold">Buyer</span>
+                  Hi, Welcome <span className="text-[#B28D28] font-bold">Seller</span>
                 </h1>
               </div>
             </div>
