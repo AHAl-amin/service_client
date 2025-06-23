@@ -5,7 +5,7 @@ import { useState } from "react"
 import { IoIosHeartEmpty } from "react-icons/io";
 import { Link } from "react-router-dom";
 
-export default function BuyerDashboard() {
+export default function BuyerDashboardHome() {
   // JSON data embedded in the component
   const properties = [
     {
@@ -155,9 +155,10 @@ export default function BuyerDashboard() {
   }
 
   return (
-    <div className="p-6">
+    <div className="">
       <div className="mx-auto">
         {/* Statistics Cards */}
+        <h1 className="text text-4xl font-semibold mb-6">Dashboard overview</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {statsData.map((stat) => (
             <div
@@ -413,7 +414,7 @@ export default function BuyerDashboard() {
 
                       <p className="text-[#8B8B8B] text-start pt-2">{property?.description}</p>
 
-                      <Link to={`/dettails/${property.id}`} className="btn bg-[#1C3988] py-2 text-white text-base font-medium mt-4 w-full">View Details</Link>
+                      <Link to={`/buyer_dashboard/buyer_feture_details/${property.id}`} className="btn bg-[#1C3988] py-2 text-white text-base font-medium mt-4 w-full">View Details</Link>
                     </div>
                   </div>
                 ))}

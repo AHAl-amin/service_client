@@ -21,7 +21,7 @@ export default function DashboardLayout() {
   const menuItems = [
     {
       items: [
-        { name: "Dashboard", icon: <LuLayoutDashboard size={20} />, path: "/home" },
+        { name: "Dashboard", icon: <LuLayoutDashboard size={20} />, path: "/buyer_dashboard" },
         { name: "My Wishlist", icon: <FaRegHeart  size={20} />, path: "/client_info" },
         { name: "Messages", icon: <TiMessages  size={20} />, path: "/booking_info" },
         { name: "Cost Calculator", icon: <FaCalculator  size={20} />, path: "/roles" },
