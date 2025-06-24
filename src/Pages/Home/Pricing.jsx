@@ -34,7 +34,7 @@ export default function Pricing() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-gray-800 mb-3">Seller Pricing</h1>
+          <h1 className="text-4xl font-bold text mb-3">Seller Pricing</h1>
           <p className="text-gray-500 text-lg">Choose the plan that suits best for your need</p>
         </div>
 

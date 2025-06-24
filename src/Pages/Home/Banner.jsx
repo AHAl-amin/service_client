@@ -54,7 +54,7 @@ const Banner = () => {
               <input
                 type="text"
                 placeholder="Search of location"
-                className="pl-10 w-full h-12 border border-gray-300 placeholder-[#1c398869] bg-white rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="pl-10 w-full h-12 border border-gray-300 text-gray-800 placeholder-[#1c398869] bg-white rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                 {...register("location")}
               />
             </div>
@@ -67,7 +67,7 @@ const Banner = () => {
   <input
     type="text"
     placeholder="Min Price"
-    className="w-full h-12 border border-gray-300 bg-white rounded-md pl-10 pr-3 placeholder-[#1c398869] focus:outline-none focus:ring-1 focus:ring-blue-500"
+    className="w-full h-12 border border-gray-300 bg-white rounded-md pl-10 pr-3 text-gray-800 placeholder-[#1c398869] focus:outline-none focus:ring-1 focus:ring-blue-500"
     {...register("minPrice")}
   />
 </div>
@@ -81,7 +81,7 @@ const Banner = () => {
   <input
     type="text"
     placeholder="Max Price"
-    className="w-full h-12 border placeholder-[#1c398869] bg-white border-gray-300 rounded-md pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-blue-500"
+    className="w-full h-12 border placeholder-[#1c398869] text-gray-800 bg-white border-gray-300 rounded-md pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-blue-500"
     {...register("maxPrice")}
   />
 </div>
@@ -92,13 +92,13 @@ const Banner = () => {
               <input
                 type="text"
                 placeholder="Down Payment"
-                className="w-full h-12 border border-gray-300 bg-white placeholder-[#1c398869] rounded-md px-3 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full h-12 border border-gray-300 bg-white text-gray-800 placeholder-[#1c398869] rounded-md px-3 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 {...register("downPayment")}
               />
               <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
                 <input
                   type="checkbox"
-                  className="h-5 w-5 border border-gray-300 rounded"
+                  className="h-5 w-5 border border-gray-300  rounded"
                   {...register("hasDownPayment")}
                 />
               </div>

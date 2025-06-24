@@ -21,6 +21,7 @@ import BuyerCostCalculation from "../Layout/BuyerDashboardHome/BuyerCostCalculat
 import BuyerSetting from "../Layout/BuyerDashboardHome/BuyerSetting";
 import SellerDashboardLayout from "../Layout/SellerDashboardHome/SellerDashboardLayout";
 import SellerDashboardHome from "../Layout/SellerDashboardHome/SellerDashboardHome";
+import MyListings from "../Layout/SellerDashboardHome/MyListings";
 // import WishList from "../Layout/BuyerDashboardHome/WishList";
 
 
@@ -84,8 +85,8 @@ export const router = createBrowserRouter([
   element: <SellerDashboardLayout />,
   children: [
     { index: true, element: <SellerDashboardHome /> },
-    // Add more seller sub-routes here like
-    // { path: 'properties', element: <SellerProperties /> },
+    
+    { path: 'my_listings', element: <MyListings /> },
     // { path: 'settings', element: <SellerSetting /> },
   ]
 },
