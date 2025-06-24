@@ -15,6 +15,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import BuyerNotification from "../BuyerDashboardHome/BuyerNotification";
 import { MdOutlineAddHome, MdOutlineMapsHomeWork } from "react-icons/md";
 import { SiBosch } from "react-icons/si";
+import SellerNotification from "./SellerNotification";
 // import BuyerNotification from "./BuyerNotification";
 
 export default function SellerDashboardLayout() {
@@ -29,7 +30,7 @@ export default function SellerDashboardLayout() {
       items: [
         { name: "Dashboard", icon: <LuLayoutDashboard size={20} />, path: "/seller_dashboard" },
         { name: "My Listings", icon: <MdOutlineMapsHomeWork  size={20} />, path: "seller_dashboard/my_listings" },
-        { name: "Boost Options", icon: <SiBosch  size={20} />, path: "seller_dashboard/bost_options" },
+        { name: "Boost Options", icon: <SiBosch  size={20} />, path: "seller_dashboard/boost_options" },
         { name: "Add Properties ", icon: <MdOutlineAddHome size={20} />, path: "seller_dashboard/add_properties" },
        
         { name: "Settings", icon: <IoSettingsOutline size={20} />, path: "seller_dashboard/seller_settings" },
@@ -180,7 +181,7 @@ export default function SellerDashboardLayout() {
 
         {/* Main Content */}
         <main className="flex-1 overflow-auto p-12 bg-[#F9F5ED]">
-           <BuyerNotification isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+           <SellerNotification isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
           <Outlet />
         </main>
       </div>

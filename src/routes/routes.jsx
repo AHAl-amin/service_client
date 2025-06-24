@@ -22,6 +22,11 @@ import BuyerSetting from "../Layout/BuyerDashboardHome/BuyerSetting";
 import SellerDashboardLayout from "../Layout/SellerDashboardHome/SellerDashboardLayout";
 import SellerDashboardHome from "../Layout/SellerDashboardHome/SellerDashboardHome";
 import MyListings from "../Layout/SellerDashboardHome/MyListings";
+import BoostOptions from "../Layout/SellerDashboardHome/BoostOptions";
+import SellerSetting from "../Layout/SellerDashboardHome/SellerSetting";
+import AddProperties from "../Layout/SellerDashboardHome/AddProperties/AddProperties";
+import MediaImages from "../Layout/SellerDashboardHome/AddProperties/MediaImages";
+// import AddProperties from "../Layout/SellerDashboardHome/AddProperties";
 // import WishList from "../Layout/BuyerDashboardHome/WishList";
 
 
@@ -87,7 +92,22 @@ export const router = createBrowserRouter([
     { index: true, element: <SellerDashboardHome /> },
     
     { path: 'my_listings', element: <MyListings /> },
-    // { path: 'settings', element: <SellerSetting /> },
+    { 
+      path: 'boost_options', 
+      element: <BoostOptions />
+     },
+     { 
+       path: 'add_properties', 
+       element: <AddProperties />
+      },
+    { 
+      path: 'seller_settings', 
+      element: <SellerSetting />
+     },
+    { 
+      path: 'media_images', 
+      element: <MediaImages />
+     },
   ]
 },
 

@@ -114,7 +114,7 @@ export default function MyListings() {
                                 </div>
                                 
                                     <div>
-                                        <Link to="" className="bg-[#1C3988] text-white px-5 py-2 rounded-full flex items-center gap-2 cursor-pointer"><MdOutlineAddHome size={20} /> Add Properties</Link>
+                                        <Link to="/seller_dashboard/add_properties" className="bg-[#1C3988] text-white px-5 py-2 rounded-full flex items-center gap-2 cursor-pointer"><MdOutlineAddHome size={20} /> Add Properties</Link>
                                     </div>
                                
 
