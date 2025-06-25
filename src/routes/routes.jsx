@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../Layout/Main";
 import Home from "../Pages/Home/Home";
-import Registration from "../Pages/Authentication/Registration";
+
 import Login from "../Pages/Authentication/Login";
 import DashboardLayout from "../Layout/BuyerDashboardHome/DashboardLayout";
 import EmailVerification from "../Pages/Authentication/EmailVerification";
@@ -26,6 +26,9 @@ import BoostOptions from "../Layout/SellerDashboardHome/BoostOptions";
 import SellerSetting from "../Layout/SellerDashboardHome/SellerSetting";
 import AddProperties from "../Layout/SellerDashboardHome/AddProperties/AddProperties";
 import MediaImages from "../Layout/SellerDashboardHome/AddProperties/MediaImages";
+import BuyerRegistration from "../Pages/Authentication/BuyerRegistration";
+import SellerRegistration from "../Pages/Authentication/SellerRegistration";
+import Pricing from "../Pages/Home/Pricing";
 // import AddProperties from "../Layout/SellerDashboardHome/AddProperties";
 // import WishList from "../Layout/BuyerDashboardHome/WishList";
 
@@ -49,6 +52,10 @@ export const router = createBrowserRouter([
       {
         path: '/view_profice',
         element: <ViewProfice />
+      },
+      {
+        path: '/pricing',
+        element: <Pricing />
       },
     ]
   },
@@ -113,7 +120,8 @@ export const router = createBrowserRouter([
 
 // authentication
 
-  { path: '/sign_up', element: <Registration /> },
+  { path: '/buyer_registration', element: <BuyerRegistration /> },
+  { path: '/seller_registration', element: <SellerRegistration /> },
   { path: '/login', element: <Login /> },
   { path: '/verify', element: <EmailVerification /> },
   { path: '/otp_verify', element: <OTP_Verification /> },

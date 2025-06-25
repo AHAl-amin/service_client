@@ -1,14 +1,15 @@
+import { FiChevronDown } from 'react-icons/fi';
 import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
-  const location = useLocation(); 
-  const activeClass = 'text-blue-600 border-b-2 border-blue-600'; 
+  const location = useLocation();
+  const activeClass = 'text-blue-600 border-b-2 border-blue-600';
 
   return (
     <nav className="bg-white py-3 px-6 shadow-md sticky top-0 z-50 shadow-black/20">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-4">
-          <img src="https://i.ibb.co/20mKHM8m/logo-final-2.png" alt="Logo" className="h-18 w-auto" /> 
+          <img src="https://i.ibb.co/20mKHM8m/logo-final-2.png" alt="Logo" className="h-18 w-auto" />
         </div>
 
         <div className="hidden md:flex space-x-8">
@@ -18,38 +19,37 @@ const Navbar = () => {
           >
             Home
           </Link>
-          <div className="relative">
-            <button
-              className={`text-lg ${location.pathname.includes('property-types') ? activeClass : 'text-gray-600'}`}
-            >
-              Property Types
-            </button>
-            <div className="absolute top-full left-0 w-40 bg-white shadow-lg mt-2 hidden group-hover:block">
-              <ul>
-                <li><Link to="/property-types/residential" className="block px-4 py-2 text-gray-800">Residential</Link></li>
-                <li><Link to="/property-types/commercial" className="block px-4 py-2 text-gray-800">Commercial</Link></li>
-              </ul>
-            </div>
+
+
+          <div className="dropdown relative w-35">
+            <div tabIndex={0} role="button" className={`text-lg cursor-pointer  ${location.pathname.includes('property-types') ? activeClass : 'text-gray-600'}`}> Property Types</div>
+            <FiChevronDown className="text-gray-600 ml-1 absolute bottom-2 right-0 " />
+            <ul tabIndex={0} className="dropdown-content menu bg-white text rounded-box z-1 w-40   p-2 shadow-sm " >
+              <li><a>Farms 7 ranches</a></li>
+              <li><a>Recreational</a></li>
+              <li><a>Residential lots</a></li>
+              <li><a>Commercial</a></li>
+              <li><a>waterfront</a></li>
+            </ul>
           </div>
-          <div className="relative">
-            <button
-              className={`text-lg ${location.pathname.includes('countries') ? activeClass : 'text-gray-600'}`}
-            >
-              Countries
-            </button>
-            <div className="absolute top-full left-0 w-40 bg-white shadow-lg mt-2 hidden group-hover:block">
-              <ul>
-                <li><Link to="/countries/usa" className="block px-4 py-2 text-gray-800">USA</Link></li>
-                <li><Link to="/countries/uk" className="block px-4 py-2 text-gray-800">UK</Link></li>
-              </ul>
-            </div>
+
+          <div className="dropdown relative w-24">
+            <div tabIndex={0} role="button" className={`text-lg cursor-pointer  ${location.pathname.includes('property-types') ? activeClass : 'text-gray-600'}`}> Countries</div>
+            <FiChevronDown className="text-gray-600 ml-1 absolute bottom-2 right-0 " />
+            <ul tabIndex={0} className="dropdown-content menu bg-white text rounded-box z-1 w-40   p-2 shadow " >
+              <li><a>United States</a></li>
+              <li><a>Canada</a></li>
+              <li><a>Mexico</a></li>
+              <li><a>Brazil</a></li>
+              <li><a>Spain</a></li>
+              <li><a>Australia</a></li>
+
+            </ul>
           </div>
-          <Link
-            to="/seller-plans"
-            className={`text-lg ${location.pathname === '/seller-plans' ? activeClass : 'text-gray-600'}`}
-          >
-            Seller Plans
+          <Link to="/pricing" className={`text-lg ${location.pathname === '/pricing' ? activeClass : 'text-gray-600'}`}>
+            Pricing
           </Link>
+
           <Link
             to="/cost_calculation"
             className={`text-lg ${location.pathname === '/cost_calculation' ? activeClass : 'text-gray-600'}`}

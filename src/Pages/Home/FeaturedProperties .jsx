@@ -4,7 +4,7 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 // Featured Properties Section
-export const FeaturedProperties = () => {
+export const FeaturedProperties = ({onExploreClick}) => {
  const properties = [
   {
     id: 1,
@@ -80,16 +80,16 @@ export const FeaturedProperties = () => {
   return (
     <section className="bg-yellow-50/80 py-16">
       <div className="container mx-auto text-center">
-        <div className="flex items-center justify-between">
+        <div className="flex md:flex-row flex-col md:px-0 px-6 items-center justify-between">
           <div className="basis-6/12">
             <h2 className="text-4xl font-bold  text-[#1C3988] text-start">Featured Properties</h2>
             <p className="text-[#545454] text-start mt-2 w-11/12 mb-10">Discover our featured properties, carefully selected for their prime locations and exceptional value. Whether for recreation, investment, or building your dream home, these listings offer unique opportunities </p>
           </div>
 
-          <div className="basis-6/12 flex items-center justify-end gap-4 ">
+          <div className="basis-6/12 flex items-center justify-end gap-4 md:px-0 px-6">
             <button className="bg-[#1C3988] px-5 py-2 rounded-sm text-white w-[180px]">View All Properties</button>
 
-            <button className="bg-[#fff] border text-[#1C3988] border-gray-300 px-5 py-2 w-[140px] flex rounded-sm items-center gap-[2px] text-center"><MapPin size={16} />View Map</button>
+            <button onClick={onExploreClick} className="bg-[#fff] border text-[#1C3988] border-gray-300 px-5 py-2 w-[140px] flex rounded-sm items-center gap-[2px] text-center cursor-pointer"><MapPin size={16} />View Map</button>
 
             <select className="select rounded-sm w-[150px] text-[#1C3988] text-base  bg-[#fff] ">
               <option disabled selected>Featured</option>
@@ -104,7 +104,7 @@ export const FeaturedProperties = () => {
           </div>
 
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 md:px-0 mt-4 px-6 gap-6">
           {properties.map((property, index) => (
             <div key={index} className="card w-full bg-white shadow-lg rounded-lg overflow-hidden relative">
               <IoIosHeartEmpty className="absolute right-2 top-2 text-2xl text bg-gray-300 rounded " />

@@ -82,10 +82,10 @@ const Review = () => {
     return (
         <div className="py-16 px-4">
             <div className="max-w-[165vh] mx-auto">
-                <div className="text-center mb-12">
-                    <p className="text-blue-600 dark:text-blue-400 md:text-2xl font-medium mb-2">Testimonial</p>
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
-                        What Client Think About Us
+                <div className="text-center w-1/2 mx-auto mb-12">
+                    <p className="text font-bold text-4xl mb-2">What Our Customers Say</p>
+                    <h2 className="md:text-xl   text-gray-400 ">
+                        Hear from buyers and sellers who have successfully used GlobalLand to achieve their land ownership goals.
                     </h2>
                 </div>
 

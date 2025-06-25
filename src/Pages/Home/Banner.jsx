@@ -1,6 +1,7 @@
 
 import { useForm } from "react-hook-form"
 import { CircleDollarSign, CircleDollarSignIcon, MapPin, Search } from "lucide-react"
+import { Link } from "react-router-dom"
 
 const Banner = () => {
   const { register, handleSubmit } = useForm()
@@ -24,19 +25,24 @@ const Banner = () => {
         <div className="absolute inset-0 bg-black opacity-40"></div> 
         <div className="container mx-auto text-center relative z-10">
           <div className="max-w-5xl mx-auto bg-opacity-90">
-            <h1 className="text-7xl sm:text-7xl font-bold text-white leading-tight">
+            <h1 className="md:text-7xl text-2xl font-bold text-white leading-tight">
               Find Land, Ranches, Farms & Recreational Properties Worldwide
             </h1>
 
 
             <div className="space-x-5 mt-8">
-              <button className="mt-6 cursor-pointer bg-[#1C3988] text-white w-1/3 px-10 py-3 rounded-md text-lg font-semibold hover:bg-gray-900 transition duration-300">
+            <Link to="/buyer_registration">
+              <button className="mt-6 cursor-pointer bg-[#1C3988] text-white md:w-1/3 w-1/2 px-10 py-3 rounded-md md:text-lg font-semibold hover:bg-gray-900 transition duration-300">
                 Buyer Profile
               </button>
+            </Link>
 
-              <button className="mt-6 bg-[#FFFFFF] cursor-pointer text-black w-1/3 px-10 py-3 rounded-md text-lg font-semibold hover:bg-gray-200 transition duration-300">
+             <Link to="/seller_registration">
+              <button className="mt-6 bg-[#FFFFFF] cursor-pointer text-black md:w-1/3 w-1/2 px-10 py-3 rounded-md md:text-lg font-semibold hover:bg-gray-200 transition duration-300">
                 Sell Your Land
               </button>
+             
+             </Link>
             </div>
           </div>
         </div>
