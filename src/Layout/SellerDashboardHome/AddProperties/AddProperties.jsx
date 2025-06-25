@@ -17,24 +17,61 @@ const tabs = [
 ]
 
 export default function AddProperties() {
+
+  const tabIds = tabs.map(tab => tab.id); 
+
+const handleNext = () => {
+  const currentIndex = tabIds.indexOf(activeTab);
+  if (currentIndex < tabIds.length - 1) {
+    setActiveTab(tabIds[currentIndex + 1]);
+  }
+};
+
+const handleBack = () => {
+  const currentIndex = tabIds.indexOf(activeTab);
+  if (currentIndex > 0) {
+    setActiveTab(tabIds[currentIndex - 1]);
+  }
+};
+
   const [activeTab, setActiveTab] = useState("details")
 
+  // const renderContent = () => {
+  //   switch (activeTab) {
+  //     case "details":
+  //       return <PropertyDetails />
+  //     case "media":
+  //       return <MediaImages />
+  //     case "location":
+  //       return <LocationInfo />
+  //     case "pricing":
+  //       return <PricingOptions />
+  //     case "preview":
+  //       return <PreviewListing />
+  //     default:
+  //       return null
+  //   }
+  // }
+
   const renderContent = () => {
-    switch (activeTab) {
-      case "details":
-        return <PropertyDetails />
-      case "media":
-        return <MediaImages />
-      case "location":
-        return <LocationInfo />
-      case "pricing":
-        return <PricingOptions />
-      case "preview":
-        return <PreviewListing />
-      default:
-        return null
-    }
+  const sharedProps = { onNext: handleNext, onBack: handleBack };
+
+  switch (activeTab) {
+    case "details":
+      return <PropertyDetails {...sharedProps} />;
+    case "media":
+      return <MediaImages {...sharedProps} />;
+    case "location":
+      return <LocationInfo {...sharedProps} />;
+    case "pricing":
+      return <PricingOptions {...sharedProps} />;
+    case "preview":
+      return <PreviewListing {...sharedProps} />;
+    default:
+      return null;
   }
+};
+
 
   return (
     <div className="w-full  mx-auto p-6">

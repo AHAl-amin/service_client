@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 
-export default function PricingOptions() {
+export default function PricingOptions({ onNext, onBack }) {
   const [pricingData, setPricingData] = useState({
     price: "",
     allowDownPayment: false,
@@ -40,14 +40,14 @@ export default function PricingOptions() {
     }))
   }
 
-  const handleBackToLocation = () => {
-    console.log("Navigate back to Location")
-  }
+  // const handleBackToLocation = () => {
+  //   console.log("Navigate back to Location")
+  // }
 
-  const handleReviewListing = () => {
-    console.log("Review listing")
-    console.log("Pricing data:", pricingData)
-  }
+  // const handleReviewListing = () => {
+  //   console.log("Review listing")
+  //   console.log("Pricing data:", pricingData)
+  // }
 
   const lockPeriodOptions = [
     { value: "7", label: "7 DAYS" },
@@ -241,7 +241,7 @@ export default function PricingOptions() {
         <div className="flex justify-between items-center mt-6">
           <button
             type="button"
-            onClick={handleBackToLocation}
+            onClick={onBack }
             className="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -252,7 +252,7 @@ export default function PricingOptions() {
 
           <button
             type="button"
-            onClick={handleReviewListing}
+            onClick={onNext}
             className="px-8 py-3 bg text-white font-medium rounded-lg  focus:outline-none focus:ring-2 cursor-pointer focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 shadow-sm"
           >
             Review Your Listing

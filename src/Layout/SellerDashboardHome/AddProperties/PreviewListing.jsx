@@ -19,7 +19,7 @@ const sampleProperty = {
     person: "5/5",
 };
 
-function PreviewListing() {
+function PreviewListing({ onNext, onBack }) {
     const [activeTab, setActiveTab] = useState("description");
 
 
@@ -62,14 +62,6 @@ function PreviewListing() {
         }))
     }
 
-    const handleEdit = () => {
-        console.log("Navigate back to edit")
-    }
-
-    const handleListingProperty = () => {
-        console.log("Submit final listing")
-        console.log("Final review data:", reviewData)
-    }
 
     return (
         <div className=" bg-gray-50 py-10 rounded-xl px-8">
@@ -247,7 +239,7 @@ function PreviewListing() {
                         <div className="flex justify-between items-center pt-6">
                             <button
                                 type="button"
-                                onClick={handleEdit}
+                                onClick={onBack}
                                 className="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
                             >
                                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -258,7 +250,7 @@ function PreviewListing() {
 
                             <button
                                 type="button"
-                                onClick={handleListingProperty}
+                                onClick={onNext}
                                 className="px-8 py-3 bg text-white font-medium rounded-lg  focus:outline-none focus:ring-2 cursor-pointer focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 shadow-sm"
                             >
                                 Listing Property
