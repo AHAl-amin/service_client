@@ -9,6 +9,7 @@ import { LuClipboardList } from "react-icons/lu";
 import { PiCurrencyDollarSimple } from "react-icons/pi";
 import { SiBosch } from "react-icons/si";
 import { Link } from "react-router-dom";
+import EditProperties from "./EditProperties/EditProperties";
 
 export default function SellerDashboardHome() {
 
@@ -87,7 +88,22 @@ export default function SellerDashboardHome() {
     setPropertyList(updatedList);
   };
 
-  const statsData = [
+  const [showEditModal, setShowEditModal] = useState(false);
+  // const [selectedProperty, setSelectedProperty] = useState(null);
+
+  const handleEdit = () => {
+
+    setShowEditModal(true);
+  };
+
+  const closeModal = () => {
+    setShowEditModal(false);
+
+  };
+
+
+  const statsData =
+   [
     {
       id: 1,
       title: "Total Listings",
@@ -167,7 +183,7 @@ export default function SellerDashboardHome() {
                   <h2 className="text-4xl font-bold  text-[#1C3988] text-start">Recent listings</h2>
                   <p className="text-[#545454] text-start mt-2 w-11/12 mb-10">You have 12 total listings with 3 currently boosted. </p>
                 </div>
-               
+
 
 
               </div>
@@ -191,8 +207,11 @@ export default function SellerDashboardHome() {
                           <div tabIndex={0} role="button" className="m-1 text cursor-pointer">
                             <HiDotsHorizontal className="text-xl" />
                           </div>
-                          <ul tabIndex={0} className="dropdown-content menu text bg-gray-300 rounded-box z-10 right-0 w-30 p-2 shadow-sm">
-                            <li><button>Edit</button></li>
+                          <ul tabIndex={0} className="dropdown-content menu text bg-gray-300 rounded-box  right-0 w-30 p-2 shadow-sm">
+                            <li>
+                              <button  onClick={() => handleEdit(property)}>Edit</button>
+                            </li>
+
                             <li>
                               <button className="text-red-400" onClick={() => handleDelete(property.id)}>
                                 Delete
@@ -201,6 +220,27 @@ export default function SellerDashboardHome() {
                           </ul>
                         </div>
                       </div>
+
+                      {showEditModal && (
+                        <div className="fixed inset-0 backdrop-blur bg-opacity-40 flex items-center justify-center z-50">
+                          <div className="bg-white rounded-lg p-6 w-[90%] h-[90%] shadow-lg relative">
+                            <button
+                              onClick={closeModal}
+                              className="absolute top-2 p-2 right-2 text-gray-500 hover:text-gray-800 text-xl"
+                            >
+                              ✕
+                            </button>
+                     
+
+                            {/* Example Edit Form */}
+                        <div className="h-full overflow-y-auto  ">
+                             
+                           <EditProperties/>
+                        </div>
+                          </div>
+                        </div>
+                      )}
+
                       <p className="flex items-center gap-1 text-start text-gray-500">
                         <MapPin size={16} />
                         <span>{property?.location}</span>

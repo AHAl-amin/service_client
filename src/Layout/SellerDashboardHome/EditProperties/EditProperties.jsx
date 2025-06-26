@@ -1,11 +1,11 @@
 
 
 import { useState } from "react"
-import PropertyDetails from "./PropertyDetails"
-import MediaImages from "./MediaImages"
-import LocationInfo from "./LocationInfo"
-import PricingOptions from "./PricingOptions"
-import PreviewListing from "./PreviewListing"
+import EditPropertyDetails from "./EditPropertyDetails";
+import EditMediaImages from "./EditMediaImages";
+import EditPricingOptions from "./EditPricingOptions";
+import EditPreviewListing from "./EditPreviewListing";
+import EditLocationInfo from "./EditLocationInfo";
 
 
 const tabs = [
@@ -16,7 +16,7 @@ const tabs = [
   { id: "preview", label: "Preview" },
 ]
 
-export default function AddProperties() {
+export default function EditProperties() {
 
   const tabIds = tabs.map(tab => tab.id); 
 
@@ -43,15 +43,15 @@ const handleBack = () => {
 
   switch (activeTab) {
     case "details":
-      return <PropertyDetails {...sharedProps} />;
+      return <EditPropertyDetails {...sharedProps} />;
     case "media":
-      return <MediaImages {...sharedProps} />;
+      return <EditMediaImages {...sharedProps} />;
     case "location":
-      return <LocationInfo {...sharedProps} />;
+      return <EditLocationInfo {...sharedProps} />;
     case "pricing":
-      return <PricingOptions {...sharedProps} />;
+      return <EditPricingOptions {...sharedProps} />;
     case "preview":
-      return <PreviewListing {...sharedProps} />;
+      return <EditPreviewListing {...sharedProps} />;
     default:
       return null;
   }
@@ -59,9 +59,9 @@ const handleBack = () => {
 
 
   return (
-    <div className="w-full  mx-auto p-6">
-        <div className="space-y-2 mb-6">
-            <h1 className="text text-4xl font-bold">Add New Property</h1>
+    <div className=" p-6">
+        <div className="space-y-2 mb-6 text-start">
+            <h1 className="text text-4xl font-bold">Edit Your Property Details</h1>
             <p className="text-gray-500 text-xl">Create a new property listing to showcase to potential buyers.</p>
         </div>
       <div className="flex flex-wrap gap-1 mb-6 bg-[#E8EBF3] border border-[#1C3988] p-2 rounded-lg">

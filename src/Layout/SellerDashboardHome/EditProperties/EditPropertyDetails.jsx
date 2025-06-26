@@ -5,7 +5,7 @@ import React, { useState, useRef } from 'react';
 import { IoMdAdd } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
-const PropertyDetails = ({onNext }) => {
+const EditPropertyDetails = ({onNext }) => {
   const [features, setFeatures] = useState({
     waterAccess: false,
     electricity: false,
@@ -52,12 +52,12 @@ const PropertyDetails = ({onNext }) => {
   return (
     <div>
       <div className="mx-auto p-6 bg-[#FFFFFF] border border-[#1C3988] rounded-lg mt-10">
-        <h2 className="text-2xl font-bold text mb-4">Basic Information</h2>
-        <p className="text-gray-600 mb-4">Enter the basic details about your property.</p>
+        <h2 className="text-2xl font-bold text mb-4 text-start">Basic Information</h2>
+        <p className="text-gray-600 mb-4 text-start">Enter the basic details about your property.</p>
 
         <div className="">
           <div className="mb-4">
-            <label className="block text-xl font-bold mb-2 text">Property Title</label>
+            <label className="block text-xl font-bold mb-2 text text-start">Property Title</label>
             <input
               type="text"
               className="w-full p-2 border text-gray-800 rounded"
@@ -67,7 +67,7 @@ const PropertyDetails = ({onNext }) => {
 
           <div className="flex gap-6">
             <div className="mb-4 md:w-1/2">
-              <label className="block text-xl font-bold mb-2 text">Land Size</label>
+              <label className="block text-xl font-bold mb-2 text text-start">Land Size</label>
               <input
                 type="text"
                 className="w-full p-2 border rounded text-gray-800"
@@ -76,7 +76,7 @@ const PropertyDetails = ({onNext }) => {
             </div>
 
             <div className="mb-4 md:w-1/2">
-              <label className="block text-xl font-bold mb-2 text">Property Type</label>
+              <label className="block text-xl font-bold mb-2 text text-start">Property Type</label>
               <select className="appearance-none w-full p-2 border rounded text-gray-800">
                 <option value="" disabled className="text-gray-400">Select Property Type</option>
                   <option value="land">Land</option>
@@ -88,7 +88,7 @@ const PropertyDetails = ({onNext }) => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-xl font-bold mb-2 text">Description</label>
+            <label className="block text-xl font-bold mb-2 text text-start">Description</label>
             <textarea
               className="w-full p-2 border rounded text-gray-800"
               placeholder="text your massage"
@@ -97,7 +97,7 @@ const PropertyDetails = ({onNext }) => {
         </div>
 
         <div className="mb-4">
-          <h3 className="text-lg font-bold text mb-2">Features & Amenities</h3>
+          <h3 className="text-lg font-bold text mb-2 text-start">Features & Amenities</h3>
           <div className="grid md:grid-cols-4 grid-cols-2 gap-2 text">
             {[
               'Water Access',
@@ -173,4 +173,4 @@ const PropertyDetails = ({onNext }) => {
   );
 };
 
-export default PropertyDetails;
+export default EditPropertyDetails;

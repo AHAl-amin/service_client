@@ -7,9 +7,10 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { IoEyeOutline } from "react-icons/io5";
 import { LuClipboardList } from "react-icons/lu";
 import { MdOutlineAddHome } from "react-icons/md";
-import { PiCurrencyDollarSimple } from "react-icons/pi";
-import { SiBosch } from "react-icons/si";
+
+
 import { Link } from "react-router-dom";
+import EditProperties from "./EditProperties/EditProperties";
 
 export default function MyListings() {
 
@@ -88,7 +89,18 @@ export default function MyListings() {
         setPropertyList(updatedList);
     };
 
+    const [showEditModal, setShowEditModal] = useState(false);
+    // const [selectedProperty, setSelectedProperty] = useState(null);
 
+    const handleEdit = () => {
+
+        setShowEditModal(true);
+    };
+
+    const closeModal = () => {
+        setShowEditModal(false);
+
+    };
 
 
     return (
@@ -112,11 +124,11 @@ export default function MyListings() {
                                     <h2 className="text-4xl font-bold  text-[#1C3988] text-start">My properties listings</h2>
                                     <p className="text-[#545454] text-start mt-2 w-11/12 mb-10">Manage and monitor all your property listings.</p>
                                 </div>
-                                
-                                    <div>
-                                        <Link to="/seller_dashboard/add_properties" className="bg-[#1C3988] text-white px-5 py-2 rounded-full flex items-center gap-2 cursor-pointer"><MdOutlineAddHome size={20} /> Add Properties</Link>
-                                    </div>
-                               
+
+                                <div>
+                                    <Link to="/seller_dashboard/add_properties" className="bg-[#1C3988] text-white px-5 py-2 rounded-full flex items-center gap-2 cursor-pointer"><MdOutlineAddHome size={20} /> Add Properties</Link>
+                                </div>
+
 
 
                             </div>
@@ -141,7 +153,9 @@ export default function MyListings() {
                                                         <HiDotsHorizontal className="text-xl" />
                                                     </div>
                                                     <ul tabIndex={0} className="dropdown-content menu text bg-gray-300 rounded-box z-10 right-0 w-30 p-2 shadow-sm">
-                                                        <li><button>Edit</button></li>
+                                                        <li>
+                                                            <button onClick={() => handleEdit(property)}>Edit</button>
+                                                        </li>
                                                         <li>
                                                             <button className="text-red-400" onClick={() => handleDelete(property.id)}>
                                                                 Delete
@@ -150,6 +164,25 @@ export default function MyListings() {
                                                     </ul>
                                                 </div>
                                             </div>
+                                            {showEditModal && (
+                                                <div className="fixed inset-0 backdrop-blur bg-opacity-40 flex justify-center items-center z-50">
+                                                    <div className="bg-white rounded-lg p-6 w-[90%] h-[90%] shadow-lg relative">
+                                                        <button
+                                                            onClick={closeModal}
+                                                            className="absolute top-2 p-2 right-2 text-gray-500 hover:text-gray-800 text-xl"
+                                                        >
+                                                            ✕
+                                                        </button>
+
+
+                                                        {/* Example Edit Form */}
+                                                        <div className="h-full overflow-y-auto  ">
+
+                                                            <EditProperties />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
                                             <p className="flex items-center gap-1 text-start text-gray-500">
                                                 <MapPin size={16} />
                                                 <span>{property?.location}</span>

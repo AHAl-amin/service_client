@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 
-export default function PricingOptions({ onNext, onBack }) {
+export default function EditPricingOptions({ onNext, onBack }) {
   const [pricingData, setPricingData] = useState({
     price: "",
     allowDownPayment: false,
@@ -56,7 +56,7 @@ export default function PricingOptions({ onNext, onBack }) {
         {/* Main Form Container */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
           {/* Header */}
-          <div className="mb-8">
+          <div className="mb-8 ">
             <h1 className="text-4xl font-bold text mb-2">Pricing Options</h1>
             <p className="text-gray-600 text-xl">Set your property price and payment options</p>
           </div>
@@ -64,7 +64,7 @@ export default function PricingOptions({ onNext, onBack }) {
           <div className="space-y-8">
             {/* Price Section */}
             <div>
-              <label htmlFor="price" className="block text-xl font-medium text mb-2">
+              <label htmlFor="price" className="block text-xl font-medium text mb-2 text-start">
                 Price
               </label>
               <div className="relative">
@@ -89,7 +89,7 @@ export default function PricingOptions({ onNext, onBack }) {
                     onChange={() => handleCheckboxChange("allowDownPayment")}
                     className="w-12 h-12 text border-gray-300 rounded focus:ring-[#1C3988] hover:border-[#1C3988] focus:ring-2 mt-0.5"
                   />
-                  <div>
+                  <div className="text-start">
                     <span className="text-xl font-medium text">Allow Down Payment Option</span>
                     <p className="text-sm text-gray-500 mt-1">
                       Enable buyers to place a 10% down payment to lock the listing for a period of time.
@@ -101,7 +101,7 @@ export default function PricingOptions({ onNext, onBack }) {
 
             {/* Lock Period */}
             <div>
-              <label htmlFor="lockPeriod" className="block text-xl font-medium text mb-2">
+              <label htmlFor="lockPeriod" className="block text-xl font-medium text mb-2  text-start">
                 Lock period
               </label>
               <div className="relative">
@@ -147,8 +147,8 @@ export default function PricingOptions({ onNext, onBack }) {
                   onChange={() => handleCheckboxChange("enableBuyShare")}
                   className="w-12 h-12 text border-gray-300 rounded focus:ring-blue-500 focus:ring-2 mt-0.5"
                 />
-                <div>
-                  <span className="text-xl font-medium text">Enable "Buy a Share" Option</span>
+                <div className="text-start">
+                  <span className="text-xl font-medium text text-start">Enable "Buy a Share" Option</span>
                   <p className="text-sn text-gray-500 mt-1">
                     Allow buyers to express interest in purchasing a portion of your property as part of a group.
                   </p>

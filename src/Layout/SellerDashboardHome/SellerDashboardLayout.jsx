@@ -151,8 +151,8 @@ export default function SellerDashboardLayout() {
                   />
                 </div>
                 <div>
-                  <h2 className="font-bold">Admin</h2>
-                  <p className="text-gray-900">admin@hn.com</p>
+                  <h2 className="font-bold text">Seller</h2>
+                  <p className="text-gray-900">seller@hn.com</p>
                 </div>
                 <div className="dropdown dropdown-end">
                   <div tabIndex={0} role="button">
