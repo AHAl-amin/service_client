@@ -1,37 +1,42 @@
-"use client"
 
-import { Award, Badge, BadgeCheck } from "lucide-react"
-import { useState } from "react"
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5"
-import { Link } from "react-router-dom"
+
+"use client";
+
+import { Badge } from "lucide-react";
+import { useState } from "react";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import { useBuyerRegistrationMutation } from "../../redux/features/baseApi";
+import { toast } from "react-toastify";
+import { ToastContainer } from 'react-toastify';
+// import { useBuyerRegistrationMutation } from "../../redux/features/baseApi.js"; 
 
 export default function BuyerRegistration() {
-  const [currentStep, setCurrentStep] = useState(1)
+  const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    // Step 1 - Personal Information
     profilePhoto: null,
     firstName: "",
     lastName: "",
     email: "",
     contactNumber: "",
-
-    // Step 2 - Password
     password: "",
     confirmPassword: "",
-
-    // Step 3 - Verification Requirements
     emailVerification: false,
     phoneVerification: false,
     addressVerification: false,
-
-    // Step 4 - Terms & Agreement
     agreeToTerms: false,
     agreeToPrivacy: false,
     acceptResponsibility: false,
-  })
+    streetAddress: "",
+    city: "",
+    stateProvince: "",
+    zipPostalCode: "",
+    country: "",
+  });
 
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [buyerRegistration, { isLoading, error, data }] = useBuyerRegistrationMutation(); // Use the mutation hook
 
   const steps = [
     { id: 1, name: "Personal Information" },
@@ -41,50 +46,119 @@ export default function BuyerRegistration() {
   ];
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target
+    const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
-    }))
-  }
+    }));
+  };
 
   const handleFileUpload = (e) => {
-    const file = e.target.files[0]
+    const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onload = (event) => {
         setFormData((prev) => ({
           ...prev,
           profilePhoto: event.target.result,
-        }))
-      }
-      reader.readAsDataURL(file)
+        }));
+      };
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
-  const handleNext = () => {
-    if (currentStep < 4) {
-      setCurrentStep(currentStep + 1)
-    } else {
-      // Complete registration
-      console.log("Registration completed:", formData)
-      setCurrentStep(5) // Success page
+  const handleNext = async () => {
+    // Validation
+    if (currentStep === 1) {
+      if (!formData.firstName || !formData.lastName || !formData.email || !formData.contactNumber) {
+        toast.error("Please fill in all required fields.");
+        return;
+      }
     }
+    if (currentStep === 2) {
+      if (!formData.streetAddress || !formData.city || !formData.zipPostalCode || !formData.country) {
+        toast.error("Please fill in all required address fields.");
+        return;
+      }
+    }
+    if (currentStep === 3) {
+      if (!formData.password || !formData.confirmPassword) {
+       toast.error("Please enter and confirm your password.");
+        return;
+      }
+      if (formData.password !== formData.confirmPassword) {
+        toast.error("Passwords do not match.");
+        return;
+      }
+    }
+    if (currentStep === 4) {
+      if (!formData.agreeToTerms || !formData.agreeToPrivacy || !formData.acceptResponsibility) {
+        toast.error("Please accept all terms and agreements.");
+        return;
+      }
+      // Prepare data for backend
+      const userData = {
+        email: formData.email,
+        password: formData.password,
+        password_confirm: formData.confirmPassword,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        contact_number: formData.contactNumber,
+        street_address: formData.streetAddress,
+        city: formData.city,
+        state_province: formData.stateProvince,
+        postal_code: formData.zipPostalCode,
+        country: formData.country,
+        
+      };
+
+//    try {
+//   const response = await buyerRegistration(userData).unwrap();
+//   console.log("Registration successful:", response);
+//   toast.success("Registration successful!");
+//   setCurrentStep(5); // Move to success page
+// } catch (err) {
+//   console.error("Registration failed:", err);
+//   toast.error("Registration failed: " + (err.data?.message || "An error occurred"));
+// }
+try {
+  const response = await buyerRegistration(userData).unwrap();
+  toast.success("Registration successful!");
+  console.log("Registration successful:", response);
+  setCurrentStep(5); 
+} catch (err) {
+  console.error("Registration failed:", err);
+
+ 
+  const emailError = err?.data?.errors?.email?.[0];
+
+  if (emailError) {
+    toast.error(emailError); 
+    toast.error(err?.data?.message || "Registration failed!");
   }
+}
+
+
+      return;
+    }
+    if (currentStep < 4) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
 
   const handleBack = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1)
+      setCurrentStep(currentStep - 1);
     }
-  }
+  };
 
   const handleGoToLogin = () => {
-    console.log("Navigate to buyer login")
-  }
+    console.log("Navigate to buyer login");
+  };
 
   const handleRunToHome = () => {
-    console.log("Navigate to home")
-  }
+    console.log("Navigate to home");
+  };
 
   const countries = [
     "United States",
@@ -102,15 +176,13 @@ export default function BuyerRegistration() {
     "Spain",
     "Netherlands",
     "Sweden",
-  ]
-
+  ];
 
   // Success Page
   if (currentStep === 5) {
     return (
       <div className="min-h-screen bg-yellow-50/90 flex items-center justify-center p-6">
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-12 text-center max-w-3xl w-full">
-          {/* Success Icon */}
+        <div className="bg-white rounded-2xl border border-[#1C3988] shadow-sm p-12 text-center max-w-3xl w-full">
           <div className="mb-8">
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -118,69 +190,53 @@ export default function BuyerRegistration() {
               </svg>
             </div>
           </div>
-
-          <h1 className="text-2xl font-bold text mb-4">Account Created Successfully!</h1>
+          <h1 className="text-2xl font-bold text-[#1C3988] mb-4">Account Created Successfully!</h1>
           <p className="text-gray-600 mb-8">
-            Your seller account has been created. You can now access your seller dashboard.
+            Your buyer account has been created. You can now access your buyer dashboard to start browsing properties.
           </p>
-
           <div className="flex flex-col gap-6 w-1/2 mx-auto">
             <Link to="/login">
               <button
                 onClick={handleGoToLogin}
-                className="w-full px-6 py-3 bg cursor-pointer font-medium rounded-lg hover:bg focus:outline-none focus:ring-2 text-white  focus:ring-offset-2 transition-all duration-200"
+                className="w-full px-6 py-3 bg-[#1C3988] cursor-pointer font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 text-white focus:ring-offset-2 transition-all duration-200"
               >
-                Go To Buyer login
+                Go To Buyer Login
               </button>
             </Link>
-            <Link to="/">
+            <Link to="/buyer_dashboard">
               <button
                 onClick={handleRunToHome}
-                className="w-full px-6 py-3 cursor-pointer border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 text-gray-800 text-gray-800 focus:ring-[#1C3988]  focus:ring-offset-2 transition-all duration-200"
+                className="w-full px-6 py-3 cursor-pointer border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200"
               >
-                Go to buyer dashboard
+                Go to Buyer Dashboard
               </button>
             </Link>
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="min-h-screen bg-yellow-50/90 p-6">
-      <div className="max-w-7xl h-full  mx-auto">
+      <div className="max-w-7xl h-full mx-auto">
         <div className="bg-white rounded-2xl border border-[#1C3988] shadow-sm p-8">
-          {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text mb-8">Create Your Buyer Account</h1>
-
-            {/* Progress Circles */}
-
-
-
-
+            <h1 className="text-4xl font-bold text-[#1C3988] mb-8">Create Your Buyer Account</h1>
             <div className="flex items-center justify-center gap-10 space-x-8 mb-8">
               {steps.map((step) => (
                 <div key={step.id} className="flex flex-col items-center">
-                  <div className="relative w-12 h-12 mb-2"> {/* Increased to w-12 h-12 (48px x 48px) */}
-                    {/* Badge Icon */}
+                  <div className="relative w-12 h-12 mb-2">
                     <Badge
-                      className={`w-12 h-12 ${currentStep >= step.id ? "text" : "text-gray-300"} ${currentStep === step.id ? "" : ""
-                        }`}
-                    >
-                      {/* Empty for now, content will come from the span */}
-                    </Badge>
-                    {/* Number Overlay with Checkmark */}
+                      className={`w-12 h-12 ${currentStep >= step.id ? "text-[#1C3988]" : "text-gray-300"}`}
+                    />
                     <span
-                      className={`absolute inset-0 flex items-center justify-center text-xl font-bold ${currentStep > step.id ? "text-gray-500" : "text-gray-400"}`} // Adjusted text size and color
+                      className={`absolute inset-0 flex items-center justify-center text-xl font-bold ${
+                        currentStep > step.id ? "text-[#1C3988]" : "text-gray-400"
+                      }`}
                     >
                       {currentStep > step.id ? (
-                        <svg
-                          className="w-5 h-5 text" // Increased SVG size to match larger badge
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
+                        <svg className="w-5 h-5 text-[#1C3988]" fill="currentColor" viewBox="0 0 20 20">
                           <path
                             fillRule="evenodd"
                             d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -188,48 +244,38 @@ export default function BuyerRegistration() {
                           />
                         </svg>
                       ) : (
-                        <span className={`text-xl ${currentStep >= step.id ? "text" : "text-gray-400"}`}>
+                        <span className={`text-xl ${currentStep >= step.id ? "text-[#1C3988]" : "text-gray-400"}`}>
                           {step.id}
                         </span>
                       )}
                     </span>
                   </div>
-                  <span
-                    className={`text-xs ${currentStep >= step.id ? "text" : "text-gray-400"}`}
-                  >
+                  <span className={`text-xs ${currentStep >= step.id ? "text-[#1C3988]" : "text-gray-400"}`}>
                     {step.name}
                   </span>
                 </div>
               ))}
             </div>
-
             <div className="md:w-2/3 mx-auto bg-gray-200 h-2 rounded-full">
               <div
-                className="bg h-2 rounded-full transition-all duration-300"
+                className="bg-[#1C3988] h-2 rounded-full transition-all duration-300"
                 style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
               ></div>
             </div>
           </div>
 
-          {/* Step 1 - Personal Information */}
           {currentStep === 1 && (
-
-
             <div>
               <div className="mb-6">
-                <h2 className="text-2xl font-semibold mb-2" style={{ color: "#1C3988" }}>
-                  Buyer Registration
-                </h2>
+                <h2 className="text-2xl font-semibold text-[#1C3988] mb-2">Personal Information</h2>
                 <p className="text-xl text-gray-600">
                   Create Your Buyer Account To Start Browsing Properties And Participate In Shared Ownership
                   Opportunities
                 </p>
               </div>
-
               <div className="space-y-6">
-                {/* Profile Photo */}
                 <div>
-                  <label className="block text-xl font-medium mb-4" style={{ color: "#1C3988" }}>
+                  <label htmlFor="profilePhoto" className="block text-xl font-medium mb-4" style={{ color: "#1C3988" }}>
                     Profile Photo
                   </label>
                   <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-[#1C3988] transition-colors duration-200">
@@ -240,9 +286,19 @@ export default function BuyerRegistration() {
                           alt="Profile"
                           className="w-20 h-20 object-cover rounded-full mb-4"
                         />
-                        <label className="cursor-pointer text-xl hover:text" style={{ color: "#1C3988" }}>
+                        <label
+                          htmlFor="profilePhotoInput"
+                          className="cursor-pointer text-xl hover:text-[#1C3988]"
+                          style={{ color: "#1C3988" }}
+                        >
                           Change Profile Photo
-                          <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
+                          <input
+                            id="profilePhotoInput"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileUpload}
+                            className="hidden"
+                          />
                         </label>
                       </div>
                     ) : (
@@ -264,71 +320,79 @@ export default function BuyerRegistration() {
                           </svg>
                         </div>
                         <label
-                          className="cursor-pointer text-xl font-medium hover:text"
+                          htmlFor="profilePhotoInput"
+                          className="cursor-pointer text-xl font-medium hover:text-[#1C3988]"
                           style={{ color: "#1C3988" }}
                         >
                           Upload Profile Photo
-                          <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
+                          <input
+                            id="profilePhotoInput"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileUpload}
+                            className="hidden"
+                          />
                         </label>
                       </div>
                     )}
                   </div>
                 </div>
-
-                {/* Form Fields */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xl font-medium mb-2" style={{ color: "#1C3988" }}>
+                    <label htmlFor="firstName" className="block text-xl font-medium mb-2" style={{ color: "#1C3988" }}>
                       First Name
                     </label>
                     <input
+                      id="firstName"
                       type="text"
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      placeholder="first name"
-                      className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988]  outline-none text-xl"
+                      placeholder="First name"
+                      className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none text-xl"
                     />
                   </div>
                   <div>
-                    <label className="block text-xl font-medium mb-2" style={{ color: "#1C3988" }}>
+                    <label htmlFor="lastName" className="block text-xl font-medium mb-2" style={{ color: "#1C3988" }}>
                       Last Name
                     </label>
                     <input
+                      id="lastName"
                       type="text"
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleInputChange}
-                      placeholder="last name"
+                      placeholder="Last name"
                       className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none text-xl"
                     />
                   </div>
                 </div>
-
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xl font-medium mb-2" style={{ color: "#1C3988" }}>
+                    <label htmlFor="email" className="block text-xl font-medium mb-2" style={{ color: "#1C3988" }}>
                       Email
                     </label>
                     <input
+                      id="email"
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      placeholder="email"
-                      className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988]  outline-none text-xl"
+                      placeholder="Email"
+                      className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none text-xl"
                     />
                   </div>
                   <div>
-                    <label className="block text-xl font-medium mb-2" style={{ color: "#1C3988" }}>
+                    <label htmlFor="contactNumber" className="block text-xl font-medium mb-2" style={{ color: "#1C3988" }}>
                       Contact Number
                     </label>
                     <input
+                      id="contactNumber"
                       type="tel"
                       name="contactNumber"
                       value={formData.contactNumber}
                       onChange={handleInputChange}
-                      placeholder="number"
+                      placeholder="Number"
                       className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none text-xl"
                     />
                   </div>
@@ -337,78 +401,85 @@ export default function BuyerRegistration() {
             </div>
           )}
 
-          {/* Step 2 - Password */}
           {currentStep === 2 && (
             <div>
               <div className="mb-8">
-                <h2 className="text-2xl font-semibold text mb-2">Buyer Registration</h2>
-                <p className="text-zl text-gray-600">
-                  Create Your Buyer Account To Start Browsing Properties And Participate In Shared Ownership
-                  Opportunities
+                <h2 className="text-2xl font-semibold text-[#1C3988] mb-2">Address</h2>
+                <p className="text-xl text-gray-600">
+                  Provide your address details to complete your buyer profile.
                 </p>
               </div>
-
               <div className="space-y-6">
-                {/* Street Address */}
                 <div>
-                  <label className="block text-xl font-medium text mb-2">Street Address</label>
+                  <label htmlFor="streetAddress" className="block text-xl font-medium text-[#1C3988] mb-2">
+                    Street Address
+                  </label>
                   <input
+                    id="streetAddress"
                     type="text"
                     name="streetAddress"
                     value={formData.streetAddress}
                     onChange={handleInputChange}
                     placeholder="Enter your street address"
-                    className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none text-xl"
+                    className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none text-xl"
                   />
                 </div>
-
-                {/* City and State/Province */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xl font-medium text mb-2">City</label>
+                    <label htmlFor="city" className="block text-xl font-medium text-[#1C3988] mb-2">
+                      City
+                    </label>
                     <input
+                      id="city"
                       type="text"
                       name="city"
                       value={formData.city}
                       onChange={handleInputChange}
                       placeholder="Enter your city"
-                      className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 text-gray-800 focus:ring-[#1C3988]  focus:border-[#1C3988]  outline-none text-xl"
+                      className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none text-xl"
                     />
                   </div>
                   <div>
-                    <label className="block text-xl font-medium text mb-2">State/Province</label>
+                    <label htmlFor="stateProvince" className="block text-xl font-medium text-[#1C3988] mb-2">
+                      State/Province
+                    </label>
                     <input
+                      id="stateProvince"
                       type="text"
                       name="stateProvince"
                       value={formData.stateProvince}
                       onChange={handleInputChange}
                       placeholder="Enter your state/province"
-                      className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 text-gray-800 focus:ring-[#1C3988]  focus:border-[#1C3988]  outline-none text-xl"
+                      className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none text-xl"
                     />
                   </div>
                 </div>
-
-                {/* Zip/Postal Code and Country */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xl font-medium text mb-2">Zip/Postal Code</label>
+                    <label htmlFor="zipPostalCode" className="block text-xl font-medium text-[#1C3988] mb-2">
+                      Zip/Postal Code
+                    </label>
                     <input
+                      id="zipPostalCode"
                       type="text"
                       name="zipPostalCode"
                       value={formData.zipPostalCode}
                       onChange={handleInputChange}
                       placeholder="Enter zip/postal code"
-                      className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 text-gray-800 focus:ring-[#1C3988]  focus:border-[#1C3988]  outline-none text-xl"
+                      className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none text-xl"
                     />
                   </div>
                   <div>
-                    <label className="block text-xl font-medium text mb-2">Country</label>
+                    <label htmlFor="country" className="block text-xl font-medium text-[#1C3988] mb-2">
+                      Country
+                    </label>
                     <div className="relative">
                       <select
+                        id="country"
                         name="country"
                         value={formData.country}
                         onChange={handleInputChange}
-                        className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 text-gray-800 focus:ring-[#1C3988]  focus:border-[#1C3988]  outline-none text-xl bg-white appearance-none cursor-pointer"
+                        className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none text-xl bg-white appearance-none cursor-pointer"
                       >
                         <option value="">Select your country</option>
                         {countries.map((country) => (
@@ -429,117 +500,119 @@ export default function BuyerRegistration() {
             </div>
           )}
 
-          {/* Step 3 - Verification Requirements */}
           {currentStep === 3 && (
             <div>
-
-              <div>
-                <div className="mb-6">
-                  <h2 className="text-2xl font-semibold text mb-2">Buyer Registration</h2>
-                  <p className="text-xl text-gray-600">
-                    Create Your Buyer Account To Start Browsing Properties And Participate In Shared Ownership
-                    Opportunities
-                  </p>
-                </div>
-
-                <div className="space-y-6">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xl font-medium text mb-1">Password</label>
-                      <div className="relative">
-                        <input
-                          type={showPassword ? "text" : "password"}
-                          name="password"
-                          value={formData.password}
-                          placeholder="Enter your password"
-                          onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2  text-gray-800 focus:ring-[#1C3988]  focus:border-[#1C3988]  outline-none text-xl pr-10"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                        >
-                          {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
-                        </button>
-
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-xl font-medium text mb-1">Confirm Password</label>
-                      <div className="relative">
-                        <input
-                          type={showConfirmPassword ? "text" : "password"}
-                          name="confirmPassword"
-                          value={formData.confirmPassword}
-                          onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 text-gray-800 text-gray-800 focus:ring-[#1C3988]  focus:border-[#1C3988]  outline-none text-xl pr-10"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                        >
-                          {showConfirmPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
-                        </button>
-
-                      </div>
+              <div className="mb-6">
+                <h2 className="text-2xl font-semibold text-[#1C3988] mb-2">Security</h2>
+                <p className="text-xl text-gray-600">
+                  Set up your password and verification preferences to secure your account.
+                </p>
+              </div>
+              <div className="space-y-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="password" className="block text-xl font-medium text-[#1C3988] mb-1">
+                      Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        value={formData.password}
+                        placeholder="Enter your password"
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none text-xl pr-10"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                      >
+                        {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+                      </button>
                     </div>
                   </div>
+                  <div>
+                    <label htmlFor="confirmPassword" className="block text-xl font-medium text-[#1C3988] mb-1">
+                      Confirm Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="confirmPassword"
+                        type={showConfirmPassword ? "text" : "password"}
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none text-xl pr-10"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                      >
+                        {showConfirmPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+                      </button>
+                    </div>
+                  </div>
+                  <p className="text-[#1C3988] col-span-2">
+                    Must be at least 8 characters with letters, numbers, and special characters.
+                  </p>
                 </div>
-              </div>
-              <div className="py-5">
-                <h3 className="text-xl font-semibold text mb-4">Verification Requirements</h3>
-                <div className="space-y-3">
-                  <label className="flex items-center space-x-3">
-                    <input
-                      type="checkbox"
-                      name="emailVerification"
-                      checked={formData.emailVerification}
-                      onChange={handleInputChange}
-                      className="w-4 h-4 text border-gray-300 rounded focus:ring-[#1C3988] "
-                    />
-                    <span className="text-xl text">Email verification required after registration</span>
-                  </label>
-                  <label className="flex items-center space-x-3">
-                    <input
-                      type="checkbox"
-                      name="phoneVerification"
-                      checked={formData.phoneVerification}
-                      onChange={handleInputChange}
-                      className="w-4 h-4 text border-gray-300 rounded focus:ring-[#1C3988] "
-                    />
-                    <span className="text-xl text">Phone verification required for full account access</span>
-                  </label>
-                  <label className="flex items-center space-x-3">
-                    <input
-                      type="checkbox"
-                      name="addressVerification"
-                      checked={formData.addressVerification}
-                      onChange={handleInputChange}
-                      className="w-4 h-4 text border-gray-300 rounded focus:ring-[#1C3988] "
-                    />
-                    <span className="text-xl text">
-                      Address verification required for property transactions
-                    </span>
-                  </label>
+                <div className="py-5">
+                  <h3 className="text-xl font-semibold text-[#1C3988] mb-4">Verification Requirements</h3>
+                  <div className="space-y-3">
+                    <label className="flex items-center space-x-3">
+                      <input
+                        type="checkbox"
+                        name="emailVerification"
+                        checked={formData.emailVerification}
+                        onChange={handleInputChange}
+                        className="w-4 h-4 text-[#1C3988] border-gray-300 rounded focus:ring-[#1C3988]"
+                      />
+                      <span className="text-xl text-[#1C3988]">
+                        Email verification required after registration
+                      </span>
+                    </label>
+                    <label className="flex items-center space-x-3">
+                      <input
+                        type="checkbox"
+                        name="phoneVerification"
+                        checked={formData.phoneVerification}
+                        onChange={handleInputChange}
+                        className="w-4 h-4 text-[#1C3988] border-gray-300 rounded focus:ring-[#1C3988]"
+                      />
+                      <span className="text-xl text-[#1C3988]">
+                        Phone verification required for full account access
+                      </span>
+                    </label>
+                    <label className="flex items-center space-x-3">
+                      <input
+                        type="checkbox"
+                        name="addressVerification"
+                        checked={formData.addressVerification}
+                        onChange={handleInputChange}
+                        className="w-4 h-4 text-[#1C3988] border-gray-300 rounded focus:ring-[#1C3988]"
+                      />
+                      <span className="text-xl text-[#1C3988]">
+                        Address verification required for property transactions
+                      </span>
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Step 4 - Terms & Agreement */}
           {currentStep === 4 && (
             <div>
               <div className="mb-6">
-                <h2 className="text-2xl font-semibold text mb-2">Trust & Responsibility Agreement</h2>
+                <h2 className="text-2xl font-semibold text-[#1C3988] mb-2">Trust & Responsibility Agreement</h2>
                 <p className="text-xl text-gray-600">
                   Please Review And Accept Our Terms And Conditions To Complete Your Registration
                 </p>
               </div>
-
               <div className="space-y-6">
-                {/* Important Notice */}
                 <div className="bg-orange-100 border border-orange-200 rounded-lg p-4">
                   <div className="flex items-start space-x-3">
                     <svg
@@ -562,36 +635,34 @@ export default function BuyerRegistration() {
                     </div>
                   </div>
                 </div>
-
-                {/* Platform Terms */}
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <h3 className="text-xl font-semibold text mb-3">Platform Terms of Service</h3>
+                  <h3 className="text-xl font-semibold text-[#1C3988] mb-3">Platform Terms of Service</h3>
                   <div className="text-xs text-gray-700 space-y-2">
                     <p>
                       Welcome to — a land listing and connection platform. Our mission is to offer verified listing
                       space, affordable access to co-buying opportunities, and a smart way to explore land deals
                       globally.
                     </p>
-                    <p className="text text-xl">We do not:</p>
+                    <p className="text-[#1C3988] text-xl">We do not:</p>
                     <ul className="list-disc list-inside space-y-1 ml-3 text-xs">
                       <li>Hold or transfer any funds</li>
                       <li>Facilitate or guarantee any transactions</li>
                       <li>Provide legal advice or legal transactions</li>
                       <li>Act as a broker, legal agent, or real estate advisor</li>
                     </ul>
-                    <p className="text text-xl">All users are 100% responsible for:</p>
+                    <p className="text-[#1C3988] text-xl">All users are 100% responsible for:</p>
                     <ul className="list-disc list-inside space-y-1 ml-3 text-xs">
                       <li>Performing due diligence</li>
                       <li>Hiring their own real estate lawyer or licensed professional</li>
                       <li>Conducting all transactions with public records or land registry</li>
                     </ul>
-                    <p className="text text-xl">We strongly advise:</p>
+                    <p className="text-[#1C3988] text-xl">We strongly advise:</p>
                     <ul className="list-disc list-inside space-y-1 ml-3 text-xs">
                       <li>Consulting with a qualified real estate professional or legal channels</li>
                       <li>Using our provided lawyer list as a starting point for guidance</li>
                       <li>Treating all property decisions as your own independent choice</li>
                     </ul>
-                    <p className="text text-xl">What we provide:</p>
+                    <p className="text-[#1C3988] text-xl">What we provide:</p>
                     <ul className="list-disc list-inside space-y-1 ml-3 text-xs">
                       <li>A tool to discover and list land</li>
                       <li>A system to connect multiple co-buyers</li>
@@ -601,8 +672,6 @@ export default function BuyerRegistration() {
                     </ul>
                   </div>
                 </div>
-
-                {/* Agreement Checkboxes */}
                 <div className="space-y-3">
                   <label className="flex items-start space-x-3">
                     <input
@@ -610,11 +679,11 @@ export default function BuyerRegistration() {
                       name="agreeToTerms"
                       checked={formData.agreeToTerms}
                       onChange={handleInputChange}
-                      className="w-4 h-4 text border-gray-300 rounded focus:ring-[#1C3988]  mt-1"
+                      className="w-4 h-4 text-[#1C3988] border-gray-300 rounded focus:ring-[#1C3988] mt-1"
                     />
                     <span className="text-xl text-gray-700">
-                      <strong>I agree to the Terms of Service</strong>
-                      <br />I have read and agree to the Terms of Service and understand my responsibilities as a seller
+                      <strong className="text-[#1C3988]">I agree to the Terms of Service</strong>
+                      <br />I have read and agree to the Terms of Service and understand my responsibilities as a buyer
                       on the platform
                     </span>
                   </label>
@@ -624,10 +693,10 @@ export default function BuyerRegistration() {
                       name="agreeToPrivacy"
                       checked={formData.agreeToPrivacy}
                       onChange={handleInputChange}
-                      className="w-4 h-4 text border-gray-300 rounded focus:ring-[#1C3988]  mt-1"
+                      className="w-4 h-4 text-[#1C3988] border-gray-300 rounded focus:ring-[#1C3988] mt-1"
                     />
                     <span className="text-xl text-gray-700">
-                      <strong>I agree to the Privacy Policy</strong>
+                      <strong className="text-[#1C3988]">I agree to the Privacy Policy</strong>
                       <br />I understand how my data will be used and stored as described in the Privacy Policy
                     </span>
                   </label>
@@ -637,10 +706,10 @@ export default function BuyerRegistration() {
                       name="acceptResponsibility"
                       checked={formData.acceptResponsibility}
                       onChange={handleInputChange}
-                      className="w-4 h-4 text border-gray-300 rounded focus:ring-[#1C3988]  mt-1"
+                      className="w-4 h-4 text-[#1C3988] border-gray-300 rounded focus:ring-[#1C3988] mt-1"
                     />
                     <span className="text-xl text-gray-700">
-                      <strong>I accept full responsibility</strong>
+                      <strong className="text-[#1C3988]">I accept full responsibility</strong>
                       <br />I understand that VerifiedLand is not liable for any outcomes related to real deals,
                       conversations, or transactions between users.
                     </span>
@@ -650,29 +719,28 @@ export default function BuyerRegistration() {
             </div>
           )}
 
-          {/* Navigation Buttons */}
           <div className="flex justify-between mt-8">
             <button
               onClick={handleBack}
               disabled={currentStep === 1}
-              className={`px-8 py-2 text-white font-medium rounded-md transition-all duration-200 focus:outline-none focus:ring-2 text-gray-800 text-gray-800 focus:ring-offset-2
-    ${currentStep === 1
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg hover:bg-blue-700 focus:ring-[#1C3988] "}
-  `}
+              className={`px-8 py-2 text-white font-medium rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#1C3988] focus:ring-offset-2
+                ${currentStep === 1 ? "bg-gray-400 cursor-not-allowed" : "bg-[#1C3988] hover:bg-blue-700"}`}
             >
               Back
             </button>
-
             <button
               onClick={handleNext}
-              className="px-8 py-2 cursor-pointer bg text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 text-gray-800 text-gray-800 focus:ring-[#1C3988]  focus:ring-offset-2 transition-all duration-200"
+              disabled={isLoading}
+              className={`px-8 py-2 cursor-pointer bg-[#1C3988] text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200
+                ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-              {currentStep === 4 ? "Complete Registration" : "Next"}
+              {isLoading ? "Submitting..." : currentStep === 4 ? "Complete Registration" : "Next"}
             </button>
           </div>
+         
         </div>
       </div>
+       <ToastContainer position="top-right"  />
     </div>
-  )
+  );
 }

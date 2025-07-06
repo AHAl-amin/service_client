@@ -29,6 +29,7 @@ import MediaImages from "../Layout/SellerDashboardHome/AddProperties/MediaImages
 import BuyerRegistration from "../Pages/Authentication/BuyerRegistration";
 import SellerRegistration from "../Pages/Authentication/SellerRegistration";
 import Pricing from "../Pages/Home/Pricing";
+
 // import AddProperties from "../Layout/SellerDashboardHome/AddProperties";
 // import WishList from "../Layout/BuyerDashboardHome/WishList";
 
@@ -57,6 +58,8 @@ export const router = createBrowserRouter([
         path: '/pricing',
         element: <Pricing />
       },
+     
+  
     ]
   },
 // Buyer dashboard
