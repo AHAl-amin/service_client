@@ -1,66 +1,74 @@
+import { useState } from "react";
 
-
-import { useState } from "react"
-
-export default function MediaImages({ onNext, onBack }) {
+export default function MediaImages({ onNext, onBack, formData, setFormData, toast }) {
   const [uploadedImages, setUploadedImages] = useState({
     mainProperty: null,
     aerialDrone: null,
     additional: [],
-  })
+  });
 
   const handleImageUpload = (type, file) => {
     if (file) {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onload = (e) => {
+        const imageData = e.target.result;
         if (type === "additional") {
           setUploadedImages((prev) => ({
             ...prev,
-            additional: [...prev.additional, e.target.result],
-          }))
+            additional: [...prev.additional, imageData],
+          }));
+          setFormData((prev) => ({
+            ...prev,
+            additional_images: [...(prev.additional_images || []), imageData],
+          }));
         } else {
           setUploadedImages((prev) => ({
             ...prev,
-            [type]: e.target.result,
-          }))
+            [type]: imageData,
+          }));
+          setFormData((prev) => ({
+            ...prev,
+            [type === "mainProperty" ? "main_image" : "drone_shots"]: imageData,
+          }));
         }
-      }
-      reader.readAsDataURL(file)
+      };
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   const triggerFileInput = (inputId) => {
-    document.getElementById(inputId).click()
-  }
+    document.getElementById(inputId).click();
+  };
 
-  const handleBackToBasic = () => {
-    console.log("Navigate back to Basic Information")
-  }
+  const validateForm = () => {
+    if (!uploadedImages.mainProperty) {
+      toast.error("Main Property Image is required.");
+      return false;
+    }
+    return true;
+  };
 
-  const handleNext = () => {
-    console.log("Navigate to next step")
-    console.log("Uploaded images:", uploadedImages)
-  }
+  const handleNextClick = () => {
+    if (validateForm()) {
+      onNext();
+    }
+  };
 
   return (
     <div className=" ">
       <div className=" mx-auto">
-        {/* Main Form Container */}
         <div className="bg-white rounded-2xl border border-[#1C3988] shadow-sm p-8">
-          {/* Header */}
           <div className="mb-8">
             <h1 className="text-2xl font-bold text mb-2">Images & Media</h1>
             <p className="text-gray-500 text-[18px]">Upload high-quality images and media for your property</p>
           </div>
 
-          {/* Upload Sections */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            {/* Main Property Image */}
             <div className="text-center">
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 hover:border-[#1C3988] transition-colors duration-200">
                 {uploadedImages.mainProperty ? (
                   <img
-                    src={uploadedImages.mainProperty || "/placeholder.svg"}
+                    src={uploadedImages.mainProperty}
                     alt="Main Property"
                     className="w-full h-32 object-cover rounded-lg mb-4"
                   />
@@ -88,7 +96,7 @@ export default function MediaImages({ onNext, onBack }) {
                 <button
                   type="button"
                   onClick={() => triggerFileInput("mainPropertyInput")}
-                  className="px-4 py-2 bg cursor-pointer text-white text-sm font-medium rounded-lg hover:border-[#1C3988] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
+                  className="px-4 py-2 bg-[#1C3988] cursor-pointer text-white text-sm font-medium rounded-lg hover:border-[#1C3988] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
                 >
                   Upload Image
                 </button>
@@ -102,12 +110,11 @@ export default function MediaImages({ onNext, onBack }) {
               </div>
             </div>
 
-            {/* Aerial/Drone Shot */}
             <div className="text-center">
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8  hover:border-[#1C3988] transition-colors duration-200">
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 hover:border-[#1C3988] transition-colors duration-200">
                 {uploadedImages.aerialDrone ? (
                   <img
-                    src={uploadedImages.aerialDrone || "/placeholder.svg"}
+                    src={uploadedImages.aerialDrone}
                     alt="Aerial/Drone Shot"
                     className="w-full h-32 object-cover rounded-lg mb-4"
                   />
@@ -135,7 +142,7 @@ export default function MediaImages({ onNext, onBack }) {
                 <button
                   type="button"
                   onClick={() => triggerFileInput("aerialDroneInput")}
-                  className="px-4 py-2 bg cursor-pointer text-white text-sm font-medium rounded-lg  hover:border-[#1C3988] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
+                  className="px-4 py-2 bg-[#1C3988] cursor-pointer text-white text-sm font-medium rounded-lg hover:border-[#1C3988] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
                 >
                   Upload Image
                 </button>
@@ -149,15 +156,14 @@ export default function MediaImages({ onNext, onBack }) {
               </div>
             </div>
 
-            {/* Add Additional Picture */}
             <div className="text-center">
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8  hover:border-[#1C3988] transition-colors duration-200">
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 hover:border-[#1C3988] transition-colors duration-200">
                 {uploadedImages.additional.length > 0 ? (
                   <div className="grid grid-cols-2 gap-2 mb-4">
                     {uploadedImages.additional.slice(0, 4).map((img, index) => (
                       <img
                         key={index}
-                        src={img || "/placeholder.svg"}
+                        src={img}
                         alt={`Additional ${index + 1}`}
                         className="w-full h-16 object-cover rounded"
                       />
@@ -187,7 +193,7 @@ export default function MediaImages({ onNext, onBack }) {
                 <button
                   type="button"
                   onClick={() => triggerFileInput("additionalInput")}
-                  className="px-4 py-2 bg cursor-pointer text-white text-sm font-medium rounded-lg  hover:border-[#1C3988] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
+                  className="px-4 py-2 bg-[#1C3988] cursor-pointer text-white text-sm font-medium rounded-lg hover:border-[#1C3988] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
                 >
                   Upload Image
                 </button>
@@ -198,8 +204,8 @@ export default function MediaImages({ onNext, onBack }) {
                   multiple
                   onChange={(e) => {
                     Array.from(e.target.files).forEach((file) => {
-                      handleImageUpload("additional", file)
-                    })
+                      handleImageUpload("additional", file);
+                    });
                   }}
                   className="hidden"
                 />
@@ -207,13 +213,11 @@ export default function MediaImages({ onNext, onBack }) {
             </div>
           </div>
 
-          {/* Upload Guidelines */}
           <div className=" mb-8">
             <p className="text-sm text-orange-400">You Can Upload Up To 10 Images. Recommended Size: 1200x800 Pixels</p>
           </div>
         </div>
 
-        {/* Navigation Buttons */}
         <div className="flex justify-between items-center mt-6">
           <button
             type="button"
@@ -228,13 +232,14 @@ export default function MediaImages({ onNext, onBack }) {
 
           <button
             type="button"
-            onClick={onNext}
-            className="px-8 py-3 bg cursor-pointer text-white font-medium rounded-lg  hover:border-[#1C3988] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 shadow-sm"
+            onClick={handleNextClick}
+            className="px-8 py-3 bg-[#1C3988] cursor-pointer text-white font-medium rounded-lg hover:border-[#1C3988] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 shadow-sm"
           >
             Next
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 }
+

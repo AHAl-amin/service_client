@@ -1,34 +1,40 @@
-"use client"
+import { useState } from "react";
 
-import { useState } from "react"
-
-export default function PricingOptions({ onNext, onBack }) {
+export default function PricingOptions({ onNext, onBack, formData, setFormData, toast }) {
   const [pricingData, setPricingData] = useState({
-    price: "",
-    allowDownPayment: false,
-    lockPeriod: "30",
-    enableBuyShare: false,
-    boostOptions: {
+    price: formData.price || "",
+    allowDownPayment: formData.allow_down_payment || false,
+    lockPeriod: formData.lock_period || "30",
+    enableBuyShare: formData.buy_share || false,
+    boostOptions: formData.boostOptions || {
       dailyBoost: false,
       weeklyBoost: false,
       featuredListing: false,
     },
-  })
+  });
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setPricingData((prev) => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+    setFormData((prev) => ({
+      ...prev,
+      [name === "lockPeriod" ? "lock_period" : name]: value,
+    }));
+  };
 
   const handleCheckboxChange = (name) => {
     setPricingData((prev) => ({
       ...prev,
       [name]: !prev[name],
-    }))
-  }
+    }));
+    setFormData((prev) => ({
+      ...prev,
+      [name === "allowDownPayment" ? "allow_down_payment" : "buy_share"]: !prev[name],
+    }));
+  };
 
   const handleBoostOptionChange = (option) => {
     setPricingData((prev) => ({
@@ -37,10 +43,31 @@ export default function PricingOptions({ onNext, onBack }) {
         ...prev.boostOptions,
         [option]: !prev.boostOptions[option],
       },
-    }))
-  }
+    }));
+    setFormData((prev) => ({
+      ...prev,
+      boostOptions: {
+        ...prev.boostOptions,
+        [option]: !prev.boostOptions[option],
+      },
+      boost_type: option,
+      featured_listing: option === "featuredListing" ? !prev.boostOptions[option] : prev.featured_listing,
+    }));
+  };
 
+  const validateForm = () => {
+    if (!pricingData.price || pricingData.price <= 0) {
+      toast.error("A valid price is required.");
+      return false;
+    }
+    return true;
+  };
 
+  const handleNextClick = () => {
+    if (validateForm()) {
+      onNext();
+    }
+  };
 
   const lockPeriodOptions = [
     { value: "7", label: "7 DAYS" },
@@ -48,21 +75,18 @@ export default function PricingOptions({ onNext, onBack }) {
     { value: "30", label: "30 DAYS" },
     { value: "60", label: "60 DAYS" },
     { value: "90", label: "90 DAYS" },
-  ]
+  ];
 
   return (
-    <div className=" p-6">
-      <div className=" mx-auto">
-        {/* Main Form Container */}
+    <div className="p-6">
+      <div className="mx-auto">
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
-          {/* Header */}
           <div className="mb-8">
             <h1 className="text-4xl font-bold text mb-2">Pricing Options</h1>
             <p className="text-gray-600 text-xl">Set your property price and payment options</p>
           </div>
 
           <div className="space-y-8">
-            {/* Price Section */}
             <div>
               <label htmlFor="price" className="block text-xl font-medium text mb-2">
                 Price
@@ -80,7 +104,6 @@ export default function PricingOptions({ onNext, onBack }) {
                 />
               </div>
 
-              {/* Allow Down Payment Option */}
               <div className="mt-4">
                 <label className="flex items-start space-x-3 cursor-pointer">
                   <input
@@ -99,7 +122,6 @@ export default function PricingOptions({ onNext, onBack }) {
               </div>
             </div>
 
-            {/* Lock Period */}
             <div>
               <label htmlFor="lockPeriod" className="block text-xl font-medium text mb-2">
                 Lock period
@@ -125,7 +147,6 @@ export default function PricingOptions({ onNext, onBack }) {
                 </div>
               </div>
 
-              {/* Warning Message */}
               <div className="flex items-center mt-3 text-orange-400">
                 <svg className="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path
@@ -138,7 +159,6 @@ export default function PricingOptions({ onNext, onBack }) {
               </div>
             </div>
 
-            {/* Enable Buy a Share Option */}
             <div>
               <label className="flex items-start space-x-3 cursor-pointer">
                 <input
@@ -149,13 +169,12 @@ export default function PricingOptions({ onNext, onBack }) {
                 />
                 <div>
                   <span className="text-xl font-medium text">Enable "Buy a Share" Option</span>
-                  <p className="text-sn text-gray-500 mt-1">
+                  <p className="text-sm text-gray-500 mt-1">
                     Allow buyers to express interest in purchasing a portion of your property as part of a group.
                   </p>
                 </div>
               </label>
 
-              {/* Warning Message */}
               <div className="flex items-center mt-3 text-orange-400">
                 <svg className="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path
@@ -168,15 +187,13 @@ export default function PricingOptions({ onNext, onBack }) {
               </div>
             </div>
 
-            {/* Boost Options */}
             <div className="border-t border-gray-200 pt-8">
               <div className="mb-6">
                 <h2 className="text-2xl font-bold text mb-2">Boost Options</h2>
-                <p className="text-gray-600 text-xl">Set your property price and payment options</p>
+                <p className="text-gray-600 text-xl">Select options to boost your property listing</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Daily Boost */}
                 <div className="border border-gray-200 rounded-lg p-4">
                   <label className="flex items-start space-x-3 cursor-pointer">
                     <input
@@ -186,13 +203,12 @@ export default function PricingOptions({ onNext, onBack }) {
                       className="w-12 h-12 text border-gray-300 rounded focus:ring-blue-500 focus:ring-2 mt-1"
                     />
                     <div className="flex-1">
-                      <div className="font-medium text-2xl  text mb-1">Daily boost ($30/day)</div>
+                      <div className="font-medium text-2xl text mb-1">Daily Boost ($30/day)</div>
                       <p className="text-sm text-gray-500">Premium visibility for 24 hours</p>
                     </div>
                   </label>
                 </div>
 
-                {/* Weekly Boost */}
                 <div className="border border-gray-200 rounded-lg p-4">
                   <label className="flex items-start space-x-3 cursor-pointer">
                     <input
@@ -208,7 +224,6 @@ export default function PricingOptions({ onNext, onBack }) {
                   </label>
                 </div>
 
-                {/* Featured Listing */}
                 <div className="border border-gray-200 rounded-lg p-4">
                   <label className="flex items-start space-x-3 cursor-pointer">
                     <input
@@ -230,11 +245,10 @@ export default function PricingOptions({ onNext, onBack }) {
           </div>
         </div>
 
-        {/* Navigation Buttons */}
         <div className="flex justify-between items-center mt-6">
           <button
             type="button"
-            onClick={onBack }
+            onClick={onBack}
             className="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -245,13 +259,15 @@ export default function PricingOptions({ onNext, onBack }) {
 
           <button
             type="button"
-            onClick={onNext}
-            className="px-8 py-3 bg text-white font-medium rounded-lg  focus:outline-none focus:ring-2 cursor-pointer focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 shadow-sm"
+            onClick={handleNextClick}
+            className="px-8 py-3 bg-[#1C3988] text-white font-medium rounded-lg focus:outline-none focus:ring-2 cursor-pointer focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 shadow-sm"
           >
             Review Your Listing
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 }
+
+

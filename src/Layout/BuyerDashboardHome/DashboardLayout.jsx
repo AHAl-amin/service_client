@@ -13,8 +13,15 @@ import { TiMessages } from "react-icons/ti";
 import { AiOutlineDollar } from "react-icons/ai";
 import { IoSettingsOutline } from "react-icons/io5";
 import BuyerNotification from "./BuyerNotification";
+import { toast, ToastContainer } from "react-toastify";
+import { logout } from "../../redux/authSlice";
+import { useDispatch } from "react-redux";
+import { useGetBuyerDataProfileQuery } from "../../redux/features/profileApi";
 
 export default function DashboardLayout() {
+  const {data:getBuyerDataProfile} = useGetBuyerDataProfileQuery();
+  const profile = getBuyerDataProfile?.data;
+  console.log(profile)
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selectedItem, setSelectedItem] = useState("Dashboard");
   const location = useLocation();
@@ -46,6 +53,19 @@ export default function DashboardLayout() {
   }
 }, [location.pathname]);
 
+const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("authToken");
+
+
+
+    navigate("/login");
+    toast.success("Logout successful!");
+  };
 
   const handleItemClick = (itemName, path) => {
     setSelectedItem(itemName); // Update the selected item on click
@@ -108,7 +128,7 @@ export default function DashboardLayout() {
             </div>
           ))}
         </nav>
-        <Link to="/signin" className="absolute left-20 bottom-10 cursor-pointer">Logout</Link>
+         <button onClick={handleLogout} className="text-gray-200 hover:text-gray-300 cursor-pointer absolute left-16 bottom-10">Logout</button>
       </aside>
 
       <div className="flex-1 flex flex-col overflow-hidden">
@@ -125,7 +145,7 @@ export default function DashboardLayout() {
               <div className="flex flex-col">
                 <span className="text-gray-700 font-bold text-xl">{selectedItem}</span>
                 <h1 className="text-gray-900">
-                  Hi, Welcome <span className="text-[#B28D28] font-bold">Buyer</span>
+                  Hi, Welcome <span className="text-[#B28D28] font-bold">{profile?.first_name}</span>
                 </h1>
               </div>
             </div>
@@ -147,8 +167,8 @@ export default function DashboardLayout() {
                   />
                 </div>
                 <div>
-                  <h2 className="font-bold"> Buyer</h2>
-                  <p className="text-gray-900">buyer@hn.com</p>
+                  <h2 className="font-bold text"> {profile?.first_name}</h2>
+                  <p className="text-gray-900">{profile?.email}</p>
                 </div>
                 <div className="dropdown dropdown-end">
                   <div tabIndex={0} role="button">
@@ -181,6 +201,7 @@ export default function DashboardLayout() {
           <Outlet />
         </main>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
     </div>
   );
 }

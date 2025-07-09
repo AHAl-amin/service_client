@@ -1,11 +1,8 @@
+import React, { useState, useRef } from "react";
+import { IoMdAdd } from "react-icons/io";
+import { Link } from "react-router-dom";
 
-
-
-import React, { useState, useRef } from 'react';
-import { IoMdAdd } from 'react-icons/io';
-import { Link } from 'react-router-dom';
-
-const PropertyDetails = ({onNext }) => {
+const PropertyDetails = ({ onNext, onBack, formData, setFormData, toast }) => {
   const [features, setFeatures] = useState({
     waterAccess: false,
     electricity: false,
@@ -18,34 +15,71 @@ const PropertyDetails = ({onNext }) => {
   });
 
   const [showInput, setShowInput] = useState(false);
-  const [newFeature, setNewFeature] = useState('');
+  const [newFeature, setNewFeature] = useState("");
   const customFeatureInput = useRef(null);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
     setFeatures((prev) => ({ ...prev, [name]: checked }));
+    setFormData((prev) => ({
+      ...prev,
+      features: checked
+        ? [...prev.features, name]
+        : prev.features.filter((f) => f !== name),
+    }));
   };
 
   const handleCustomFeature = (e) => {
-    if (e.key === 'Enter' && e.target.value) {
+    if (e.key === "Enter" && e.target.value) {
       addNewFeature(e.target.value);
-      e.target.value = '';
+      e.target.value = "";
     }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChangeFeature = (e) => {
     setNewFeature(e.target.value);
   };
 
   const addNewFeature = (value) => {
     if (value.trim()) {
-      const newFeatureName = value.toLowerCase().replace(' ', '');
+      const newFeatureName = value.toLowerCase().replace(" ", "");
       setFeatures((prev) => ({
         ...prev,
         [newFeatureName]: false,
       }));
-      setNewFeature('');
+      setNewFeature("");
       setShowInput(false);
+    }
+  };
+
+  const validateForm = () => {
+    if (!formData.title) {
+      toast.error("Property Title is required.");
+      return false;
+    }
+    if (!formData.land_size) {
+      toast.error("Land Size is required.");
+      return false;
+    }
+    if (!formData.property_type) {
+      toast.error("Property Type is required.");
+      return false;
+    }
+    if (!formData.description) {
+      toast.error("Description is required.");
+      return false;
+    }
+    return true;
+  };
+
+  const handleNextClick = () => {
+    if (validateForm()) {
+      onNext();
     }
   };
 
@@ -60,6 +94,9 @@ const PropertyDetails = ({onNext }) => {
             <label className="block text-xl font-bold mb-2 text">Property Title</label>
             <input
               type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
               className="w-full p-2 border text-gray-800 rounded"
               placeholder="Property Title"
             />
@@ -70,6 +107,9 @@ const PropertyDetails = ({onNext }) => {
               <label className="block text-xl font-bold mb-2 text">Land Size</label>
               <input
                 type="text"
+                name="land_size"
+                value={formData.land_size}
+                onChange={handleInputChange}
                 className="w-full p-2 border rounded text-gray-800"
                 placeholder="1000"
               />
@@ -77,9 +117,14 @@ const PropertyDetails = ({onNext }) => {
 
             <div className="mb-4 md:w-1/2">
               <label className="block text-xl font-bold mb-2 text">Property Type</label>
-              <select className="appearance-none w-full p-2 border rounded text-gray-800">
+              <select
+                name="property_type"
+                value={formData.property_type}
+                onChange={handleInputChange}
+                className="appearance-none w-full p-2 border rounded text-gray-800"
+              >
                 <option value="" disabled className="text-gray-400">Select Property Type</option>
-                  <option value="land">Land</option>
+                <option value="land">Land</option>
                 <option value="ranch">Ranch</option>
                 <option value="farm">Farm</option>
                 <option value="recreational">Recreational</option>
@@ -90,8 +135,11 @@ const PropertyDetails = ({onNext }) => {
           <div className="mb-4">
             <label className="block text-xl font-bold mb-2 text">Description</label>
             <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
               className="w-full p-2 border rounded text-gray-800"
-              placeholder="text your massage"
+              placeholder="Enter your description"
             ></textarea>
           </div>
         </div>
@@ -100,32 +148,37 @@ const PropertyDetails = ({onNext }) => {
           <h3 className="text-lg font-bold text mb-2">Features & Amenities</h3>
           <div className="grid md:grid-cols-4 grid-cols-2 gap-2 text">
             {[
-              'Water Access',
-              'Electricity',
-              'Road Access',
-              'Sewer System',
-              'Internet Available',
-              'Scenic Views',
-              'Features & Amenities',
-              'Features & Amenitie',
+              "Water Access",
+              "Electricity",
+              "Road Access",
+              "Sewer System",
+              "Internet Available",
+              "Scenic Views",
+              "Features & Amenities",
+              "Features & Amenitie",
               ...Object.keys(features)
-                .filter((key) => ![
-                  'waterAccess',
-                  'electricity',
-                  'roadAccess',
-                  'sewerSystem',
-                  'internetAvailable',
-                  'scenicViews',
-                  'featuresAmenities',
-                  'featuresAmenitie',
-                ].includes(key))
-                .map((key) => key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())),
+                .filter(
+                  (key) =>
+                    ![
+                      "waterAccess",
+                      "electricity",
+                      "roadAccess",
+                      "sewerSystem",
+                      "internetAvailable",
+                      "scenicViews",
+                      "featuresAmenities",
+                      "featuresAmenitie",
+                    ].includes(key)
+                )
+                .map((key) =>
+                  key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())
+                ),
             ].map((feature) => (
               <label key={feature} className="flex items-center">
                 <input
                   type="checkbox"
-                  name={feature.toLowerCase().replace(' ', '')}
-                  checked={features[feature.toLowerCase().replace(' ', '')]}
+                  name={feature.toLowerCase().replace(" ", "")}
+                  checked={features[feature.toLowerCase().replace(" ", "")]}
                   onChange={handleCheckboxChange}
                   className="mr-2 w-4 h-4 bg-white border-2 border-[#1C3988]"
                 />
@@ -142,7 +195,7 @@ const PropertyDetails = ({onNext }) => {
                   placeholder="Enter new feature"
                   ref={customFeatureInput}
                   value={newFeature}
-                  onChange={handleInputChange}
+                  onChange={handleInputChangeFeature}
                   onKeyPress={handleCustomFeature}
                 />
                 <button
@@ -164,8 +217,11 @@ const PropertyDetails = ({onNext }) => {
         </div>
       </div>
 
-      <div className="flex justify-end" onClick={onNext}>
-        <Link  className="bg-[#1C3988] text-white p-2 rounded-xl my-4 px-4">
+      <div className="flex justify-end">
+        <Link
+          onClick={handleNextClick}
+          className="bg-[#1C3988] text-white p-2 rounded-xl my-4 px-4 cursor-pointer"
+        >
           Next
         </Link>
       </div>
@@ -174,3 +230,5 @@ const PropertyDetails = ({onNext }) => {
 };
 
 export default PropertyDetails;
+
+

@@ -3,9 +3,14 @@
 import { useState } from "react"
 import SavedProperties from "./SavedProperties"
 import SharedOwnership from "./SharedOwnership"
+import { useGetWishlistPropertiesQuery } from "../../../redux/features/buyerApi";
+
 
 function WishList() {
+ 
   const [activeTab, setActiveTab] = useState("saved")
+   const {getWishlistProperties} = useGetWishlistPropertiesQuery();
+  console.log(getWishlistProperties,"getWishlistProperties.....................");
 
   return (
     <div className="p-5  mx-auto">

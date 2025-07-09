@@ -1,40 +1,67 @@
+import { useState } from "react";
 
-
-import { useState } from "react"
-
-export default function LocationInfo({ onNext, onBack }) {
+export default function LocationInfo({ onNext, onBack, formData, setFormData, toast }) {
   const [locationData, setLocationData] = useState({
-    country: "",
-    state: "",
-    city: "",
-    streetAddress: "",
-    postalCode: "",
-  })
+    country: formData.country || "",
+    state: formData.state_province || "",
+    city: formData.city || "",
+    streetAddress: formData.street_address || "",
+    postalCode: formData.postal_code || "",
+  });
 
-  const [mapPinned, setMapPinned] = useState(false)
+  const [mapPinned, setMapPinned] = useState(false);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setLocationData((prev) => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+    setFormData((prev) => ({
+      ...prev,
+      [name === "state" ? "state_province" : name === "streetAddress" ? "street_address" : name === "postalCode" ? "postal_code" : name]: value,
+    }));
+  };
 
   const handlePinLocation = () => {
-    setMapPinned(true)
-    console.log("Pin location manually clicked")
-    // Here you would integrate with a map service like Google Maps
-  }
+    setMapPinned(true);
+    setFormData((prev) => ({
+      ...prev,
+      latitude: "0", // Replace with actual map integration
+      longitude: "0",
+    }));
+    toast.success("Location pinned successfully!");
+  };
 
-  const handleBackToMedia = () => {
-    console.log("Navigate back to Media")
-  }
+  const validateForm = () => {
+    if (!locationData.country) {
+      toast.error("Country is required.");
+      return false;
+    }
+    if (!locationData.state) {
+      toast.error("State/Province is required.");
+      return false;
+    }
+    if (!locationData.city) {
+      toast.error("City/Town is required.");
+      return false;
+    }
+    if (!locationData.streetAddress) {
+      toast.error("Street Address is required.");
+      return false;
+    }
+    if (!locationData.postalCode) {
+      toast.error("Postal/Zip Code is required.");
+      return false;
+    }
+    return true;
+  };
 
-  const handleNext = () => {
-    console.log("Navigate to next step")
-    console.log("Location data:", locationData)
-  }
+  const handleNextClick = () => {
+    if (validateForm()) {
+      onNext();
+    }
+  };
 
   const countries = [
     "United States",
@@ -47,21 +74,18 @@ export default function LocationInfo({ onNext, onBack }) {
     "Brazil",
     "India",
     "China",
-  ]
+  ];
 
   return (
     <div className="">
       <div className=" mx-auto">
-        {/* Main Form Container */}
         <div className="bg-white rounded-2xl border border-[#1C3988] shadow-sm p-8">
-          {/* Header */}
           <div className="mb-8">
             <h1 className="text-4xl font-bold text mb-2">Location Information</h1>
             <p className="text-gray-600 text-xl">Provide detailed location information for your property</p>
           </div>
 
           <div className="space-y-6">
-            {/* Country */}
             <div>
               <label htmlFor="country" className="block text-xl text font-medium text mb-2">
                 Country
@@ -91,10 +115,9 @@ export default function LocationInfo({ onNext, onBack }) {
               </div>
             </div>
 
-            {/* State/Province and City/Town Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="state" className="block text-xl text font-medium  mb-2">
+                <label htmlFor="state" className="block text-xl text font-medium mb-2">
                   State/Province
                 </label>
                 <input
@@ -103,8 +126,8 @@ export default function LocationInfo({ onNext, onBack }) {
                   name="state"
                   value={locationData.state}
                   onChange={handleInputChange}
-                  placeholder="write your state"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1C3988] focus:border-[#1C3988]  outline-none transition-all duration-200 text-gray-700 placeholder-gray-400"
+                  placeholder="Write your state"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none transition-all duration-200 text-gray-700 placeholder-gray-400"
                 />
               </div>
               <div>
@@ -118,12 +141,11 @@ export default function LocationInfo({ onNext, onBack }) {
                   value={locationData.city}
                   onChange={handleInputChange}
                   placeholder="Write your city"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1C3988] focus:border-[#1C3988]  outline-none transition-all duration-200 text-gray-700 placeholder-gray-400"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none transition-all duration-200 text-gray-700 placeholder-gray-400"
                 />
               </div>
             </div>
 
-            {/* Street Address and Postal/Zip Code Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="streetAddress" className="block text-xl text font-medium text-blue-700 mb-2">
@@ -136,7 +158,7 @@ export default function LocationInfo({ onNext, onBack }) {
                   value={locationData.streetAddress}
                   onChange={handleInputChange}
                   placeholder="Enter Street Address"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1C3988] focus:border-[#1C3988]  outline-none transition-all duration-200 text-gray-700 placeholder-gray-400"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none transition-all duration-200 text-gray-700 placeholder-gray-400"
                 />
               </div>
               <div>
@@ -149,22 +171,19 @@ export default function LocationInfo({ onNext, onBack }) {
                   name="postalCode"
                   value={locationData.postalCode}
                   onChange={handleInputChange}
-                  placeholder="Write Your City/Town"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1C3988] focus:border-[#1C3988]  outline-none transition-all duration-200 text-gray-700 placeholder-gray-400"
+                  placeholder="Write Your Postal/Zip Code"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none transition-all duration-200 text-gray-700 placeholder-gray-400"
                 />
               </div>
             </div>
 
-            {/* Map Preview */}
             <div>
               <label className="block text-xl text font-medium text-blue-700 mb-4">Map Preview</label>
               <div className="relative bg-gradient-to-br from-blue-900 via-purple-900 to-blue-800 rounded-lg h-120 flex items-center justify-center overflow-hidden">
-                {/* Background pattern to simulate map */}
                 <div className="absolute inset-0 opacity-20">
-                 <img src="https://i.ibb.co/8DzvkF46/image.png" alt="" />
+                  <img src="https://i.ibb.co/8DzvkF46/image.png" alt="" />
                 </div>
 
-                {/* Content */}
                 <div className="text-center z-10">
                   <p className="text-white text-lg font-medium mb-4">
                     Map Preview Will Appear Here After Entering Location Details
@@ -172,7 +191,7 @@ export default function LocationInfo({ onNext, onBack }) {
                   <button
                     type="button"
                     onClick={handlePinLocation}
-                    className="inline-flex items-center cursor-pointer px-4 py-2 bg text-white text-xl text font-medium rounded-lg focus:outline-none focus:ring-2  focus:ring-offset-2 transition-all duration-200 shadow-lg"
+                    className="inline-flex items-center cursor-pointer px-4 py-2 bg-[#1C3988] text-white text-xl font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 shadow-lg"
                   >
                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
@@ -188,13 +207,10 @@ export default function LocationInfo({ onNext, onBack }) {
                         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                       />
                     </svg>
-                   <div className="text-gray-400">
-                     Pin Location Manually
-                   </div>
+                    <div className="text-white">Pin Location Manually</div>
                   </button>
                 </div>
 
-                {/* Map pin indicator if location is pinned */}
                 {mapPinned && (
                   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <svg className="w-8 h-8 text-red-500 animate-bounce" fill="currentColor" viewBox="0 0 24 24">
@@ -207,12 +223,11 @@ export default function LocationInfo({ onNext, onBack }) {
           </div>
         </div>
 
-        {/* Navigation Buttons */}
         <div className="flex justify-between items-center mt-6">
           <button
             type="button"
             onClick={onBack}
-            className="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 text-xl text font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200"
+            className="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 text-xl font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200"
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -222,13 +237,16 @@ export default function LocationInfo({ onNext, onBack }) {
 
           <button
             type="button"
-            onClick={onNext}
-            className="px-8 py-3 bg text-white font-medium rounded-lg hover:bg cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200 shadow-sm"
+            onClick={handleNextClick}
+            className="px-8 py-3 bg-[#1C3988] text-white font-medium rounded-lg hover:bg cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200 shadow-sm"
           >
             Next
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 }
+
+
+

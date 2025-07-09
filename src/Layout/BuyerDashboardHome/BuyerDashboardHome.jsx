@@ -1,81 +1,68 @@
-"use client"
+
+
+
+
+"use client";
 
 import { MapPin, Users } from "lucide-react";
-import { useState } from "react"
-import { IoIosHeartEmpty } from "react-icons/io";
+import { useEffect, useState } from "react";
+import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { useAddToWishlistMutation, useGetAllPropertiesFeaturedListQuery, useRemoveFromWishlistMutation } from "../../redux/features/buyerApi";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function BuyerDashboardHome() {
-  // JSON data embedded in the component
-  const properties = [
-    {
-      id: 1,
-      title: "Mountain View Ranch",
-      price: "$250,000",
-      area: "25 Acres",
-      location: "Colorado, USA",
-      description: "A serene ranch with beautiful mountain views, perfect for farming or a vacation home.",
-      person: "4/5",
-      payment: "Bank Transfer, Cash",
-      image: "https://cdn.pixabay.com/photo/2024/12/28/03/39/field-9295186_640.jpg",
-    },
-    {
-      id: 2,
-      title: "Oceanfront Paradise",
-      price: "$650,000",
-      area: "25 Acres",
-      location: "Malibu, California",
-      description: "Luxurious oceanfront property with private beach access and panoramic views.",
-      person: "2/5",
-      payment: "Mortgage, Bank Transfer",
-      image: "https://cdn.pixabay.com/photo/2024/12/28/03/39/field-9295186_640.jpg",
-    },
-    {
-      id: 3,
-      title: "Oceanfront Paradise",
-      price: "$650,000",
-      area: "25 Acres",
-      location: "Malibu, California",
-      description: "Identical listing with modern amenities and direct ocean access.",
-      person: "3/5",
-      payment: "Down Payment Available",
-      image: "https://cdn.pixabay.com/photo/2024/12/28/03/39/field-9295186_640.jpg",
-    },
-    {
-      id: 4,
-      title: "Mountain View Ranch",
-      price: "$250,000",
-      area: "25 Acres",
-      location: "Colorado, USA",
-      description: "Duplicate ranch listing ideal for eco-resorts or agricultural use.",
-      person: "1/5",
-      payment: "Bank Transfer, Cash",
-      image: "https://cdn.pixabay.com/photo/2015/06/19/21/24/avenue-815297_640.jpg",
-    },
-    {
-      id: 5,
-      title: "Oceanfront Paradise",
-      price: "$650,000",
-      area: "25 Acres",
-      location: "Malibu, California",
-      description: "A peaceful ocean getaway with palm trees and breeze.",
-      person: "2/5",
-      payment: "Down Payment Available",
-      image: "https://cdn.pixabay.com/photo/2015/06/19/21/24/avenue-815297_640.jpg",
-    },
-    {
-      id: 6,
-      title: "Oceanfront Paradise",
-      price: "$650,000",
-      area: "25 Acres",
-      location: "Malibu, California",
-      description: "Prime location property for residential or investment purposes.",
-      person: "4/5",
-      payment: "Down Payment Available",
-      image: "https://cdn.pixabay.com/photo/2022/04/15/07/58/sunset-7133867_640.jpg",
-    },
-  ];
+  const { data: getAllPropertiesFeaturedList } = useGetAllPropertiesFeaturedListQuery();
+  const [wishlistIds, setWishlistIds] = useState([]);
+  const [propertyList, setPropertyList] = useState([]);
 
+  useEffect(() => {
+    if (getAllPropertiesFeaturedList?.data?.length > 0) {
+      const transformed = getAllPropertiesFeaturedList?.data?.map((item) => ({
+        id: item.id,
+        title: item.title,
+        price: `$${Number(item.price).toLocaleString()}`,
+        area: `${item.land_size} sq ft`,
+        location: `${item.city}, ${item.country}`,
+        description: item.description,
+        person: `${item.remaining_shares}/${item.max_shares}`,
+        payment: item.allow_down_payment ? "Down Payment Available" : "Full Payment Only",
+        image: item.main_image
+          ? `http://192.168.10.203:1000${item.main_image}`
+          : "https://via.placeholder.com/400x300?text=No+Image",
+        features: item.features?.map((f) => f.name).join(", ") || "No features listed",
+      }));
+      setPropertyList(transformed);
+    }
+  }, [getAllPropertiesFeaturedList]);
+
+  const [addToWishlist] = useAddToWishlistMutation();
+  const [removeFromWishlist] = useRemoveFromWishlistMutation();
+
+  const handleToggleWishlist = async (propertyId) => {
+    try {
+      if (wishlistIds.includes(propertyId)) {
+        const res = await removeFromWishlist({ property_id: propertyId }).unwrap();
+        if (res.message === "Property removed from wishlist successfully") {
+          setWishlistIds((prev) => prev.filter((id) => id !== propertyId));
+          toast.success("Removed from wishlist");
+        } else {
+          toast.error("Failed to remove from wishlist");
+        }
+      } else {
+        const res = await addToWishlist({ property_id: propertyId }).unwrap();
+        if (res.success) {
+          setWishlistIds((prev) => [...prev, propertyId]);
+          toast.success("Added to wishlist");
+        } else {
+          toast.error("Failed to add to wishlist");
+        }
+      }
+    } catch (error) {
+      console.error("Wishlist toggle failed:", error);
+      // toast.error("Something went wrong");
+    }
+  };
 
   const statsData = [
     {
@@ -131,7 +118,7 @@ export default function BuyerDashboardHome() {
         bgColor: "bg-blue-100",
       },
     },
-  ]
+  ];
 
   const [searchData, setSearchData] = useState({
     location: "",
@@ -140,24 +127,22 @@ export default function BuyerDashboardHome() {
     country: "",
     propertyType: "",
     downPayment: false,
-  })
+  });
 
   const handleInputChange = (field, value) => {
     setSearchData((prev) => ({
       ...prev,
       [field]: value,
-    }))
-  }
+    }));
+  };
 
   const handleSearch = () => {
-    console.log("Search data:", searchData)
-    // Handle search logic here
-  }
+    console.log("Search data:", searchData);
+  };
 
   return (
     <div className="">
       <div className="mx-auto">
-        {/* Statistics Cards */}
         <h1 className="text text-4xl font-semibold mb-6">Dashboard overview</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {statsData.map((stat) => (
@@ -194,23 +179,20 @@ export default function BuyerDashboardHome() {
           ))}
         </div>
 
-        {/* Search Section */}
         <div className=" rounded-lg  ">
           <div className="mb-8 ">
             <h1 className="text-3xl font-bold text mb-2">Find Your Perfect Land</h1>
             <p className="text-gray-600">Search and filter properties based on your preferences</p>
           </div>
 
-          {/* Search Form */}
           <div className="bg-[#E8EBF3] p-6 sm:p-10 rounded-xl  mx-auto">
             <form
               onSubmit={(e) => {
-                e.preventDefault()
-                handleSearch()
+                e.preventDefault();
+                handleSearch();
               }}
               className="flex flex-col gap-4"
             >
-              {/* Search Location */}
               <div className="flex gap-6">
                 <div className="w-1/2 ">
                   <div className="relative ">
@@ -242,7 +224,6 @@ export default function BuyerDashboardHome() {
                 </div>
 
                 <div className="w-1/2 flex gap-6">
-                  {/* Min Price */}
                   <div className="w-full">
                     <input
                       type="number"
@@ -254,8 +235,6 @@ export default function BuyerDashboardHome() {
                     />
                   </div>
 
-
-                  {/* Down Payment Checkbox */}
                   <div className="w-full">
                     <div className="flex items-center px-4 py-3 border border-gray-300 rounded-md  bg-white ">
                       <input
@@ -275,7 +254,6 @@ export default function BuyerDashboardHome() {
               </div>
 
               <div className="flex gap-6">
-                {/* Select Country */}
                 <div className="w-full ">
                   <div className="relative">
                     <select
@@ -300,7 +278,6 @@ export default function BuyerDashboardHome() {
                   </div>
                 </div>
 
-                {/* Property Type */}
                 <div className="w-full">
                   <div className="relative">
                     <select
@@ -324,7 +301,6 @@ export default function BuyerDashboardHome() {
                   </div>
                 </div>
 
-                {/* Max Price */}
                 <div className="w-full">
                   <input
                     type="number"
@@ -335,7 +311,7 @@ export default function BuyerDashboardHome() {
                     aria-label="Maximum price"
                   />
                 </div>
-                {/* Search Button */}
+
                 <div className="w-full">
                   <button
                     type="submit"
@@ -367,27 +343,37 @@ export default function BuyerDashboardHome() {
 
                 <div className="basis-6/12 flex items-center justify-end gap-4 ">
                   <button className="bg-[#1C3988] px-5 py-2 rounded-sm text-white w-[180px]">View All Properties</button>
-
-                  <button className="bg-[#fff] border text-[#1C3988] border-gray-300 px-5 py-2 w-[140px] flex rounded-sm items-center gap-[2px] text-center"><MapPin size={16} />View Map</button>
-
+                  <button className="bg-[#fff] border text-[#1C3988] border-gray-300 px-5 py-2 w-[140px] flex rounded-sm items-center gap-[2px] text-center">
+                    <MapPin size={16} />View Map
+                  </button>
                   <select className="select rounded-sm w-[150px] text-[#1C3988] text-base  bg-[#fff] ">
                     <option disabled selected>Featured</option>
-                    {/* <option>Featured</option> */}
                     <option>Newest</option>
                     <option>Low to high</option>
                     <option>High to Low</option>
                     <option>Small to Large</option>
                     <option>Large to Small</option>
                   </select>
-
                 </div>
-
               </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {properties.map((property, index) => (
+                {propertyList?.map((property, index) => (
                   <div key={index} className="card w-full bg-white shadow-lg rounded-lg overflow-hidden relative">
-                     <p className="bg p-2 rounded-xl px-6 top-2 left-2 absolute">Recreational</p>
-                    <IoIosHeartEmpty className="absolute right-2 top-2 text-2xl text bg-gray-300 rounded " />
+                    <p className="bg p-2 rounded-xl px-6 top-2 left-2 absolute">Recreational</p>
+                    {wishlistIds.includes(property.id) ? (
+                      <IoIosHeart
+                        className="absolute bg-gray-300 right-2  top-2 text-2xl text-[#1C3988] rounded p-1 cursor-pointer"
+                        onClick={() => handleToggleWishlist(property.id)}
+                        aria-label={`Remove ${property.title} from wishlist`}
+                      />
+                    ) : (
+                      <IoIosHeartEmpty
+                        className="absolute bg-gray-300 right-2 size-8 top-2 text-2xl text-gray-600 rounded p-1 cursor-pointer"
+                        onClick={() => handleToggleWishlist(property.id)}
+                        aria-label={`Add ${property.title} to wishlist`}
+                      />
+                    )}
                     <img src={property.image} alt={property.title} className="w-full h-48 object-cover" />
                     <div className="p-6">
                       <h3 className="text-xl font-semibold text-start text-[#1C3988]">{property.title}</h3>
@@ -401,31 +387,32 @@ export default function BuyerDashboardHome() {
                           <span className="text-[#8D8D8D] font-medium">{property?.area}</span>
                         </h1>
                       </p>
-
-
                       <div className="flex items-center justify-between my-3">
-                        <button className=" px-5 py-[5px] rounded-full border-[1.5px] cursor-pointer border-[#1C3988] text-[#1C3988]">{property?.payment}</button>
-
+                        <button className="px-5 py-[5px] rounded-full border-[1.5px] cursor-pointer border-[#1C3988] text-[#1C3988]">
+                          {property?.payment}
+                        </button>
                         <div className="flex items-center gap-1 text-[#8B8B8B]">
                           <Users size={18} className="text-[#1C3988]" />
                           {property?.person}
                         </div>
                       </div>
-
-                      <p className="text-[#8B8B8B] text-start pt-2">{property?.description}</p>
-
-                      <Link to={`/buyer_dashboard/buyer_feture_details/${property.id}`} className="btn bg-[#1C3988] py-2 text-white text-base font-medium mt-4 w-full">View Details</Link>
+                      <p className="text-[#8B8B8B] text-start pt-2 line-clamp-2">{property?.description}</p>
+                      <Link
+                        to={`/buyer_dashboard/buyer_feture_details/${property.id}`}
+                        className="btn bg-[#1C3988] py-2 text-white text-base font-medium mt-4 w-full"
+                      >
+                        View Details
+                      </Link>
                     </div>
                   </div>
                 ))}
               </div>
-
             </div>
           </section>
-
-          {/* Search Button */}
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
-  )
+  );
 }
+

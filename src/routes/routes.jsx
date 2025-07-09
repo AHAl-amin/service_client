@@ -29,6 +29,7 @@ import MediaImages from "../Layout/SellerDashboardHome/AddProperties/MediaImages
 import BuyerRegistration from "../Pages/Authentication/BuyerRegistration";
 import SellerRegistration from "../Pages/Authentication/SellerRegistration";
 import Pricing from "../Pages/Home/Pricing";
+import SellerDasFeatureDetails from "../Layout/SellerDashboardHome/SellerDasFeatureDetails";
 
 // import AddProperties from "../Layout/SellerDashboardHome/AddProperties";
 // import WishList from "../Layout/BuyerDashboardHome/WishList";
@@ -58,70 +59,80 @@ export const router = createBrowserRouter([
         path: '/pricing',
         element: <Pricing />
       },
-     
-  
+
+
     ]
   },
-// Buyer dashboard
+  // Buyer dashboard
   {
     path: 'buyer_dashboard',
     element: <DashboardLayout />,
     children: [
-      { index: true, element: <BuyerDashboardHome/> },
-      { path: 'buyer_feture_details/:id', 
-        element: <BuyerDasFeatureDetails/> 
+      { index: true, element: <BuyerDashboardHome /> },
+      {
+        path: 'buyer_feture_details/:id',
+        element: <BuyerDasFeatureDetails />
       },
-      { path: 'buyer_das_profile_view', 
-        element: <BuyerDasProfileView/> 
+      {
+        path: 'buyer_das_profile_view',
+        element: <BuyerDasProfileView />
       },
-      { path: 'wish_list', 
-        element: <WishList/> 
+      {
+        path: 'wish_list',
+        element: <WishList />
       },
-     
-      { path: 'subscribtion', 
-        element: <Subscribtion/> 
+
+      {
+        path: 'subscribtion',
+        element: <Subscribtion />
       },
-      { path: 'buyer_cost_calculation',
-        element: <BuyerCostCalculation/>
+      {
+        path: 'buyer_cost_calculation',
+        element: <BuyerCostCalculation />
       },
-      { path: 'buyer_setting',
-        element: <BuyerSetting/>
+      {
+        path: 'buyer_setting',
+        element: <BuyerSetting />
       },
-     
-      
+
+
     ]
   },
 
 
   // Seller dashboard
-  
-{
-  path: 'seller_dashboard',
-  element: <SellerDashboardLayout />,
-  children: [
-    { index: true, element: <SellerDashboardHome /> },
-    
-    { path: 'my_listings', element: <MyListings /> },
-    { 
-      path: 'boost_options', 
-      element: <BoostOptions />
-     },
-     { 
-       path: 'add_properties', 
-       element: <AddProperties />
-      },
-    { 
-      path: 'seller_settings', 
-      element: <SellerSetting />
-     },
-    { 
-      path: 'media_images', 
-      element: <MediaImages />
-     },
-  ]
-},
 
-// authentication
+  {
+    path: 'seller_dashboard',
+    element: <SellerDashboardLayout />,
+    children: [
+      { index: true, element: <SellerDashboardHome /> },
+
+      { path: 'my_listings', element: <MyListings /> },
+      {
+        path: 'seller_feture_details/:id',
+        element: <SellerDasFeatureDetails />
+      },
+      {
+        path: 'boost_options',
+        element: <BoostOptions />
+      },
+      {
+        path: 'add_properties',
+        element: <AddProperties />
+      },
+      {
+        path: 'seller_settings',
+        element: <SellerSetting />
+      },
+      {
+        path: 'media_images',
+        element: <MediaImages />
+      },
+    ]
+  },
+
+  // authentication
 
   { path: '/buyer_registration', element: <BuyerRegistration /> },
   { path: '/seller_registration', element: <SellerRegistration /> },

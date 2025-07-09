@@ -9,30 +9,49 @@ import { Bell, ChevronDown, ChevronsLeft, ChevronsRight } from "lucide-react";
 
 
 import Logo from '../../../public/img/logo.png'
-import { TiMessages } from "react-icons/ti";
-import { AiOutlineDollar } from "react-icons/ai";
+
+
 import { IoSettingsOutline } from "react-icons/io5";
-import BuyerNotification from "../BuyerDashboardHome/BuyerNotification";
+
 import { MdOutlineAddHome, MdOutlineMapsHomeWork } from "react-icons/md";
 import { SiBosch } from "react-icons/si";
 import SellerNotification from "./SellerNotification";
+import { useGetSellerDataProfileQuery } from "../../redux/features/profileApi";
+import { useDispatch, } from "react-redux";
+import { logout } from "../../redux/authSlice";
+import { toast, ToastContainer } from "react-toastify";
 // import BuyerNotification from "./BuyerNotification";
 
 export default function SellerDashboardLayout() {
+
+
+
+
+  const { data: getSellerDataProfile } = useGetSellerDataProfileQuery();
+  const profile = getSellerDataProfile?.data;
+  console.log(getSellerDataProfile, "profile.....................");
+
+
+
+
+
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selectedItem, setSelectedItem] = useState("Dashboard");
   const location = useLocation();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+
+
+
   const menuItems = [
     {
       items: [
         { name: "Dashboard", icon: <LuLayoutDashboard size={20} />, path: "/seller_dashboard" },
-        { name: "My Listings", icon: <MdOutlineMapsHomeWork  size={20} />, path: "seller_dashboard/my_listings" },
-        { name: "Boost Options", icon: <SiBosch  size={20} />, path: "seller_dashboard/boost_options" },
+        { name: "My Listings", icon: <MdOutlineMapsHomeWork size={20} />, path: "seller_dashboard/my_listings" },
+        { name: "Boost Options", icon: <SiBosch size={20} />, path: "seller_dashboard/boost_options" },
         { name: "Add Properties ", icon: <MdOutlineAddHome size={20} />, path: "seller_dashboard/add_properties" },
-       
+
         { name: "Settings", icon: <IoSettingsOutline size={20} />, path: "seller_dashboard/seller_settings" },
 
       ],
@@ -41,14 +60,28 @@ export default function SellerDashboardLayout() {
 
 
 
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("authToken");
+
+
+
+    navigate("/login");
+    toast.success("Logout successful!");
+  };
+
   useEffect(() => {
-  const currentItem = menuItems[0].items.find(
-    (item) => `/${item.path}` === location.pathname || item.path === location.pathname
-  );
-  if (currentItem) {
-    setSelectedItem(currentItem.name);
-  }
-}, [location.pathname]);
+    const currentItem = menuItems[0].items.find(
+      (item) => `/${item.path}` === location.pathname || item.path === location.pathname
+    );
+    if (currentItem) {
+      setSelectedItem(currentItem.name);
+    }
+  }, [location.pathname]);
 
 
   const handleItemClick = (itemName, path) => {
@@ -60,7 +93,7 @@ export default function SellerDashboardLayout() {
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
       <aside
-        className={`${isCollapsed ? "w-20" : "w-64"
+        className={` relative ${isCollapsed ? "w-20" : "w-64"
           } bg-[#1C3988] border-r border-gray-200 transition-all duration-500 ease-in-out`}
       >
         {/* Logo */}
@@ -112,7 +145,8 @@ export default function SellerDashboardLayout() {
             </div>
           ))}
         </nav>
-        <Link to="/signin" className="absolute left-20 bottom-10 cursor-pointer">Logout</Link>
+        <button onClick={handleLogout} className="text-gray-200 hover:text-gray-300 cursor-pointer absolute left-16 bottom-10">Logout</button>
+
       </aside>
 
       <div className="flex-1 flex flex-col overflow-hidden">
@@ -129,7 +163,7 @@ export default function SellerDashboardLayout() {
               <div className="flex flex-col">
                 <span className="text-gray-700 font-bold text-xl">{selectedItem}</span>
                 <h1 className="text-gray-900">
-                  Hi, Welcome <span className="text-[#B28D28] font-bold">Seller</span>
+                  Hi, Welcome <span className="text-[#B28D28] font-bold">{profile?.first_name}</span>
                 </h1>
               </div>
             </div>
@@ -151,8 +185,8 @@ export default function SellerDashboardLayout() {
                   />
                 </div>
                 <div>
-                  <h2 className="font-bold text">Seller</h2>
-                  <p className="text-gray-900">seller@hn.com</p>
+                  <h2 className="font-bold text">{profile?.first_name}</h2>
+                  <p className="text-gray-900">{profile?.email}</p>
                 </div>
                 <div className="dropdown dropdown-end">
                   <div tabIndex={0} role="button">
@@ -168,9 +202,9 @@ export default function SellerDashboardLayout() {
                       </Link>
                     </li>
                     <li>
-                      <Link to="/logout" className="text-gray-700 hover:text-gray-900">
+                      <button onClick={handleLogout} className="text-gray-700 hover:text-gray-900">
                         Logout
-                      </Link>
+                      </button>
                     </li>
                   </ul>
                 </div>
@@ -181,10 +215,11 @@ export default function SellerDashboardLayout() {
 
         {/* Main Content */}
         <main className="flex-1 overflow-auto p-12 bg-[#F9F5ED]">
-           <SellerNotification isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+          <SellerNotification isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
           <Outlet />
         </main>
       </div>
+       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
     </div>
   );
 }
