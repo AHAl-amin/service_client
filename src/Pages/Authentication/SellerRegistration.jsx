@@ -5,7 +5,6 @@ import { Award, Badge, BadgeCheck } from "lucide-react";
 import { useState } from "react";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-
 import Pricing from "../Home/Pricing";
 import { useSellerRegistrationMutation } from "../../redux/features/baseApi";
 import { toast, ToastContainer } from "react-toastify";
@@ -15,6 +14,7 @@ export default function SellerRegistration() {
   const [formData, setFormData] = useState({
     profilePhoto: null,
     firstName: "",
+    business_description: "",
     lastName: "",
     email: "",
     contactNumber: "",
@@ -34,13 +34,13 @@ export default function SellerRegistration() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [sellerRegistration, { isLoading, error }] = useSellerRegistrationMutation(); // Mutation hook
+  const [sellerRegistration, { isLoading, error }] = useSellerRegistrationMutation();
 
   const steps = [
     { id: 1, name: "Personal Information" },
     { id: 2, name: "Business Information" },
-    { id: 3, name: "Pricing" },
-    { id: 4, name: "Terms & Agreement" },
+    { id: 3, name: "Terms & Agreement" },
+    { id: 4, name: "Pricing" },
   ];
 
   const handleInputChange = (e) => {
@@ -50,8 +50,6 @@ export default function SellerRegistration() {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-
- 
 
   const validateStep = () => {
     if (currentStep === 1) {
@@ -74,13 +72,14 @@ export default function SellerRegistration() {
         formData.city &&
         formData.stateProvince &&
         formData.postalCode &&
-        formData.country
+        formData.country &&
+        formData.business_description
       );
     }
     if (currentStep === 4) {
       return formData.agreeToTerms && formData.agreeToPrivacy && formData.acceptResponsibility;
     }
-    return true; // Step 3 (Pricing) may not need validation if it's just a display
+    return true;
   };
 
   const handleNext = async () => {
@@ -92,7 +91,6 @@ export default function SellerRegistration() {
     if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Transform formData to match backend structure
       const sellerData = {
         email: formData.email,
         password: formData.password,
@@ -107,12 +105,13 @@ export default function SellerRegistration() {
         state_province: formData.stateProvince,
         postal_code: formData.postalCode,
         country: formData.country,
-        profile_photo: formData.profilePhoto, // If backend accepts base64 string
+        business_description: formData.business_description,
+        profile_photo: formData.profilePhoto,
       };
 
       try {
         await sellerRegistration(sellerData).unwrap();
-        setCurrentStep(5); // Success page
+        setCurrentStep(5);
       } catch (err) {
         console.error("Registration error:", err);
         toast.error("Failed to register. Please try again.");
@@ -152,7 +151,6 @@ export default function SellerRegistration() {
     "Sweden",
   ];
 
-  // Success Page
   if (currentStep === 5) {
     return (
       <div className="min-h-screen bg-yellow-50/90 flex items-center justify-center p-6">
@@ -193,66 +191,54 @@ export default function SellerRegistration() {
 
   return (
     <div className="min-h-screen bg-yellow-50/90 p-6">
-      <div className="md:max-w-7xl h-full mx-auto ">
+      <div className="md:max-w-7xl h-full mx-auto">
         <div className="bg-white rounded-2xl border border-[#1C3988] shadow-sm p-8">
-          {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text mb-8">Create Your Seller Account</h1>
-          
-             <div className="flex items-center justify-center gap-10 space-x-8 mb-8">
-                            {steps.map((step) => (
-                                <div key={step.id} className="flex flex-col items-center">
-                                    <div className="relative w-12 h-12 mb-2"> {/* Increased to w-12 h-12 (48px x 48px) */}
-                                        {/* Badge Icon */}
-                                        <Badge
-                                            className={`w-12 h-12 ${currentStep >= step.id ? "text" : "text-gray-300"} ${currentStep === step.id ? "" : ""
-                                                }`}
-                                        >
-                                            {/* Empty for now, content will come from the span */}
-                                        </Badge>
-                                        {/* Number Overlay with Checkmark */}
-                                        <span
-                                            className={`absolute inset-0 flex items-center justify-center text-xl font-bold ${currentStep > step.id ? "text-gray-500" : "text-gray-400"}`} // Adjusted text size and color
-                                        >
-                                            {currentStep > step.id ? (
-                                                <svg
-                                                    className="w-5 h-5 text" // Increased SVG size to match larger badge
-                                                    fill="currentColor"
-                                                    viewBox="0 0 20 20"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                            ) : (
-                                                <span className={`text-xl ${currentStep >= step.id ? "text" : "text-gray-400"}`}>
-                                                    {step.id}
-                                                </span>
-                                            )}
-                                        </span>
-                                    </div>
-                                    <span
-                                        className={`text-xs ${currentStep >= step.id ? "text" : "text-gray-400"}`}
-                                    >
-                                        {step.name}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-
-                        <div className="md:w-2/3 mx-auto bg-gray-200 h-2 rounded-full">
-                            <div
-                                className="bg h-2 rounded-full transition-all duration-300"
-                                style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
-                            ></div>
-                        </div>
+            <div className="flex items-center justify-center gap-10 space-x-8 mb-8">
+              {steps.map((step) => (
+                <div key={step.id} className="flex flex-col items-center">
+                  <div className="relative w-12 h-12 mb-2">
+                    <Badge
+                      className={`w-12 h-12 ${currentStep >= step.id ? "text" : "text-gray-300"} ${
+                        currentStep === step.id ? "" : ""
+                      }`}
+                    >
+                    </Badge>
+                    <span
+                      className={`absolute inset-0 flex items-center justify-center text-xl font-bold ${
+                        currentStep > step.id ? "text-gray-500" : "text-gray-400"
+                      }`}
+                    >
+                      {currentStep > step.id ? (
+                        <svg className="w-5 h-5 text" fill="currentColor" viewBox="0 0 20 20">
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      ) : (
+                        <span className={`text-xl ${currentStep >= step.id ? "text" : "text-gray-400"}`}>
+                          {step.id}
+                        </span>
+                      )}
+                    </span>
+                  </div>
+                  <span className={`text-xs ${currentStep >= step.id ? "text" : "text-gray-400"}`}>
+                    {step.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <div className="md:w-2/3 mx-auto bg-gray-200 h-2 rounded-full">
+              <div
+                className="bg h-2 rounded-full transition-all duration-300"
+                style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
+              ></div>
+            </div>
           </div>
 
-
-
-          {/* Step 1 - Personal Information */}
           {currentStep === 1 && (
             <div>
               <div className="mb-6">
@@ -264,7 +250,6 @@ export default function SellerRegistration() {
                 </p>
               </div>
               <div className="space-y-6">
-               
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xl font-medium mb-2" style={{ color: "#1C3988" }}>
@@ -272,7 +257,7 @@ export default function SellerRegistration() {
                     </label>
                     <input
                       type="text"
-                      name="firstName"
+                      name="firstName" // Fixed: Changed from business_description to firstName
                       value={formData.firstName}
                       onChange={handleInputChange}
                       placeholder="First name"
@@ -347,7 +332,7 @@ export default function SellerRegistration() {
                         type={showConfirmPassword ? "text" : "password"}
                         name="confirmPassword"
                         value={formData.confirmPassword}
-                         placeholder="Enter your confirm password"
+                        placeholder="Enter your confirm password"
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none text-xl pr-10"
                       />
@@ -366,7 +351,6 @@ export default function SellerRegistration() {
             </div>
           )}
 
-          {/* Step 2 - Business Information */}
           {currentStep === 2 && (
             <div>
               <div className="mb-8">
@@ -471,19 +455,28 @@ export default function SellerRegistration() {
                     </div>
                   </div>
                 </div>
+                <div>
+                  <label
+                    htmlFor="business_description"
+                    className="block text-xl font-medium mb-2"
+                    style={{ color: "#1C3988" }}
+                  >
+                    Business Description
+                  </label>
+                  <textarea
+                    id="business_description"
+                    name="business_description"
+                    value={formData.business_description}
+                    onChange={handleInputChange}
+                    placeholder="Business description"
+                    className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none text-xl"
+                  />
+                </div>
               </div>
             </div>
           )}
 
-          {/* Step 3 - Pricing */}
           {currentStep === 3 && (
-            <div className="h-[300]">
-              <Pricing />
-            </div>
-          )}
-
-          {/* Step 4 - Terms & Agreement */}
-          {currentStep === 4 && (
             <div>
               <div className="mb-6">
                 <h2 className="text-2xl font-semibold text mb-2">Trust & Responsibility Agreement</h2>
@@ -594,7 +587,12 @@ export default function SellerRegistration() {
             </div>
           )}
 
-          {/* Navigation Buttons */}
+          {currentStep === 4 && (
+            <div className="h-[300]">
+              <Pricing />
+            </div>
+          )}
+
           <div className="flex justify-between mt-8">
             <button
               onClick={handleBack}

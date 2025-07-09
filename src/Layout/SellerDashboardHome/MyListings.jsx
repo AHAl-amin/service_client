@@ -32,7 +32,7 @@ useEffect(() => {
       person: `${item.remaining_shares}/${item.max_shares}`,
       payment: item.allow_down_payment ? "Down Payment Available" : "Full Payment Only",
       image: item.main_image
-        ? `http://192.168.10.203:1000${item.main_image}`
+        ? `http://192.168.10.34:1000${item.main_image}`
         : "https://via.placeholder.com/400x300?text=No+Image",
       features: item.features?.map((f) => f.name).join(", ") || "No features listed",
     }));

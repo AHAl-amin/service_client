@@ -67,6 +67,7 @@ export default function SellerDashboardLayout() {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("authToken");
+     localStorage.removeItem("user_type");
 
 
 

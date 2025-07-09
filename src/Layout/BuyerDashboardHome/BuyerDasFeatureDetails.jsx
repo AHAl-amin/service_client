@@ -340,7 +340,7 @@ import scanImag from "../../../public/img/scan.png";
 import { useGetAllPropertiesFeaturedListQuery } from "../../redux/features/buyerApi";
 import { MdOutlineEmail, MdOutlineLocalPhone } from "react-icons/md";
 
-const BASE_URL = "http://192.168.10.203:1000"; // 
+const BASE_URL = "http://192.168.10.34:1000"; // 
 
 function BuyerDasFeatureDetails() {
   const { id } = useParams();

@@ -46,7 +46,7 @@ export default function BuyerSetting() {
 
             <form className="space-y-4">
                 <div className="">
-                    <label className="block text-sm font-medium text text-xl mb-1">User name</label>
+                    <label className="block  font-medium text text-xl mb-1">User name</label>
                     <input
                         type="text"
                      
@@ -57,7 +57,7 @@ export default function BuyerSetting() {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text text-xl mb-1">Email</label>
+                    <label className="block  font-medium text text-xl mb-1">Email</label>
                     <input
                         type="email"
                         placeholder="email"
@@ -67,7 +67,7 @@ export default function BuyerSetting() {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text text-xl mb-1">Contact number</label>
+                    <label className="block  font-medium text text-xl mb-1">Contact number</label>
                     <input
                         type="tel"
                        
@@ -77,8 +77,8 @@ export default function BuyerSetting() {
                 </div>
 
                 <div className="relative">
-                    <label className="block text-sm font-medium text text-xl mb-1">Country</label>
-                    <select className="w-full appearance-none px-3 py-2 border border-gray-300 rounded-md focus:outline-none  text-gray-600 focus:ring-blue-500 focus:border-transparent">
+                    <label className="block  font-medium text text-xl mb-1">Country</label>
+                    <select className="w-full appearance-none px-3 py-2 border border-gray-300 rounded-[20px] focus:outline-none  text-gray-600 focus:ring-blue-500 focus:border-transparent">
                         <option value="United States">United States</option>
                         <option value="Canada">Canada</option>
                         <option value="United Kingdom">United Kingdom</option>
@@ -90,7 +90,7 @@ export default function BuyerSetting() {
                 </div>
 
                 <div className="relative">
-                    <label className="block text-sm font-medium text text-xl mb-1">State</label>
+                    <label className="block  font-medium text text-xl mb-1">State</label>
                     <select className=" appearance-none w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-600 focus:ring-blue-500 focus:border-transparent">
                         <option value="Utah">Utah</option>
                         <option value="California">California</option>
@@ -103,7 +103,7 @@ export default function BuyerSetting() {
                 </div>
 
                 <div className="relative">
-                    <label className="block text-sm font-medium text text-xl mb-1">City</label>
+                    <label className="block  font-medium text text-xl mb-1">City</label>
                     <select className=" appearance-none w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-600 focus:ring-blue-500 focus:border-transparent">
                         <option value="">Select City</option>
                         <option value="Salt Lake City">Salt Lake City</option>
@@ -117,7 +117,7 @@ export default function BuyerSetting() {
                 </div>
 
                 <div className="relative">
-                    <label className="block text-sm font-medium text text-xl mb-1">Zipcode</label>
+                    <label className="block  font-medium text text-xl mb-1">Zipcode</label>
                     <select className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-600 focus:ring-blue-500 focus:border-transparent">
                         <option value="">Select Zipcode</option>
                         <option value="84101">84101</option>
@@ -130,7 +130,7 @@ export default function BuyerSetting() {
                 </div>
 
                 <div className="relative">
-                    <label className="block text-sm font-medium text text-xl mb-1">Company name</label>
+                    <label className="block  font-medium text text-xl mb-1">Company name</label>
                     <select className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md  focus:outline-none focus:ring-2 text-gray-600 focus:ring-blue-500 focus:border-transparent">
                         <option value="">Select Company</option>
                         <option value="Tech Corp">Tech Corp</option>
@@ -182,7 +182,7 @@ export default function BuyerSetting() {
 
             <form className="space-y-4">
                 <div>
-                    <label className="block text-sm font-medium text text-xl mb-1">Current Password</label>
+                    <label className="block  font-medium text text-xl mb-1">Current Password</label>
                     <input
                         type="password"
                         placeholder="old password"
@@ -191,7 +191,7 @@ export default function BuyerSetting() {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text text-xl mb-1">New Password</label>
+                    <label className="block  font-medium text text-xl mb-1">New Password</label>
                     <input
                         type="password"
                         placeholder="new password"
@@ -200,7 +200,7 @@ export default function BuyerSetting() {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text text-xl mb-1">Confirm New Password</label>
+                    <label className="block  font-medium text text-xl mb-1">Confirm New Password</label>
                     <input
                         type="password"
                         placeholder="confirm password"

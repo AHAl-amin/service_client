@@ -1,7 +1,42 @@
 import { FiChevronDown } from 'react-icons/fi';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useGetSellerDataProfileQuery } from '../../redux/features/profileApi';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/authSlice';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Navbar = () => {
+  const { data: getSellerDataProfile } = useGetSellerDataProfileQuery();
+      console.log(getSellerDataProfile, "profile.....................");
+        // const profile = getSellerDataProfile?.data;
+   const profile = getSellerDataProfile?.data;
+  const userName = profile ? `${profile.first_name} ` : '';
+  const userEmail = profile?.email;
+  const profileImage = profile?.profile_picture
+    ? `http://your_base_url_here${profile.profile_picture}`
+    : 'https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp';
+
+
+    
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("authToken");
+     localStorage.removeItem("user_type");
+
+
+
+    navigate("/login");
+    toast.success("Logout successful!");
+  };
   const location = useLocation();
   const activeClass = 'text-blue-600 border-b-2 border-blue-600';
 
@@ -58,15 +93,46 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className="md:flex items-center space-x-4">
-          <Link
-            to="/login"
-            className="text-lg bg-[#1C3988] text-white py-2 px-4 rounded-md"
-          >
-            Log in
-          </Link>
+       <div className="md:flex items-center space-x-4">
+          {profile ? (
+            <div className="flex items-center gap-3">
+                  <div
+                className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-300 cursor-pointer"
+                onClick={() => setMenuOpen(!menuOpen)}
+              >
+                <img
+                  src={profileImage}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="text-sm text-gray-700">
+                <p className="font-medium">{userName}</p>
+                <p className="text-xs">{userEmail}</p>
+              </div>
+               {menuOpen && (
+                <div className="absolute lg:right-60 md:right-40 right-20  top-20 bg-gray-300 border shadow-md rounded-md cursor-pointer p-3 z-30 w-24">
+                
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left text-gray-700  cursor-pointer  py-1 px-2 rounded"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="text-lg bg-[#1C3988] text-white py-2 px-4 rounded-md"
+            >
+              Log in
+            </Link>
+          )}
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover />
     </nav>
   );
 };

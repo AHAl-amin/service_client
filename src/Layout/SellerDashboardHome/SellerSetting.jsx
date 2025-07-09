@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { FaChevronDown } from "react-icons/fa6"
-import { useGetSellerDataProfileQuery, } from "../../redux/features/profileApi";
+import { useGetSellerDataProfileQuery } from "../../redux/features/profileApi";
 
 export default function SellerSetting() {
     const { data: getSellerDataProfile } = useGetSellerDataProfileQuery();
@@ -10,8 +10,8 @@ export default function SellerSetting() {
     const profile = getSellerDataProfile?.data;
     const [activeView, setActiveView] = useState("editProfile") // 'editProfile', 'changePassword'
     // const [updateSellerDataProfile] = useUpdateSellerDataProfileMutation();
-    
-    
+
+
     const [country, setCountry] = useState("");
     useEffect(() => {
         if (profile?.country) {
@@ -34,8 +34,17 @@ export default function SellerSetting() {
         <div className=" rounded-lg mt-6 md:w-6xl mx-auto">
             <div className="flex justify-center gap-6 items-center mb-6 ">
                 <div className="w-16 h-16 rounded-full overflow-hidden mb-3">
-                    <img src="https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp" alt="Profile" className="w-full h-full object-cover" />
+                    <img
+                        src={
+                            profile?.profile_picture
+                                ? `http://192.168.10.34:1000${profile.profile_picture}`
+                                : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"
+                        }
+                        alt="User Avatar"
+                        className="w-full h-full object-cover"
+                    />
                 </div>
+
                 <h2 className="text-xl font-semibold text">{profile?.first_name}</h2>
             </div>
 
@@ -95,77 +104,54 @@ export default function SellerSetting() {
                     />
                 </div>
 
-             
+
                 <div className="relative">
                     <label className="block font-medium text text-xl mb-1  ">Country</label>
-                  <select
-className=" appearance-none w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-600 focus:ring-blue-500 focus:border-transparent"
-  value={country}
-  onChange={(e) => setCountry(e.target.value)}
->
-  {/* fallback option */}
-  {!["United States", "Canada", "United Kingdom", "Australia"].includes(country) && (
-    <option value={country}>{country}</option>
-  )}
+                    <select
+                        className=" appearance-none w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-600 focus:ring-blue-500 focus:border-transparent"
+                        value={country}
+                        onChange={(e) => setCountry(e.target.value)}
+                    >
+                        {/* fallback option */}
+                        {!["United States", "Canada", "United Kingdom", "Australia"].includes(country) && (
+                            <option value={country}>{country}</option>
+                        )}
 
-  <option value="United States">United States</option>
-  <option value="Canada">Canada</option>
-  <option value="United Kingdom">United Kingdom</option>
-  <option value="Australia">Australia</option>
-</select>
+                        <option value="United States">United States</option>
+                        <option value="Canada">Canada</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="Australia">Australia</option>
+                    </select>
                 </div>
 
                 <div className="relative">
                     <label className="block font-medium text text-xl mb-1">State</label>
-                    <select className=" appearance-none w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-600 focus:ring-blue-500 focus:border-transparent">
-                        <option value="Utah">Utah</option>
-                        <option value="California">California</option>
-                        <option value="New York">New York</option>
-                        <option value="Texas">Texas</option>
-                    </select>
-                    <div className="absolute inset-y-0 right-0 top-6 flex items-center px-2 pointer-events-none">
-                        <FaChevronDown className="w-4 h-4 text-gray-500" />
-                    </div>
+                    <input value={profile?.state_province} type="text" placeholder="State" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-600 focus:ring-blue-500 focus:border-transparent" />
+
                 </div>
 
                 <div className="relative">
                     <label className="block font-medium text text-xl mb-1">City</label>
-                    <select className=" appearance-none w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-600 focus:ring-blue-500 focus:border-transparent">
-                        <option value="">Select City</option>
-                        <option value="Salt Lake City">Salt Lake City</option>
-                        <option value="Provo">Provo</option>
-                        <option value="Ogden">Ogden</option>
-                    </select>
+                    <input type="text" value={profile?.city} className=" appearance-none w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-600 focus:ring-blue-500 focus:border-transparent">
+                     
+                    </input>
 
-                    <div className="absolute inset-y-0 right-0 top-6 flex items-center px-2 pointer-events-none">
-                        <FaChevronDown className="w-4 h-4 text-gray-500" />
-                    </div>
+
                 </div>
 
                 <div className="relative">
                     <label className="block font-medium text text-xl mb-1">Zipcode</label>
-                    <select className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-600 focus:ring-blue-500 focus:border-transparent">
-                        <option value="">Select Zipcode</option>
-                        <option value="84101">84101</option>
-                        <option value="84102">84102</option>
-                        <option value="84103">84103</option>
-                    </select>
-                    <div className="absolute inset-y-0 right-0 top-6 flex items-center px-2 pointer-events-none">
-                        <FaChevronDown className="w-4 h-4 text-gray-500" />
-                    </div>
+                    <input type="text" value={profile?.postal_code} className=" appearance-none w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-600 focus:ring-blue-500 focus:border-transparent">
+                     
+                    </input>
+                   
                 </div>
 
                 <div className="relative">
                     <label className="block font-medium text text-xl mb-1">Company name</label>
-                    <select className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md  focus:outline-none focus:ring-2 text-gray-600 focus:ring-blue-500 focus:border-transparent">
-                        <option value="">Select Company</option>
-                        <option value="Tech Corp">Tech Corp</option>
-                        <option value="Digital Solutions">Digital Solutions</option>
-                        <option value="Innovation Inc">Innovation Inc</option>
-                    </select>
-                    <div className="absolute inset-y-0 right-0 top-6 flex items-center px-2 pointer-events-none">
-                        <FaChevronDown className="w-4 h-4 text-gray-500" />
-                    </div>
+                     <input type="text" value={profile?.country} className=" appearance-none w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-600 focus:ring-blue-500 focus:border-transparent">
+                     
+                    </input>
                 </div>
 
                 <button
@@ -253,4 +239,5 @@ className=" appearance-none w-full px-3 py-2 border border-gray-300 rounded-md f
         </div>
     )
 }
+
 

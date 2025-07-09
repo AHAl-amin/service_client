@@ -112,15 +112,7 @@ export default function BuyerRegistration() {
         
       };
 
-//    try {
-//   const response = await buyerRegistration(userData).unwrap();
-//   console.log("Registration successful:", response);
-//   toast.success("Registration successful!");
-//   setCurrentStep(5); // Move to success page
-// } catch (err) {
-//   console.error("Registration failed:", err);
-//   toast.error("Registration failed: " + (err.data?.message || "An error occurred"));
-// }
+
 try {
   const response = await buyerRegistration(userData).unwrap();
   toast.success("Registration successful!");
@@ -495,6 +487,7 @@ try {
                       </div>
                     </div>
                   </div>
+                  
                 </div>
               </div>
             </div>

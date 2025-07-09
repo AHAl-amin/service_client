@@ -51,18 +51,19 @@ const Login = () => {
       const res = await Login(data).unwrap();
       console.log({ res });
 
-     if (res.data?.access_token && res.data?.refresh_token) {
-  localStorage.setItem("access_token", res.data.access_token);
-  localStorage.setItem("refresh_token", res.data.refresh_token);
-}
+      if (res.data?.access_token && res.data?.refresh_token) {
+        localStorage.setItem("access_token", res.data.access_token);
+        localStorage.setItem("refresh_token", res.data.refresh_token);
+        localStorage.setItem("user_type", res.data.user_type);
+      }
 
-       else {
+      else {
         console.warn("No access token or refresh token found in response", res);
       }
 
       toast.success("Login successful!");
       // Navigate based on user_type from backend response
-     const dashboard = res.data.user_type === "seller" ? "/seller_dashboard" : "/buyer_dashboard";
+      const dashboard = res.data.user_type === "seller" ? "/seller_dashboard" : "/buyer_dashboard";
 
       navigate(dashboard, { replace: true });
     } catch (err) {

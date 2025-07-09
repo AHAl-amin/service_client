@@ -2,7 +2,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: "http://192.168.10.203:1000/api/",
+    baseUrl: "http://192.168.10.34:1000/api/",
     prepareHeaders: (headers, { getState, endpoint }) => {
         const accessToken = localStorage.getItem("access_token");
         const token = getState().auth?.token || accessToken;
@@ -59,9 +59,13 @@ export const buyerApi = createApi({
             query: () => "/properties/buyer/wishlist/",
             providesTags: ["Properties"],
         }),
+        getBuyerSubscription: builder.query({
+            query: () => "/subscriptions/plans/buyer/",
+            providesTags: ["Properties"],
+        }),
 
 
     }),
 });
 
-export const { useGetAllPropertiesFeaturedListQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation, useGetWishlistPropertiesQuery } = buyerApi;
+export const { useGetAllPropertiesFeaturedListQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation, useGetWishlistPropertiesQuery,useGetBuyerSubscriptionQuery } = buyerApi;

@@ -19,7 +19,7 @@ import { useDispatch } from "react-redux";
 import { useGetBuyerDataProfileQuery } from "../../redux/features/profileApi";
 
 export default function DashboardLayout() {
-  const {data:getBuyerDataProfile} = useGetBuyerDataProfileQuery();
+  const { data: getBuyerDataProfile } = useGetBuyerDataProfileQuery();
   const profile = getBuyerDataProfile?.data;
   console.log(profile)
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -45,21 +45,22 @@ export default function DashboardLayout() {
 
 
   useEffect(() => {
-  const currentItem = menuItems[0].items.find(
-    (item) => `/${item.path}` === location.pathname || item.path === location.pathname
-  );
-  if (currentItem) {
-    setSelectedItem(currentItem.name);
-  }
-}, [location.pathname]);
+    const currentItem = menuItems[0].items.find(
+      (item) => `/${item.path}` === location.pathname || item.path === location.pathname
+    );
+    if (currentItem) {
+      setSelectedItem(currentItem.name);
+    }
+  }, [location.pathname]);
 
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(logout());
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("authToken");
+    localStorage.removeItem("user_type");
 
 
 
@@ -128,7 +129,7 @@ const dispatch = useDispatch();
             </div>
           ))}
         </nav>
-         <button onClick={handleLogout} className="text-gray-200 hover:text-gray-300 cursor-pointer absolute left-16 bottom-10">Logout</button>
+        <button onClick={handleLogout} className="text-gray-200 hover:text-gray-300 cursor-pointer absolute left-16 bottom-10">Logout</button>
       </aside>
 
       <div className="flex-1 flex flex-col overflow-hidden">
@@ -161,7 +162,7 @@ const dispatch = useDispatch();
               <div className="flex items-center justify-center gap-2">
                 <div className="w-12">
                   <img
-                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                    src={profile?.profile_picture ? `$http://192.168.10.34:1000${profile?.profile_picture}` : "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"}
                     className="rounded-full"
                     alt="Admin Avatar"
                   />
@@ -197,7 +198,7 @@ const dispatch = useDispatch();
 
         {/* Main Content */}
         <main className="flex-1 overflow-auto p-12 bg-[#F9F5ED]">
-           <BuyerNotification isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+          <BuyerNotification isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
           <Outlet />
         </main>
       </div>
