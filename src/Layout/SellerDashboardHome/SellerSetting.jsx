@@ -304,97 +304,6 @@ export default function SellerSetting() {
 
 
 
-//   const ChangePasswordForm = () => (
-
-    
-//     <div className="mx-auto rounded-lg mt-6 max-w-6xl">
-//       <div className="flex justify-center gap-6 items-center mb-6">
-//         <div className="w-16 h-16 rounded-full overflow-hidden mb-3">
-//           <img
-//             src={
-//               profile?.profile_picture
-//                 ? `$http://192.168.10.34:1000${profile.profile_picture}`
-//                 : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"
-//             }
-//             alt="User Avatar"
-//             className="w-full h-full object-cover"
-//           />
-//         </div>
-//         <h2 className="text-xl font-semibold text-[#1C3988]">{profile?.first_name}</h2>
-//       </div>
-
-//       <div className="mb-6 flex gap-4 justify-center items-center w-full mx-auto">
-//         <button
-//           onClick={() => setActiveView("editProfile")}
-//           className={`text-xl pb-1 transition border-b-2 cursor-pointer ${
-//             activeView === "editProfile"
-//               ? "border-[#1C3988] text-[#1C3988]"
-//               : "border-transparent text-gray-600 hover:text-[#1C3988]"
-//           }`}
-//         >
-//           Edit Profile
-//         </button>
-//         <span className="text-xl mx-2">|</span>
-//         <button
-//           onClick={() => setActiveView("changePassword")}
-//           className={`text-xl pb-1 transition border-b-2 cursor-pointer ${
-//             activeView === "changePassword"
-//               ? "border-[#1C3988] text-[#1C3988]"
-//               : "border-transparent text-gray-600 hover:text-[#1C3988]"
-//           }`}
-//         >
-//           Change Password
-//         </button>
-//       </div>
-
-//       <h3 className="text-2xl font-medium mb-6 text-center text-[#1C3988]">Edit Password</h3>
-
-//       <form className="space-y-4">
-//         <div>
-//           <label htmlFor="current_password" className="block font-medium text-xl mb-1 text-[#1C3988]">
-//             Current Password
-//           </label>
-//           <input
-//             id="current_password"
-//             type="password"
-//             placeholder="Old password"
-//             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-600 focus:ring-[#1C3988] focus:border-transparent"
-//           />
-//         </div>
-
-//         <div>
-//           <label htmlFor="new_password" className="block font-medium text-xl mb-1 text-[#1C3988]">
-//             New Password
-//           </label>
-//           <input
-//             id="new_password"
-//             type="password"
-//             placeholder="New password"
-//             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-600 focus:ring-[#1C3988] focus:border-transparent"
-//           />
-//         </div>
-
-//         <div>
-//           <label htmlFor="confirm_password" className="block font-medium text-xl mb-1 text-[#1C3988]">
-//             Confirm New Password
-//           </label>
-//           <input
-//             id="confirm_password"
-//             type="password"
-//             placeholder="Confirm password"
-//             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-600 focus:ring-[#1C3988] focus:border-transparent"
-//           />
-//         </div>
-
-//         <button
-//           type="submit"
-//           className="w-full bg-[#1C3988] text-white py-3 px-4 rounded-md transition duration-200 font-medium cursor-pointer "
-//         >
-//           Save & Change
-//         </button>
-//       </form>
-//     </div>
-//   );
 
 const ChangePasswordForm = () => {
   const [changePassword] = useChangePasswordMutation();
@@ -404,7 +313,7 @@ const ChangePasswordForm = () => {
     handleSubmit,
     watch,
     formState: { errors },
-    reset,
+  
   } = useForm();
 
   const onSubmit = async (data) => {

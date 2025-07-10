@@ -43,6 +43,15 @@ export const profileApi = createApi({
       invalidatesTags: ["Profile"], // refetch after update
     }),
 
+    updateBuyerDataProfile: builder.mutation({
+      query: (data) => ({
+        url: "/accounts/seller/profile/",
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Profile"], // refetch after update
+    }),
+
     ChangePassword: builder.mutation({
       query: (data) => ({
         url: "/accounts/change-password/",
@@ -60,5 +69,6 @@ export const {
   useGetSellerDataProfileQuery,
   useUpdateSellerDataProfileMutation,
   useGetBuyerDataProfileQuery,
-  useChangePasswordMutation
+  useChangePasswordMutation,
+  useUpdateBuyerDataProfileMutation
 } = profileApi;
