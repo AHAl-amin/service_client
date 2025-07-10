@@ -2,77 +2,82 @@
 import { MapPin, Users } from "lucide-react";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { useGetAllPropertiesFeaturedListQuery } from "../../redux/features/buyerApi";
 
 // Featured Properties Section
-export const FeaturedProperties = ({onExploreClick}) => {
- const properties = [
-  {
-    id: 1,
-    title: "Mountain View Ranch",
-    price: "$250,000",
-    area: "25 Acres",
-    location: "Colorado, USA",
-    description: "A serene ranch with beautiful mountain views, perfect for farming or a vacation home.",
-    person: "4/5",
-    payment: "Bank Transfer, Cash",
-    image: "https://cdn.pixabay.com/photo/2024/12/28/03/39/field-9295186_640.jpg",
-  },
-  {
-    id: 2,
-    title: "Oceanfront Paradise",
-    price: "$650,000",
-    area: "25 Acres",
-    location: "Malibu, California",
-    description: "Luxurious oceanfront property with private beach access and panoramic views.",
-    person: "2/5",
-    payment: "Mortgage, Bank Transfer",
-    image: "https://cdn.pixabay.com/photo/2024/12/28/03/39/field-9295186_640.jpg",
-  },
-  {
-    id: 3,
-    title: "Oceanfront Paradise",
-    price: "$650,000",
-    area: "25 Acres",
-    location: "Malibu, California",
-    description: "Identical listing with modern amenities and direct ocean access.",
-    person: "3/5",
-    payment: "Down Payment Available",
-    image: "https://cdn.pixabay.com/photo/2024/12/28/03/39/field-9295186_640.jpg",
-  },
-  {
-    id: 4,
-    title: "Mountain View Ranch",
-    price: "$250,000",
-    area: "25 Acres",
-    location: "Colorado, USA",
-    description: "Duplicate ranch listing ideal for eco-resorts or agricultural use.",
-    person: "1/5",
-    payment: "Bank Transfer, Cash",
-    image: "https://cdn.pixabay.com/photo/2015/06/19/21/24/avenue-815297_640.jpg",
-  },
-  {
-    id: 5,
-    title: "Oceanfront Paradise",
-    price: "$650,000",
-    area: "25 Acres",
-    location: "Malibu, California",
-    description: "A peaceful ocean getaway with palm trees and breeze.",
-    person: "2/5",
-    payment: "Down Payment Available",
-    image: "https://cdn.pixabay.com/photo/2015/06/19/21/24/avenue-815297_640.jpg",
-  },
-  {
-    id: 6,
-    title: "Oceanfront Paradise",
-    price: "$650,000",
-    area: "25 Acres",
-    location: "Malibu, California",
-    description: "Prime location property for residential or investment purposes.",
-    person: "4/5",
-    payment: "Down Payment Available",
-    image: "https://cdn.pixabay.com/photo/2022/04/15/07/58/sunset-7133867_640.jpg",
-  },
-];
+export const FeaturedProperties = ({ onExploreClick }) => {
+
+  const { data: getAllPropertiesFeaturedList } = useGetAllPropertiesFeaturedListQuery();
+  const properties = getAllPropertiesFeaturedList?.data;
+  console.log(getAllPropertiesFeaturedList)
+  //  const properties = [
+  //   {
+  //     id: 1,
+  //     title: "Mountain View Ranch",
+  //     price: "$250,000",
+  //     area: "25 Acres",
+  //     location: "Colorado, USA",
+  //     description: "A serene ranch with beautiful mountain views, perfect for farming or a vacation home.",
+  //     person: "4/5",
+  //     payment: "Bank Transfer, Cash",
+  //     image: "https://cdn.pixabay.com/photo/2024/12/28/03/39/field-9295186_640.jpg",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Oceanfront Paradise",
+  //     price: "$650,000",
+  //     area: "25 Acres",
+  //     location: "Malibu, California",
+  //     description: "Luxurious oceanfront property with private beach access and panoramic views.",
+  //     person: "2/5",
+  //     payment: "Mortgage, Bank Transfer",
+  //     image: "https://cdn.pixabay.com/photo/2024/12/28/03/39/field-9295186_640.jpg",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Oceanfront Paradise",
+  //     price: "$650,000",
+  //     area: "25 Acres",
+  //     location: "Malibu, California",
+  //     description: "Identical listing with modern amenities and direct ocean access.",
+  //     person: "3/5",
+  //     payment: "Down Payment Available",
+  //     image: "https://cdn.pixabay.com/photo/2024/12/28/03/39/field-9295186_640.jpg",
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Mountain View Ranch",
+  //     price: "$250,000",
+  //     area: "25 Acres",
+  //     location: "Colorado, USA",
+  //     description: "Duplicate ranch listing ideal for eco-resorts or agricultural use.",
+  //     person: "1/5",
+  //     payment: "Bank Transfer, Cash",
+  //     image: "https://cdn.pixabay.com/photo/2015/06/19/21/24/avenue-815297_640.jpg",
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "Oceanfront Paradise",
+  //     price: "$650,000",
+  //     area: "25 Acres",
+  //     location: "Malibu, California",
+  //     description: "A peaceful ocean getaway with palm trees and breeze.",
+  //     person: "2/5",
+  //     payment: "Down Payment Available",
+  //     image: "https://cdn.pixabay.com/photo/2015/06/19/21/24/avenue-815297_640.jpg",
+  //   },
+  //   {
+  //     id: 6,
+  //     title: "Oceanfront Paradise",
+  //     price: "$650,000",
+  //     area: "25 Acres",
+  //     location: "Malibu, California",
+  //     description: "Prime location property for residential or investment purposes.",
+  //     person: "4/5",
+  //     payment: "Down Payment Available",
+  //     image: "https://cdn.pixabay.com/photo/2022/04/15/07/58/sunset-7133867_640.jpg",
+  //   },
+  // ];
 
 
 
@@ -105,10 +110,15 @@ export const FeaturedProperties = ({onExploreClick}) => {
 
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 md:px-0 mt-4 px-6 gap-6">
-          {properties.map((property, index) => (
+          {properties?.map((property, index) => (
             <div key={index} className="card w-full bg-white shadow-lg rounded-lg overflow-hidden relative">
               <IoIosHeartEmpty className="absolute right-2 top-2 text-2xl text bg-gray-300 rounded " />
-              <img src={property.image} alt={property.title} className="w-full h-48 object-cover" />
+              <img
+                src={`http://192.168.10.34:1000${property.image}`}
+                alt={property.title}
+                className="w-full h-48 object-cover"
+              />
+
               <div className="p-6">
                 <h3 className="text-xl font-semibold text-start text-[#1C3988]">{property.title}</h3>
                 <p className="flex items-center gap-1 text-start text-gray-500">
@@ -144,3 +154,9 @@ export const FeaturedProperties = ({onExploreClick}) => {
     </section>
   );
 };
+
+
+
+
+
+

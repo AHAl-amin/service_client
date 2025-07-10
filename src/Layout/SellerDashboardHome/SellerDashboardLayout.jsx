@@ -180,7 +180,7 @@ export default function SellerDashboardLayout() {
               <div className="flex items-center justify-center gap-2">
                 <div className="w-12">
                   <img
-                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                    src="https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"
                     className="rounded-full"
                     alt="Admin Avatar"
                   />

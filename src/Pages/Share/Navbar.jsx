@@ -1,17 +1,27 @@
 import { FiChevronDown } from 'react-icons/fi';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useGetSellerDataProfileQuery } from '../../redux/features/profileApi';
-import { useState } from 'react';
+import { useGetBuyerDataProfileQuery, useGetSellerDataProfileQuery } from '../../redux/features/profileApi';
+import { use, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/authSlice';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Navbar = () => {
-  const { data: getSellerDataProfile } = useGetSellerDataProfileQuery();
-      console.log(getSellerDataProfile, "profile.....................");
-        // const profile = getSellerDataProfile?.data;
-   const profile = getSellerDataProfile?.data;
+ 
+  const userType = localStorage.getItem("user_type");
+
+const { data: getBuyerDataProfile } = useGetBuyerDataProfileQuery(undefined, {
+  skip: userType !== "buyer"
+});
+const { data: getSellerDataProfile } = useGetSellerDataProfileQuery(undefined, {
+  skip: userType !== "seller"
+});
+//  console.log(getSellerDataProfile, "profile.....................");
+
+const profile =
+  userType === "buyer" ? getBuyerDataProfile?.data : getSellerDataProfile?.data;
+
   const userName = profile ? `${profile.first_name} ` : '';
   const userEmail = profile?.email;
   const profileImage = profile?.profile_picture
