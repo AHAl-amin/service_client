@@ -1,20 +1,25 @@
 
 
-
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { RiArrowUpBoxLine } from "react-icons/ri";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { IoLocationOutline } from "react-icons/io5";
 import scanImag from "../../../public/img/scan.png";
-import { useGetAllPropertiesFeaturedListQuery } from "../../redux/features/buyerApi";
+import {
+  useGetAllPropertiesFeaturedListQuery,
+  useSellerContactDataMutation,
+} from "../../redux/features/buyerApi";
 import { MdOutlineEmail, MdOutlineLocalPhone } from "react-icons/md";
+import { toast, ToastContainer } from "react-toastify";
 
 const BASE_URL = "http://192.168.10.34:1000";
 
 function BuyerDasFeatureDetails() {
   const { id } = useParams();
-  const { data: getAllPropertiesFeaturedList, isLoading } = useGetAllPropertiesFeaturedListQuery();
+  const { data: getAllPropertiesFeaturedList, isLoading } =
+    useGetAllPropertiesFeaturedListQuery();
+  const [sellerContactData] = useSellerContactDataMutation();
 
   const [activeTab, setActiveTab] = useState("description");
   const [contactForm, setContactForm] = useState({
@@ -36,22 +41,50 @@ function BuyerDasFeatureDetails() {
   }
 
   const thumbnailImages = [
-    property.main_image ? `${BASE_URL}${property.main_image}` : "https://via.placeholder.com/400x300?text=No+Image",
-    ...property.images.map((img) => `${BASE_URL}${img.image}`),
+    `${BASE_URL}${property.main_image}`,
+    ...(property.images?.map((img) => `${BASE_URL}${img.image}`) || []),
   ];
 
   const handleInputChange = (e) => {
     setContactForm({ ...contactForm, [e.target.name]: e.target.value });
   };
 
-  const handleContactSubmit = (e) => {
+  const handleContactSubmit = async (e) => {
     e.preventDefault();
-    console.log("Contact form submitted:", contactForm);
+    try {
+      console.log("Submitting contact form with payload:", contactForm);
+      const response = await sellerContactData({
+        id: property.id,
+        body: contactForm,
+      }).unwrap();
+      console.log("API response:", response);
+      if (response.success) {
+        toast.success("Message sent successfully!");
+        setContactForm({
+          fullName: "",
+          email: "",
+          country: "",
+          phone: "",
+          message: "",
+        });
+      } else {
+        toast.error("Failed to send message: " + (response.message || "Unknown error"));
+      }
+    } catch (error) {
+      console.error("Contact submission failed:", error);
+      toast.error(
+        "Something went wrong while sending the message: " +
+          (error.data?.error || error.message || "Unknown error")
+      );
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-8">
-      <Link to="/buyer_dashboard" className="bg-[#1C3988] rounded-xl py-3 px-6 text-white">
+      <Link
+        to="/buyer_dashboard"
+        className="bg-[#1C3988] rounded-xl py-3 px-6 text-white"
+      >
         Back to Dashboard
       </Link>
 
@@ -60,7 +93,7 @@ function BuyerDasFeatureDetails() {
           {/* Left - Images */}
           <div className="space-y-4">
             <img
-              src={property.main_image ? `${BASE_URL}${property.main_image}` : "https://via.placeholder.com/400x300?text=No+Image"}
+              src={`${BASE_URL}${property.main_image}`}
               alt={property.title}
               className="w-full object-cover rounded-lg shadow-lg"
             />
@@ -69,8 +102,8 @@ function BuyerDasFeatureDetails() {
                 <img
                   key={index}
                   src={img}
-                  alt={`Thumbnail ${index}`}
                   className="w-full h-20 object-cover rounded hover:opacity-80 transition-opacity"
+                  alt={`Thumbnail ${index + 1}`}
                 />
               ))}
               <div className="backdrop-blur-md bg-gray-500 text-white rounded flex items-center justify-center h-20">
@@ -83,9 +116,13 @@ function BuyerDasFeatureDetails() {
           <div className="space-y-6">
             <div>
               <div className="flex items-center justify-between mb-2">
-                <h1 className="text-3xl font-bold text-[#1C3988]">{property.title}</h1>
+                <h1 className="text-3xl font-bold text-[#1C3988]">
+                  {property.title}
+                </h1>
                 <p className="border border-[#1C3988] text-[#1C3988] p-2 rounded-2xl text-sm">
-                  {property.allow_down_payment ? "Down Payment Available" : "Full Payment Only"}
+                  {property.allow_down_payment
+                    ? "Down Payment Available"
+                    : "Full Payment Only"}
                 </p>
                 <div className="flex gap-2">
                   <button className="p-2 border bg-gray-300 rounded text-2xl">
@@ -98,9 +135,12 @@ function BuyerDasFeatureDetails() {
               </div>
               <p className="text-gray-600 flex items-center gap-2 mb-2">
                 <IoLocationOutline />
-                {property.street_address}, {property.city}, {property.state_province}, {property.country}
+                {property.street_address}, {property.city},{" "}
+                {property.state_province}, {property.country}
               </p>
-              <div className="text-2xl font-bold text-[#1C3988] mb-2">${property.price}</div>
+              <div className="text-2xl font-bold text-[#1C3988] mb-2">
+                ${Number(property.price).toLocaleString()}
+              </div>
               <div className="flex space-x-4 text-sm text-gray-600">
                 <span>{property.land_size} sqft</span>
                 <span>{property.property_type}</span>
@@ -108,8 +148,12 @@ function BuyerDasFeatureDetails() {
             </div>
 
             <div className="flex space-x-4">
-              <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">Buy a Share</button>
-              <button className="border border-gray-300 hover:bg-gray-100 text-gray-700 px-6 py-2 rounded">Contact Seller</button>
+              <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">
+                Buy a Share
+              </button>
+              <button className="border border-gray-300 hover:bg-gray-100 text-gray-700 px-6 py-2 rounded">
+                Contact Seller
+              </button>
             </div>
 
             <div>
@@ -119,26 +163,56 @@ function BuyerDasFeatureDetails() {
                     key={tab}
                     onClick={() => setActiveTab(tab)}
                     className={`py-2 px-4 m-2 rounded-xl text-sm font-medium capitalize transition-colors cursor-pointer ${
-                      activeTab === tab ? "bg-[#1C3988] text-white" : "text-gray-500"
+                      activeTab === tab
+                        ? "bg-[#1C3988] text-white"
+                        : "text-gray-500"
                     }`}
                   >
-                    {tab === "description" ? "Property Description" : tab === "information" ? "Property Info" : tab === "map" ? "Address Map" : "Features"}
+                    {tab === "description"
+                      ? "Property Description"
+                      : tab === "information"
+                      ? "Property Info"
+                      : tab === "map"
+                      ? "Address Map"
+                      : "Features"}
                   </button>
                 ))}
               </div>
 
               <div className="py-4 mt-6 bg-[#E8EBF3] rounded p-3 border border-[#1C3988]">
-                {activeTab === "description" && <p className="text-gray-700">{property.description}</p>}
+                {activeTab === "description" && (
+                  <p className="text-gray-700">{property.description}</p>
+                )}
+
                 {activeTab === "information" && (
                   <div className="space-y-1 text-gray-700">
-                    <p><strong>Location:</strong> {property.city}, {property.country}</p>
-                    <p><strong>Price:</strong> ${property.price}</p>
-                    <p><strong>Area:</strong> {property.land_size} sqft</p>
-                    <p><strong>Payment:</strong> {property.allow_down_payment ? "Down Payment Available" : "Full Payment"}</p>
-                    <p><strong>Lock Period:</strong> {property.lock_period} days</p>
-                    <p><strong>Remaining Shares:</strong> {property.remaining_shares}</p>
+                    <p>
+                      <strong>Location:</strong> {property.city},{" "}
+                      {property.country}
+                    </p>
+                    <p>
+                      <strong>Price:</strong> $
+                      {Number(property.price).toLocaleString()}
+                    </p>
+                    <p>
+                      <strong>Area:</strong> {property.land_size} sqft
+                    </p>
+                    <p>
+                      <strong>Payment:</strong>{" "}
+                      {property.allow_down_payment
+                        ? "Down Payment Available"
+                        : "Full Payment"}
+                    </p>
+                    <p>
+                      <strong>Lock Period:</strong> {property.lock_period} days
+                    </p>
+                    <p>
+                      <strong>Remaining Shares:</strong>{" "}
+                      {property.remaining_shares}
+                    </p>
                   </div>
                 )}
+
                 {activeTab === "features" && (
                   <div className="grid grid-cols-2 gap-y-3 gap-x-6 text-[#1C3988] text-sm">
                     {property.features?.map((f) => (
@@ -149,6 +223,7 @@ function BuyerDasFeatureDetails() {
                     ))}
                   </div>
                 )}
+
                 {activeTab === "map" && (
                   <img src="https://i.ibb.co/7d2fXmCc/image-5.png" alt="Map" />
                 )}
@@ -165,11 +240,22 @@ function BuyerDasFeatureDetails() {
                 <span className="text-2xl text-gray-600">👤</span>
               </div>
               <div>
-                <h3 className="text-3xl font-bold text-[#1C3988]">{property.seller.first_name}</h3>
+                <h3 className="text-3xl font-bold text-[#1C3988]">
+                  {property.seller.first_name} {property.seller.last_name}
+                </h3>
                 <div className="text-gray-600 flex gap-6">
-                  <p className="flex gap-3 items-center"><IoLocationOutline />{property.city}, {property.country}</p>
-                  <p className="flex gap-3 items-center"><MdOutlineEmail />{property.seller.email}</p>
-                  <p className="flex gap-3 items-center"><MdOutlineLocalPhone />{property.seller.contact || "No Contact"}</p>
+                  <p className="flex gap-3 items-center">
+                    <IoLocationOutline />
+                    {property.city}, {property.country}
+                  </p>
+                  <p className="flex gap-3 items-center">
+                    <MdOutlineEmail />
+                    {property.seller.email}
+                  </p>
+                  <p className="flex gap-3 items-center">
+                    <MdOutlineLocalPhone />
+                    {property.seller.contact || "No Contact"}
+                  </p>
                 </div>
               </div>
             </div>
@@ -181,12 +267,14 @@ function BuyerDasFeatureDetails() {
             </div>
           </div>
 
-          <h4 className="text-2xl font-semibold text mb-4">Contact seller</h4>
+          <h4 className="text-2xl font-semibold text tex mb-4">Contact Seller</h4>
 
           <form onSubmit={handleContactSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block font-medium text text-xl mb-1">Full Name</label>
+                <label className="block font-medium text text-xl mb-1">
+                  Full Name
+                </label>
                 <input
                   type="text"
                   name="fullName"
@@ -198,7 +286,9 @@ function BuyerDasFeatureDetails() {
                 />
               </div>
               <div>
-                <label className="block text text-xl font-medium mb-1">Email</label>
+                <label className="block text text-xl font-medium mb-1">
+                  Email
+                </label>
                 <input
                   type="email"
                   name="email"
@@ -213,7 +303,9 @@ function BuyerDasFeatureDetails() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text text-xl font-medium mb-1">Country</label>
+                <label className="block text text-xl font-medium mb-1">
+                  Country
+                </label>
                 <input
                   type="text"
                   name="country"
@@ -224,7 +316,9 @@ function BuyerDasFeatureDetails() {
                 />
               </div>
               <div>
-                <label className="block text text-xl font-medium mb-1">Phone</label>
+                <label className="block text text-xl font-medium mb-1">
+                  Phone
+                </label>
                 <input
                   type="tel"
                   name="phone"
@@ -237,7 +331,9 @@ function BuyerDasFeatureDetails() {
             </div>
 
             <div>
-              <label className="block text text-xl font-medium mb-1">Write Your Message Here...</label>
+              <label className="block text text-xl font-medium mb-1">
+                Write Your Message Here...
+              </label>
               <textarea
                 name="message"
                 placeholder="Message"
@@ -249,18 +345,22 @@ function BuyerDasFeatureDetails() {
             </div>
 
             <div className="flex items-center mb-4">
-              <input type="checkbox" className="mr-2" />
-              <span className="text-sm text-gray-600">By submitting you agree to our Terms and Conditions</span>
+              <input type="checkbox" className="mr-2" required />
+              <span className="text-sm text-gray-600">
+                By submitting you agree to our Terms and Conditions
+              </span>
             </div>
 
             <div className="flex space-x-4">
               <button
                 type="submit"
-                className="bg-[#1C3988] hover:bg-[#163070] cursor-pointer text-white px-6 py-2 rounded font-medium transition-colors"
+                className="bg-[#1C3988] hover:bg-[#162a6e] cursor-pointer text-white px-6 py-2 rounded font-medium transition-colors"
               >
                 Send
               </button>
-              <Link to={`/buyer_dashboard/buyer_das_profile_view/${property.seller.id}`}>
+              <Link
+                to={`/buyer_dashboard/buyer_das_profile_view/${property.seller.id}`}
+              >
                 <button className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-2 rounded font-medium transition-colors cursor-pointer">
                   View Profile
                 </button>
@@ -269,10 +369,9 @@ function BuyerDasFeatureDetails() {
           </form>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }
 
 export default BuyerDasFeatureDetails;
-
-

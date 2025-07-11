@@ -60,6 +60,8 @@ export const sellerApi = createApi({
             providesTags: ["Properties"],
         }),
 
+        
+
     }),
 });
 

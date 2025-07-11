@@ -64,10 +64,19 @@ export const buyerApi = createApi({
             providesTags: ["Properties"],
         }),
 
+     SellerContactData: builder.mutation({
+  query: ({ body, id }) => ({
+    url: `/properties/contact/${id}/`,
+    method: "POST",
+    body: body,
+   
+  }),
+  
+}),
        
 
 
     }),
 });
 
-export const { useGetAllPropertiesFeaturedListQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation, useGetWishlistPropertiesQuery, useGetBuyerSubscriptionQuery,  } = buyerApi;
+export const { useGetAllPropertiesFeaturedListQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation, useGetWishlistPropertiesQuery, useGetBuyerSubscriptionQuery,useSellerContactDataMutation  } = buyerApi;
