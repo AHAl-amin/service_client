@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
 
-    
+
     baseUrl: "http://192.168.10.34:1000/api/",
     prepareHeaders: (headers, { getState, endpoint }) => {
         const accessToken = localStorage.getItem("access_token");
@@ -47,13 +47,20 @@ export const sellerApi = createApi({
             query: () => "/properties/all-properties/",
             providesTags: ["Properties"],
         }),
+
+
+
+
         getSellerSubscription: builder.query({
             query: () => "/subscriptions/plans/seller/subscriptions/",
             providesTags: ["Properties"],
         }),
-
+        getSellerDetails: builder.query({
+            query: (id) => `/accounts/seller/${id}/detail/`,
+            providesTags: ["Properties"],
+        }),
 
     }),
 });
 
-export const { usePropertieCreateMutation ,useGetAllPropertiesListQuery , useGetRecentPropertiesListQuery, useGetSellerSubscriptionQuery} = sellerApi;
+export const { usePropertieCreateMutation, useGetAllPropertiesListQuery, useGetRecentPropertiesListQuery, useGetSellerSubscriptionQuery ,useGetSellerDetailsQuery} = sellerApi;

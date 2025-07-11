@@ -11,12 +11,19 @@ import { Link } from "react-router-dom";
 import { useAddToWishlistMutation, useGetAllPropertiesFeaturedListQuery, useRemoveFromWishlistMutation } from "../../redux/features/buyerApi";
 import { toast, ToastContainer } from "react-toastify";
 
+
+
+
 export default function BuyerDashboardHome() {
   const { data: getAllPropertiesFeaturedList } = useGetAllPropertiesFeaturedListQuery();
+
+
+
+
   const [wishlistIds, setWishlistIds] = useState([]);
   const [propertyList, setPropertyList] = useState([]);
 
- 
+
 
   useEffect(() => {
     if (getAllPropertiesFeaturedList?.data?.length > 0) {

@@ -41,7 +41,7 @@ export const buyerApi = createApi({
             query: (body) => ({
                 url: `/properties/buyer/remove_from_wishlist/`,
                 method: "POST",
-                body: body, 
+                body: body,
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -64,8 +64,10 @@ export const buyerApi = createApi({
             providesTags: ["Properties"],
         }),
 
+       
+
 
     }),
 });
 
-export const { useGetAllPropertiesFeaturedListQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation, useGetWishlistPropertiesQuery,useGetBuyerSubscriptionQuery } = buyerApi;
+export const { useGetAllPropertiesFeaturedListQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation, useGetWishlistPropertiesQuery, useGetBuyerSubscriptionQuery,  } = buyerApi;

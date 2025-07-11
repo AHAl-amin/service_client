@@ -15,37 +15,37 @@ import { useGetAllPropertiesListQuery } from "../../redux/features/sellerApi";
 
 export default function SellerDashboardHome() {
 
-      const {data:getAllPropertiesList} = useGetAllPropertiesListQuery();
-   console.log(getAllPropertiesList,"getAllPropertiesList.....................");
+  const { data: getAllPropertiesList } = useGetAllPropertiesListQuery();
+  console.log(getAllPropertiesList, "getAllPropertiesList.....................");
 
-    const [propertyList, setPropertyList] = useState([]);
+  const [propertyList, setPropertyList] = useState([]);
 
-     fetch("http://192.168.10.34:1000/api/properties/seller/all-properties/")
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-        });
-      
- useEffect(() => {
-   if (getAllPropertiesList?.length > 0) {
-     const transformed = getAllPropertiesList.map((item) => ({
-       id: item.id,
-       title: item.title,
-       price: `$${Number(item.price).toLocaleString()}`,
-       area: `${item.land_size} sq ft`,
-       location: `${item.city}, ${item.country}`,
-       description: item.description,
-       person: `${item.remaining_shares}/${item.max_shares}`,
-       payment: item.allow_down_payment ? "Down Payment Available" : "Full Payment Only",
-       image: item.main_image
-         ? `http://192.168.10.34:1000${item.main_image}`
-         : "https://via.placeholder.com/400x300?text=No+Image",
-       features: item.features?.map((f) => f.name).join(", ") || "No features listed",
-     }));
- 
-     setPropertyList(transformed);
-   }
- }, [getAllPropertiesList]);
+  fetch("http://192.168.10.34:1000/api/properties/seller/all-properties/")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+    });
+
+  useEffect(() => {
+    if (getAllPropertiesList?.length > 0) {
+      const transformed = getAllPropertiesList.map((item) => ({
+        id: item.id,
+        title: item.title,
+        price: `$${Number(item.price).toLocaleString()}`,
+        area: `${item.land_size} sq ft`,
+        location: `${item.city}, ${item.country}`,
+        description: item.description,
+        person: `${item.remaining_shares}/${item.max_shares}`,
+        payment: item.allow_down_payment ? "Down Payment Available" : "Full Payment Only",
+        image: item.main_image
+          ? `http://192.168.10.34:1000${item.main_image}`
+          : "https://via.placeholder.com/400x300?text=No+Image",
+        features: item.features?.map((f) => f.name).join(", ") || "No features listed",
+      }));
+
+      setPropertyList(transformed);
+    }
+  }, [getAllPropertiesList]);
 
   const handleDelete = (id) => {
     const updatedList = propertyList.filter(property => property.id !== id);
@@ -67,40 +67,40 @@ export default function SellerDashboardHome() {
 
 
   const statsData =
-   [
-    {
-      id: 1,
-      title: "Total Listings",
-      count: 15,
-      description: "+2 from last month",
-      icon: <LuClipboardList size={24} className="text-blue-600" />,
-      bgColor: "bg-blue-100",
-    },
-    {
-      id: 2,
-      title: "Total Views",
-      count: 7,
-      description: "+18.2% from last month",
-      icon: <IoEyeOutline size={24} className="text-purple-600" />,
-      bgColor: "bg-purple-100",
-    },
-    {
-      id: 3,
-      title: "Active Boosts",
-      count: 3,
-      description: "2 daily, 1 weekly boost active",
-      icon: <SiBosch size={24} className="text-green-600" />,
-      bgColor: "bg-green-100",
-    },
-    {
-      id: 4,
-      title: "Interested Buyers",
-      count: 2,
-      description: "$5,200 in pending deals",
-      icon: <PiCurrencyDollarSimple size={24} className="text-red-300" />,
-      bgColor: "bg-red-100",
-    },
-  ];
+    [
+      {
+        id: 1,
+        title: "Total Listings",
+        count: 15,
+        description: "+2 from last month",
+        icon: <LuClipboardList size={24} className="text-blue-600" />,
+        bgColor: "bg-blue-100",
+      },
+      {
+        id: 2,
+        title: "Total Views",
+        count: 7,
+        description: "+18.2% from last month",
+        icon: <IoEyeOutline size={24} className="text-purple-600" />,
+        bgColor: "bg-purple-100",
+      },
+      {
+        id: 3,
+        title: "Active Boosts",
+        count: 3,
+        description: "2 daily, 1 weekly boost active",
+        icon: <SiBosch size={24} className="text-green-600" />,
+        bgColor: "bg-green-100",
+      },
+      {
+        id: 4,
+        title: "Interested Buyers",
+        count: 2,
+        description: "$5,200 in pending deals",
+        icon: <PiCurrencyDollarSimple size={24} className="text-red-300" />,
+        bgColor: "bg-red-100",
+      },
+    ];
 
 
 
@@ -173,7 +173,7 @@ export default function SellerDashboardHome() {
                           </div>
                           <ul tabIndex={0} className="dropdown-content menu text bg-gray-300 rounded-box  right-0 w-30 p-2 shadow-sm">
                             <li>
-                              <button  onClick={() => handleEdit(property)}>Edit</button>
+                              <button onClick={() => handleEdit(property)}>Edit</button>
                             </li>
 
                             <li>
@@ -194,13 +194,13 @@ export default function SellerDashboardHome() {
                             >
                               ✕
                             </button>
-                     
+
 
                             {/* Example Edit Form */}
-                        <div className="h-full overflow-y-auto  ">
-                             
-                           <EditProperties/>
-                        </div>
+                            <div className="h-full overflow-y-auto  ">
+
+                              <EditProperties />
+                            </div>
                           </div>
                         </div>
                       )}

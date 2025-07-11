@@ -74,7 +74,7 @@ export const router = createBrowserRouter([
         element: <BuyerDasFeatureDetails />
       },
       {
-        path: 'buyer_das_profile_view',
+        path: 'buyer_das_profile_view/:sellerId',
         element: <BuyerDasProfileView />
       },
       {
