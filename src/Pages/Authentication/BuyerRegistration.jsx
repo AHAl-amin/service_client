@@ -15,6 +15,7 @@ export default function BuyerRegistration() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     profilePhoto: null,
+    
     firstName: "",
     lastName: "",
     email: "",

@@ -1,8 +1,10 @@
+
+
 // src/redux/api/sellerApi.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: "http://192.168.10.34:1000/api/",
+    baseUrl: "http://10.10.13.75:7777/api/",
     prepareHeaders: (headers, { getState, endpoint }) => {
         const accessToken = localStorage.getItem("access_token");
         const token = getState().auth?.token || accessToken;
@@ -28,7 +30,7 @@ export const buyerApi = createApi({
 
         addToWishlist: builder.mutation({
             query: (body) => ({
-                url: `/properties/buyer/add_to_wishlist/`,
+                url: "/properties/buyer/add_to_wishlist/",
                 method: "POST",
                 body: body,
                 headers: {
@@ -52,7 +54,7 @@ export const buyerApi = createApi({
 
 
         getAllPropertiesFeaturedList: builder.query({
-            query: () => "/properties/featured/",
+            query: () => "/properties/all-properties/",
             providesTags: ["Properties"],
         }),
         getWishlistProperties: builder.query({
@@ -64,19 +66,19 @@ export const buyerApi = createApi({
             providesTags: ["Properties"],
         }),
 
-     SellerContactData: builder.mutation({
-  query: ({ body, id }) => ({
-    url: `/properties/contact/${id}/`,
-    method: "POST",
-    body: body,
-   
-  }),
-  
-}),
-       
+        SellerContactData: builder.mutation({
+            query: ({ body, id }) => ({
+                url: `/properties/contact/${id}/`,
+                method: "POST",
+                body: body,
+
+            }),
+
+        }),
+
 
 
     }),
 });
 
-export const { useGetAllPropertiesFeaturedListQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation, useGetWishlistPropertiesQuery, useGetBuyerSubscriptionQuery,useSellerContactDataMutation  } = buyerApi;
+export const { useGetAllPropertiesFeaturedListQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation, useGetWishlistPropertiesQuery, useGetBuyerSubscriptionQuery, useSellerContactDataMutation } = buyerApi;

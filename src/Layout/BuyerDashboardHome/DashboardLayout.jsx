@@ -162,7 +162,7 @@ export default function DashboardLayout() {
               <div className="flex items-center justify-center gap-2">
                 <div className="w-12">
                   <img
-                    src={profile?.profile_picture ? `$http://192.168.10.34:1000${profile?.profile_picture}` : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"}
+                    src={profile?.profile_picture ? `$http://10.10.13.75:7777${profile?.profile_picture}` : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"}
                     className="rounded-full"
                     alt="Admin Avatar"
                   />

@@ -25,7 +25,7 @@ export default function BuyerDasProfileView() {
         const fetchSellerProfile = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch(`http://192.168.10.34:1000/api/accounts/seller/${sellerId}/detail/`);
+                const response = await fetch(`http://10.10.13.75:7777/api/accounts/seller/${sellerId}/detail/`);
                 if (!response.ok) {
                     throw new Error("Failed to fetch seller profile");
                 }

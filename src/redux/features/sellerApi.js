@@ -1,10 +1,9 @@
-// src/redux/api/sellerApi.js
+
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-
-
-    baseUrl: "http://192.168.10.34:1000/api/",
+    baseUrl: "http://10.10.13.75:7777/api/",
     prepareHeaders: (headers, { getState, endpoint }) => {
         const accessToken = localStorage.getItem("access_token");
         const token = getState().auth?.token || accessToken;
@@ -13,7 +12,6 @@ const baseQuery = fetchBaseQuery({
             headers.set("Authorization", `Bearer ${token}`);
         }
 
-        // Skip setting Content-Type for specific endpoints
         if (!["recipeCreate", "updateProfile", "aiTraining"].includes(endpoint)) {
             headers.set("Content-Type", "application/json");
         }
@@ -23,46 +21,53 @@ const baseQuery = fetchBaseQuery({
 });
 
 export const sellerApi = createApi({
-    reducerPath: "api",
+    reducerPath: "sellerApi",
     baseQuery,
-    tagTypes: ["Profile"],
+    tagTypes: ["Profile", "Properties"],
     endpoints: (builder) => ({
-
         PropertieCreate: builder.mutation({
             query: (body) => ({
-                url: "/properties/create/",
+                url: "properties/create/",
                 method: "POST",
                 body,
-                headers: {
-                    "Content-Type": "application/json",
-                },
             }),
+            invalidatesTags: ["Properties"],
         }),
 
         getAllPropertiesList: builder.query({
-            query: () => "/properties/seller/all-properties/",
+            query: () => "properties/seller/all-properties/",
             providesTags: ["Properties"],
         }),
+
         getRecentPropertiesList: builder.query({
-            query: () => "/properties/all-properties/",
+            query: () => "properties/all-properties/",
             providesTags: ["Properties"],
         }),
-
-
-
 
         getSellerSubscription: builder.query({
-            query: () => "/subscriptions/plans/seller/subscriptions/",
+            query: () => "subscriptions/plans/seller/subscriptions/",
             providesTags: ["Properties"],
         }),
+
         getSellerDetails: builder.query({
-            query: (id) => `/accounts/seller/${id}/detail/`,
+            query: (id) => `accounts/seller/${id}/detail/`,
             providesTags: ["Properties"],
         }),
-
-        
-
+        deleteProperties: builder.mutation({
+            query: (id) => ({
+                url: `/properties/seller/delete/${id}/`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["Properties"],
+        }),
     }),
 });
 
-export const { usePropertieCreateMutation, useGetAllPropertiesListQuery, useGetRecentPropertiesListQuery, useGetSellerSubscriptionQuery ,useGetSellerDetailsQuery} = sellerApi;
+export const {
+    usePropertieCreateMutation,
+    useGetAllPropertiesListQuery,
+    useGetRecentPropertiesListQuery,
+    useGetSellerSubscriptionQuery,
+    useGetSellerDetailsQuery,
+    useDeletePropertiesMutation
+} = sellerApi;

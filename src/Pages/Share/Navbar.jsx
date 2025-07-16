@@ -8,19 +8,19 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Navbar = () => {
- 
+
   const userType = localStorage.getItem("user_type");
 
-const { data: getBuyerDataProfile } = useGetBuyerDataProfileQuery(undefined, {
-  skip: userType !== "buyer"
-});
-const { data: getSellerDataProfile } = useGetSellerDataProfileQuery(undefined, {
-  skip: userType !== "seller"
-});
-//  console.log(getSellerDataProfile, "profile.....................");
+  const { data: getBuyerDataProfile } = useGetBuyerDataProfileQuery(undefined, {
+    skip: userType !== "buyer"
+  });
+  const { data: getSellerDataProfile } = useGetSellerDataProfileQuery(undefined, {
+    skip: userType !== "seller"
+  });
+  //  console.log(getSellerDataProfile, "profile.....................");
 
-const profile =
-  userType === "buyer" ? getBuyerDataProfile?.data : getSellerDataProfile?.data;
+  const profile =
+    userType === "buyer" ? getBuyerDataProfile?.data : getSellerDataProfile?.data;
 
   const userName = profile ? `${profile.first_name} ` : '';
   const userEmail = profile?.email;
@@ -29,7 +29,7 @@ const profile =
     : 'https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp';
 
 
-    
+
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -40,7 +40,7 @@ const profile =
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("authToken");
-     localStorage.removeItem("user_type");
+    localStorage.removeItem("user_type");
 
 
 
@@ -103,10 +103,10 @@ const profile =
           </Link>
         </div>
 
-       <div className="md:flex items-center space-x-4">
+        <div className="md:flex items-center space-x-4">
           {profile ? (
             <div className="flex items-center gap-3">
-                  <div
+              <div
                 className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-300 cursor-pointer"
                 onClick={() => setMenuOpen(!menuOpen)}
               >
@@ -120,25 +120,31 @@ const profile =
                 <p className="font-medium">{userName}</p>
                 <p className="text-xs">{userEmail}</p>
               </div>
-               {menuOpen && (
-                <div className="absolute lg:right-60 md:right-40 right-20  top-20 bg-gray-300 border shadow-md rounded-md cursor-pointer p-3 z-30 w-24">
-                
+              {menuOpen && (
+                <div className="absolute lg:right-60 md:right-40 right-20  top-20 bg-gray-300 border shadow-md rounded-md cursor-pointer p-3 z-30 w-30">
+
                   <button
                     onClick={handleLogout}
                     className="w-full text-left text-gray-700  cursor-pointer  py-1 px-2 rounded"
                   >
                     Logout
                   </button>
+                  <Link to={userType === "seller" ? "/seller_dashboard" : "/buyer_dashboard"} className='text-gray-700  cursor-pointer '>
+                    Dashboard
+                  </Link>
                 </div>
               )}
             </div>
           ) : (
+
             <Link
               to="/login"
               className="text-lg bg-[#1C3988] text-white py-2 px-4 rounded-md"
             >
               Log in
             </Link>
+
+
           )}
         </div>
       </div>

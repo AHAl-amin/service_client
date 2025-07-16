@@ -10,7 +10,7 @@
 
 
 //   useEffect(() => {
-//     fetch("http://192.168.10.34:1000/api/subscriptions/plans/seller/subscriptions/")
+//     fetch("http://10.10.13.75:7777/api/subscriptions/plans/seller/subscriptions/")
 //       .then((response) => response.json())
 //       .then((data) => {
 //         const formattedPlans = data.map((plan) => ({
@@ -89,7 +89,7 @@ export default function Pricing() {
   const userType = localStorage.getItem("user_type");
 
   useEffect(() => {
-    fetch("http://192.168.10.34:1000/api/subscriptions/plans/seller/subscriptions/")
+    fetch("http://10.10.13.75:7777/api/subscriptions/plans/seller/subscriptions/")
       .then((response) => response.json())
       .then((data) => {
         const formattedPlans = data.map((plan) => ({

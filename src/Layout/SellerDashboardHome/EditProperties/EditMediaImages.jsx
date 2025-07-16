@@ -1,59 +1,79 @@
+import { useState, useEffect } from "react";
 
-
-import { useState } from "react"
-
-export default function EditMediaImages({ onNext, onBack }) {
+export default function EditMediaImages({ onNext, onBack, propertyData, updatePropertyData }) {
   const [uploadedImages, setUploadedImages] = useState({
     mainProperty: null,
     aerialDrone: null,
     additional: [],
-  })
+  });
+
+  useEffect(() => {
+    if (propertyData) {
+      setUploadedImages({
+        mainProperty: propertyData.main_image || null,
+        aerialDrone: propertyData.images?.find((img) => img.image_type === "aerial")?.image || null,
+        additional: propertyData.images?.filter((img) => img.image_type !== "aerial").map((img) => img.image) || [],
+      });
+    }
+  }, [propertyData]);
 
   const handleImageUpload = (type, file) => {
     if (file) {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onload = (e) => {
-        if (type === "additional") {
-          setUploadedImages((prev) => ({
-            ...prev,
-            additional: [...prev.additional, e.target.result],
-          }))
-        } else {
-          setUploadedImages((prev) => ({
-            ...prev,
-            [type]: e.target.result,
-          }))
-        }
-      }
-      reader.readAsDataURL(file)
+        setUploadedImages((prev) => {
+          let updatedImages;
+          if (type === "additional") {
+            updatedImages = {
+              ...prev,
+              additional: [...prev.additional, e.target.result],
+            };
+          } else {
+            updatedImages = {
+              ...prev,
+              [type]: e.target.result,
+            };
+          }
+          const imagesArray = [
+            ...(updatedImages.mainProperty ? [{ image: updatedImages.mainProperty, image_type: "main" }] : []),
+            ...(updatedImages.aerialDrone ? [{ image: updatedImages.aerialDrone, image_type: "aerial" }] : []),
+            ...updatedImages.additional.map((img) => ({ image: img, image_type: "additional" })),
+          ];
+          updatePropertyData({
+            ...propertyData,
+            main_image: updatedImages.mainProperty,
+            images: imagesArray,
+          });
+          return updatedImages;
+        });
+      };
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   const triggerFileInput = (inputId) => {
-    document.getElementById(inputId).click()
+    document.getElementById(inputId).click();
+  };
+
+  if (!propertyData) {
+    return <div>Loading property data...</div>;
   }
 
-
-
   return (
-    <div className=" ">
-      <div className=" mx-auto">
-        {/* Main Form Container */}
+    <div className="p-6">
+      <div className="mx-auto">
         <div className="bg-white rounded-2xl border border-[#1C3988] shadow-sm p-8">
-          {/* Header */}
-          <div className="mb-8 ">
+          <div className="mb-8">
             <h1 className="text-2xl font-bold text mb-2">Images & Media</h1>
             <p className="text-gray-500 text-[18px]">Upload high-quality images and media for your property</p>
           </div>
 
-          {/* Upload Sections */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            {/* Main Property Image */}
             <div className="text-center">
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 hover:border-[#1C3988] transition-colors duration-200">
                 {uploadedImages.mainProperty ? (
                   <img
-                    src={uploadedImages.mainProperty || "/placeholder.svg"}
+                    src={uploadedImages.mainProperty}
                     alt="Main Property"
                     className="w-full h-32 object-cover rounded-lg mb-4"
                   />
@@ -81,7 +101,7 @@ export default function EditMediaImages({ onNext, onBack }) {
                 <button
                   type="button"
                   onClick={() => triggerFileInput("mainPropertyInput")}
-                  className="px-4 py-2 bg cursor-pointer text-white text-sm font-medium rounded-lg hover:border-[#1C3988] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
+                  className="px-4 py-2 bg-[#1C3988] cursor-pointer text-white text-sm font-medium rounded-lg hover:border-[#1C3988] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
                 >
                   Upload Image
                 </button>
@@ -95,12 +115,11 @@ export default function EditMediaImages({ onNext, onBack }) {
               </div>
             </div>
 
-            {/* Aerial/Drone Shot */}
             <div className="text-center">
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8  hover:border-[#1C3988] transition-colors duration-200">
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 hover:border-[#1C3988] transition-colors duration-200">
                 {uploadedImages.aerialDrone ? (
                   <img
-                    src={uploadedImages.aerialDrone || "/placeholder.svg"}
+                    src={uploadedImages.aerialDrone}
                     alt="Aerial/Drone Shot"
                     className="w-full h-32 object-cover rounded-lg mb-4"
                   />
@@ -128,7 +147,7 @@ export default function EditMediaImages({ onNext, onBack }) {
                 <button
                   type="button"
                   onClick={() => triggerFileInput("aerialDroneInput")}
-                  className="px-4 py-2 bg cursor-pointer text-white text-sm font-medium rounded-lg  hover:border-[#1C3988] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
+                  className="px-4 py-2 bg-[#1C3988] cursor-pointer text-white text-sm font-medium rounded-lg hover:border-[#1C3988] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
                 >
                   Upload Image
                 </button>
@@ -142,15 +161,14 @@ export default function EditMediaImages({ onNext, onBack }) {
               </div>
             </div>
 
-            {/* Add Additional Picture */}
             <div className="text-center">
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8  hover:border-[#1C3988] transition-colors duration-200">
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 hover:border-[#1C3988] transition-colors duration-200">
                 {uploadedImages.additional.length > 0 ? (
                   <div className="grid grid-cols-2 gap-2 mb-4">
                     {uploadedImages.additional.slice(0, 4).map((img, index) => (
                       <img
                         key={index}
-                        src={img || "/placeholder.svg"}
+                        src={img}
                         alt={`Additional ${index + 1}`}
                         className="w-full h-16 object-cover rounded"
                       />
@@ -180,7 +198,7 @@ export default function EditMediaImages({ onNext, onBack }) {
                 <button
                   type="button"
                   onClick={() => triggerFileInput("additionalInput")}
-                  className="px-4 py-2 bg cursor-pointer text-white text-sm font-medium rounded-lg  hover:border-[#1C3988] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
+                  className="px-4 py-2 bg-[#1C3988] cursor-pointer text-white text-sm font-medium rounded-lg hover:border-[#1C3988] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
                 >
                   Upload Image
                 </button>
@@ -191,8 +209,8 @@ export default function EditMediaImages({ onNext, onBack }) {
                   multiple
                   onChange={(e) => {
                     Array.from(e.target.files).forEach((file) => {
-                      handleImageUpload("additional", file)
-                    })
+                      handleImageUpload("additional", file);
+                    });
                   }}
                   className="hidden"
                 />
@@ -200,13 +218,11 @@ export default function EditMediaImages({ onNext, onBack }) {
             </div>
           </div>
 
-          {/* Upload Guidelines */}
-          <div className=" mb-8">
+          <div className="mb-8">
             <p className="text-sm text-orange-400">You Can Upload Up To 10 Images. Recommended Size: 1200x800 Pixels</p>
           </div>
         </div>
 
-        {/* Navigation Buttons */}
         <div className="flex justify-between items-center mt-6">
           <button
             type="button"
@@ -218,16 +234,16 @@ export default function EditMediaImages({ onNext, onBack }) {
             </svg>
             Back To Basic Information
           </button>
-
           <button
             type="button"
             onClick={onNext}
-            className="px-8 py-3 bg cursor-pointer text-white font-medium rounded-lg  hover:border-[#1C3988] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 shadow-sm"
+            className="px-8 py-3 bg-[#1C3988] text-white font-medium rounded-lg focus:outline-none focus:ring-2 cursor-pointer focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 shadow-sm"
           >
             Next
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 }
+

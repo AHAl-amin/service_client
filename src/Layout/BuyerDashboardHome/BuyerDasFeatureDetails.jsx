@@ -13,12 +13,13 @@ import {
 import { MdOutlineEmail, MdOutlineLocalPhone } from "react-icons/md";
 import { toast, ToastContainer } from "react-toastify";
 
-const BASE_URL = "http://192.168.10.34:1000";
+const BASE_URL = "http://10.10.13.75:7777";
 
 function BuyerDasFeatureDetails() {
   const { id } = useParams();
   const { data: getAllPropertiesFeaturedList, isLoading } =
     useGetAllPropertiesFeaturedListQuery();
+    console.log(getAllPropertiesFeaturedList,"fffffffffffffffffff")
   const [sellerContactData] = useSellerContactDataMutation();
 
   const [activeTab, setActiveTab] = useState("description");
@@ -136,7 +137,7 @@ function BuyerDasFeatureDetails() {
               <p className="text-gray-600 flex items-center gap-2 mb-2">
                 <IoLocationOutline />
                 {property.street_address}, {property.city},{" "}
-                {property.state_province}, {property.country}
+                  {property.country},{property.state_province}
               </p>
               <div className="text-2xl font-bold text-[#1C3988] mb-2">
                 ${Number(property.price).toLocaleString()}

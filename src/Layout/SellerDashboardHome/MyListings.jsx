@@ -27,12 +27,12 @@ useEffect(() => {
       title: item.title,
       price: `$${Number(item.price).toLocaleString()}`,
       area: `${item.land_size} sq ft`,
-      location: `${item.city}, ${item.country}`,
+      location: ` ${item.country},${item.city}`,
       description: item.description,
       person: `${item.remaining_shares}/${item.max_shares}`,
       payment: item.allow_down_payment ? "Down Payment Available" : "Full Payment Only",
       image: item.main_image
-        ? `http://192.168.10.34:1000${item.main_image}`
+        ? `http://10.10.13.75:7777${item.main_image}`
         : "https://via.placeholder.com/400x300?text=No+Image",
       features: item.features?.map((f) => f.name).join(", ") || "No features listed",
     }));
@@ -43,23 +43,7 @@ useEffect(() => {
 
       
 
-    const handleDelete = (id) => {
-        const updatedList = propertyList.filter(property => property.id !== id);
-        setPropertyList(updatedList);
-    };
-
-    const [showEditModal, setShowEditModal] = useState(false);
-    // const [selectedProperty, setSelectedProperty] = useState(null);
-
-    const handleEdit = () => {
-
-        setShowEditModal(true);
-    };
-
-    const closeModal = () => {
-        setShowEditModal(false);
-
-    };
+  
 
 
     return (
@@ -105,43 +89,7 @@ useEffect(() => {
                                         <img src={property.image} alt={property.title} className="w-full h-48 object-cover" />
 
                                         <div className="p-6">
-                                            <div className="flex items-center justify-between">
-                                                <h3 className="text-xl font-semibold text-[#1C3988]">{property.title}</h3>
-                                                <div className="dropdown">
-                                                    <div tabIndex={0} role="button" className="m-1 text cursor-pointer">
-                                                        <HiDotsHorizontal className="text-xl" />
-                                                    </div>
-                                                    <ul tabIndex={0} className="dropdown-content menu text bg-gray-300 rounded-box z-10 right-0 w-30 p-2 shadow-sm">
-                                                        <li>
-                                                            <button onClick={() => handleEdit(property)}>Edit</button>
-                                                        </li>
-                                                        <li>
-                                                            <button className="text-red-400" onClick={() => handleDelete(property.id)}>
-                                                                Delete
-                                                            </button>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            {showEditModal && (
-                                                <div className="fixed inset-0 backdrop-blur bg-opacity-40 flex justify-center items-center z-50">
-                                                    <div className="bg-white rounded-lg p-6 w-[90%] h-[90%] shadow-lg relative">
-                                                        <button
-                                                            onClick={closeModal}
-                                                            className="absolute top-2 p-2 right-2 text-gray-500 hover:text-gray-800 text-xl"
-                                                        >
-                                                            ✕
-                                                        </button>
-
-
-                                                        {/* Example Edit Form */}
-                                                        <div className="h-full overflow-y-auto  ">
-
-                                                            <EditProperties />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )}
+                                          
                                             <p className="flex items-center gap-1 text-start text-gray-500">
                                                 <MapPin size={16} />
                                                 <span>{property?.location}</span>

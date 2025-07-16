@@ -155,7 +155,7 @@ export default function SavedProperties() {
           {wishlist.map((item) => {
             const property = item.property_details;
             const imageUrl = property.main_image
-              ? `http://192.168.10.34:1000${property.main_image}`
+              ? `http://10.10.13.75:7777${property.main_image}`
               : "https://via.placeholder.com/300x200?text=No+Image";
 
             return (
