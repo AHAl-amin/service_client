@@ -24,7 +24,7 @@ export default function SellerSetting() {
 
   const [previewImage, setPreviewImage] = useState(
     profile?.profile_picture
-      ? `$http://10.10.13.75:7777${profile.profile_picture}`
+      ? `$http://10.10.13.60:2100${profile.profile_picture}`
       : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"
   );
 
@@ -59,7 +59,7 @@ export default function SellerSetting() {
       setCountry(profile.country || "");
       setPreviewImage(
         profile.profile_picture
-          ? `$http://10.10.13.75:7777${profile.profile_picture}`
+          ? `$http://10.10.13.60:2100${profile.profile_picture}`
           : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"
       );
       reset(newFormData);
@@ -91,7 +91,7 @@ export default function SellerSetting() {
         
         // Update preview image if API returns a new profile picture
         if (response?.profile_picture) {
-          setPreviewImage(`$http://10.10.13.75:7777${response.profile_picture}`);
+          setPreviewImage(`$http://10.10.13.60:2100${response.profile_picture}`);
         }
       } catch (err) {
         console.error("Error updating profile:", err);
@@ -345,7 +345,7 @@ const ChangePasswordForm = () => {
           <img
             src={
               profile?.profile_picture
-                ? `http://10.10.13.75:7777${profile.profile_picture}`
+                ? `http://10.10.13.60:2100${profile.profile_picture}`
                 : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"
             }
             alt="User Avatar"

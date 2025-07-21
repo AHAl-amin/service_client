@@ -5,9 +5,9 @@ import { Award, Badge, BadgeCheck } from "lucide-react";
 import { useState } from "react";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import Pricing from "../Home/Pricing";
 import { useSellerRegistrationMutation } from "../../redux/features/baseApi";
 import { toast, ToastContainer } from "react-toastify";
+import Pricing from "../Home/Pricing";
 
 export default function SellerRegistration() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -76,10 +76,10 @@ export default function SellerRegistration() {
         formData.business_description
       );
     }
-    if (currentStep === 4) {
+    if (currentStep === 3) {
       return formData.agreeToTerms && formData.agreeToPrivacy && formData.acceptResponsibility;
     }
-    return true;
+    return true; // Step 4 has no validation
   };
 
   const handleNext = async () => {
@@ -162,7 +162,7 @@ export default function SellerRegistration() {
               </svg>
             </div>
           </div>
-          <h1 className="text-2xl font-bold text mb-4">Account Created Successfully!</h1>
+          <h1 className="text-2xl font-bold text-[#1C3988] mb-4">Account Created Successfully!</h1>
           <p className="text-gray-600 mb-8">
             Your seller account has been created. You can now access your seller dashboard and start listing your products.
           </p>
@@ -170,7 +170,7 @@ export default function SellerRegistration() {
             <Link to="/seller_dashboard">
               <button
                 onClick={handleGoToLogin}
-                className="w-full px-6 py-3 bg cursor-pointer font-medium rounded-lg hover:bg focus:outline-none focus:ring-2 text-white focus:ring-offset-2 transition-all duration-200"
+                className="w-full px-6 py-3 bg-blue-600 cursor-pointer font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 text-white focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200"
               >
                 Go To Seller Dashboard
               </button>
@@ -178,7 +178,7 @@ export default function SellerRegistration() {
             <Link to="/">
               <button
                 onClick={handleRunToHome}
-                className="w-full px-6 py-3 cursor-pointer border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 text-gray-800 text-gray-800 focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200"
+                className="w-full px-6 py-3 cursor-pointer border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200"
               >
                 Run to Home
               </button>
@@ -194,24 +194,21 @@ export default function SellerRegistration() {
       <div className="md:max-w-7xl h-full mx-auto">
         <div className="bg-white rounded-2xl border border-[#1C3988] shadow-sm p-8">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text mb-8">Create Your Seller Account</h1>
+            <h1 className="text-4xl font-bold text-[#1C3988] mb-8">Create Your Seller Account</h1>
             <div className="flex items-center justify-center gap-10 space-x-8 mb-8">
               {steps.map((step) => (
                 <div key={step.id} className="flex flex-col items-center">
                   <div className="relative w-12 h-12 mb-2">
                     <Badge
-                      className={`w-12 h-12 ${currentStep >= step.id ? "text" : "text-gray-300"} ${
-                        currentStep === step.id ? "" : ""
-                      }`}
-                    >
-                    </Badge>
+                      className={`w-12 h-12 ${currentStep >= step.id ? "text-[#1C3988]" : "text-gray-300"}`}
+                    />
                     <span
                       className={`absolute inset-0 flex items-center justify-center text-xl font-bold ${
                         currentStep > step.id ? "text-gray-500" : "text-gray-400"
                       }`}
                     >
                       {currentStep > step.id ? (
-                        <svg className="w-5 h-5 text" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 text-[#1C3988]" fill="currentColor" viewBox="0 0 20 20">
                           <path
                             fillRule="evenodd"
                             d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -219,13 +216,13 @@ export default function SellerRegistration() {
                           />
                         </svg>
                       ) : (
-                        <span className={`text-xl ${currentStep >= step.id ? "text" : "text-gray-400"}`}>
+                        <span className={`text-xl ${currentStep >= step.id ? "text-[#1C3988]" : "text-gray-400"}`}>
                           {step.id}
                         </span>
                       )}
                     </span>
                   </div>
-                  <span className={`text-xs ${currentStep >= step.id ? "text" : "text-gray-400"}`}>
+                  <span className={`text-xs ${currentStep >= step.id ? "text-[#1C3988]" : "text-gray-400"}`}>
                     {step.name}
                   </span>
                 </div>
@@ -233,9 +230,9 @@ export default function SellerRegistration() {
             </div>
             <div className="md:w-2/3 mx-auto bg-gray-200 h-2 rounded-full">
               <div
-                className="bg h-2 rounded-full transition-all duration-300"
+                className="bg-[#1C3988] h-2 rounded-full transition-all duration-300"
                 style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
-              ></div>
+              />
             </div>
           </div>
 
@@ -257,7 +254,7 @@ export default function SellerRegistration() {
                     </label>
                     <input
                       type="text"
-                      name="firstName" // Fixed: Changed from business_description to firstName
+                      name="firstName"
                       value={formData.firstName}
                       onChange={handleInputChange}
                       placeholder="First name"
@@ -306,7 +303,7 @@ export default function SellerRegistration() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xl font-medium text mb-1">Password</label>
+                    <label className="block text-xl font-medium text-[#1C3988] mb-1">Password</label>
                     <div className="relative">
                       <input
                         type={showPassword ? "text" : "password"}
@@ -326,7 +323,7 @@ export default function SellerRegistration() {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-xl font-medium text mb-1">Confirm Password</label>
+                    <label className="block text-xl font-medium text-[#1C3988] mb-1">Confirm Password</label>
                     <div className="relative">
                       <input
                         type={showConfirmPassword ? "text" : "password"}
@@ -345,7 +342,7 @@ export default function SellerRegistration() {
                       </button>
                     </div>
                   </div>
-                  <p className="text">Must be at least 8 characters with letters, numbers, and special characters.</p>
+                  <p className="text-[#1C3988]">Must be at least 8 characters with letters, numbers, and special characters.</p>
                 </div>
               </div>
             </div>
@@ -354,7 +351,7 @@ export default function SellerRegistration() {
           {currentStep === 2 && (
             <div>
               <div className="mb-8">
-                <h2 className="text-2xl font-semibold text mb-2">Business Information</h2>
+                <h2 className="text-2xl font-semibold text-[#1C3988] mb-2">Business Information</h2>
                 <p className="text-xl text-gray-600">
                   Tell us about your business. This information will be used for your seller profile and listings.
                 </p>
@@ -362,7 +359,7 @@ export default function SellerRegistration() {
               <div className="space-y-6">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xl font-medium text mb-2">Business Name</label>
+                    <label className="block text-xl font-medium text-[#1C3988] mb-2">Business Name</label>
                     <input
                       type="text"
                       name="businessName"
@@ -373,7 +370,7 @@ export default function SellerRegistration() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xl font-medium text mb-2">Business Type</label>
+                    <label className="block text-xl font-medium text-[#1C3988] mb-2">Business Type</label>
                     <input
                       type="text"
                       name="businessType"
@@ -386,7 +383,7 @@ export default function SellerRegistration() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xl font-medium text mb-2">Business Address</label>
+                    <label className="block text-xl font-medium text-[#1C3988] mb-2">Business Address</label>
                     <input
                       type="text"
                       name="businessAddress"
@@ -397,7 +394,7 @@ export default function SellerRegistration() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xl font-medium text mb-2">City</label>
+                    <label className="block text-xl font-medium text-[#1C3988] mb-2">City</label>
                     <input
                       type="text"
                       name="city"
@@ -410,7 +407,7 @@ export default function SellerRegistration() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xl font-medium text mb-2">Zip/Postal Code</label>
+                    <label className="block text-xl font-medium text-[#1C3988] mb-2">Zip/Postal Code</label>
                     <input
                       type="text"
                       name="postalCode"
@@ -421,7 +418,7 @@ export default function SellerRegistration() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xl font-medium text mb-2">State/Province</label>
+                    <label className="block text-xl font-medium text-[#1C3988] mb-2">State/Province</label>
                     <input
                       type="text"
                       name="stateProvince"
@@ -433,7 +430,7 @@ export default function SellerRegistration() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xl font-medium text mb-2">Country</label>
+                  <label className="block text-xl font-medium text-[#1C3988] mb-2">Country</label>
                   <div className="relative">
                     <select
                       name="country"
@@ -479,7 +476,7 @@ export default function SellerRegistration() {
           {currentStep === 3 && (
             <div>
               <div className="mb-6">
-                <h2 className="text-2xl font-semibold text mb-2">Trust & Responsibility Agreement</h2>
+                <h2 className="text-2xl font-semibold text-[#1C3988] mb-2">Trust & Responsibility Agreement</h2>
                 <p className="text-xl text-gray-600">
                   Please Review And Accept Our Terms And Conditions To Complete Your Registration
                 </p>
@@ -504,33 +501,33 @@ export default function SellerRegistration() {
                   </div>
                 </div>
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <h3 className="text-xl font-semibold text mb-3">Platform Terms of Service</h3>
+                  <h3 className="text-xl font-semibold text-[#1C3988] mb-3">Platform Terms of Service</h3>
                   <div className="text-xs text-gray-700 space-y-2">
                     <p>
                       Welcome to — a land listing and connection platform. Our mission is to offer verified listing
                       space, affordable access to co-buying opportunities, and a smart way to explore land deals
                       globally.
                     </p>
-                    <p className="text text-xl">We do not:</p>
+                    <p className="text-xl text-[#1C3988]">We do not:</p>
                     <ul className="list-disc list-inside space-y-1 ml-3 text-xs">
                       <li>Hold or transfer any funds</li>
                       <li>Facilitate or guarantee any transactions</li>
                       <li>Provide legal advice or legal transactions</li>
                       <li>Act as a broker, legal agent, or real estate advisor</li>
                     </ul>
-                    <p className="text text-xl">All users are 100% responsible for:</p>
+                    <p className="text-xl text-[#1C3988]">All users are 100% responsible for:</p>
                     <ul className="list-disc list-inside space-y-1 ml-3 text-xs">
                       <li>Performing due diligence</li>
                       <li>Hiring their own real estate lawyer or licensed professional</li>
                       <li>Conducting all transactions with public records or land registry</li>
                     </ul>
-                    <p className="text text-xl">We strongly advise:</p>
+                    <p className="text-xl text-[#1C3988]">We strongly advise:</p>
                     <ul className="list-disc list-inside space-y-1 ml-3 text-xs">
                       <li>Consulting with a qualified real estate professional or legal channels</li>
                       <li>Using our provided lawyer list as a starting point for guidance</li>
                       <li>Treating all property decisions as your own independent choice</li>
                     </ul>
-                    <p className="text text-xl">What we provide:</p>
+                    <p className="text-xl text-[#1C3988]">What we provide:</p>
                     <ul className="list-disc list-inside space-y-1 ml-3 text-xs">
                       <li>A tool to discover and list land</li>
                       <li>A system to connect multiple co-buyers</li>
@@ -547,10 +544,10 @@ export default function SellerRegistration() {
                       name="agreeToTerms"
                       checked={formData.agreeToTerms}
                       onChange={handleInputChange}
-                      className="w-4 h-4 text border-gray-300 rounded focus:ring-[#1C3988] mt-1"
+                      className="w-4 h-4 text-[#1C3988] border-gray-300 rounded focus:ring-[#1C3988] mt-1"
                     />
                     <span className="text-xl text-gray-700">
-                      <strong className="text">I agree to the Terms of Service</strong>
+                      <strong className="text-[#1C3988]">I agree to the Terms of Service</strong>
                       <br />I have read and agree to the Terms of Service and understand my responsibilities as a seller
                       on the platform
                     </span>
@@ -561,10 +558,10 @@ export default function SellerRegistration() {
                       name="agreeToPrivacy"
                       checked={formData.agreeToPrivacy}
                       onChange={handleInputChange}
-                      className="w-4 h-4 text border-gray-300 rounded focus:ring-gray-300 mt-1"
+                      className="w-4 h-4 text-[#1C3988] border-gray-300 rounded focus:ring-[#1C3988] mt-1"
                     />
                     <span className="text-xl text-gray-700">
-                      <strong className="text">I agree to the Privacy Policy</strong>
+                      <strong className="text-[#1C3988]">I agree to the Privacy Policy</strong>
                       <br />I understand how my data will be used and stored as described in the Privacy Policy
                     </span>
                   </label>
@@ -574,10 +571,10 @@ export default function SellerRegistration() {
                       name="acceptResponsibility"
                       checked={formData.acceptResponsibility}
                       onChange={handleInputChange}
-                      className="w-4 h-4 text border-gray-300 rounded focus:ring-[#1C3988] mt-1"
+                      className="w-4 h-4 text-[#1C3988] border-gray-300 rounded focus:ring-[#1C3988] mt-1"
                     />
                     <span className="text-xl text-gray-700">
-                      <strong className="text">I accept full responsibility</strong>
+                      <strong className="text-[#1C3988]">I accept full responsibility</strong>
                       <br />I understand that VerifiedLand is not liable for any outcomes related to real deals,
                       conversations, or transactions between users.
                     </span>
@@ -588,7 +585,7 @@ export default function SellerRegistration() {
           )}
 
           {currentStep === 4 && (
-            <div className="h-[300]">
+            <div className="h-[700px]">
               <Pricing />
             </div>
           )}
@@ -597,10 +594,10 @@ export default function SellerRegistration() {
             <button
               onClick={handleBack}
               disabled={currentStep === 1 || isLoading}
-              className={`px-8 py-2 text-white font-medium rounded-md transition-all duration-200 focus:outline-none focus:ring-2 text-gray-800 focus:ring-offset-2 ${
+              className={`px-8 py-2 text-white font-medium rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                 currentStep === 1 || isLoading
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg hover:bg-blue-700 focus:ring-[#1C3988]"
+                  : "bg-blue-600 hover:bg-blue-700 focus:ring-[#1C3988]"
               }`}
             >
               Back
@@ -608,7 +605,7 @@ export default function SellerRegistration() {
             <button
               onClick={handleNext}
               disabled={isLoading}
-              className={`px-8 py-2 cursor-pointer bg text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200 ${
+              className={`px-8 py-2 cursor-pointer bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200 ${
                 isLoading ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >

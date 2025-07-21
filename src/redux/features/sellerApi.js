@@ -3,7 +3,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: "http://10.10.13.75:7777/api/",
+    baseUrl: "http://10.10.13.60:2100/api/",
     prepareHeaders: (headers, { getState, endpoint }) => {
         const accessToken = localStorage.getItem("access_token");
         const token = getState().auth?.token || accessToken;
@@ -48,6 +48,14 @@ export const sellerApi = createApi({
             query: () => "subscriptions/plans/seller/subscriptions/",
             providesTags: ["Properties"],
         }),
+        SubscribtionPlan: builder.mutation({
+            query: (body) => ({
+                url: "/subscriptions/create-checkout-session/",
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: ["Properties"],
+        }),
 
         getSellerDetails: builder.query({
             query: (id) => `accounts/seller/${id}/detail/`,
@@ -69,5 +77,6 @@ export const {
     useGetRecentPropertiesListQuery,
     useGetSellerSubscriptionQuery,
     useGetSellerDetailsQuery,
-    useDeletePropertiesMutation
+    useDeletePropertiesMutation,
+    useSubscribtionPlanMutation
 } = sellerApi;

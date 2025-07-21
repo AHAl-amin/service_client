@@ -182,7 +182,7 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { IoLocationOutline } from "react-icons/io5";
 import { useGetAllPropertiesListQuery } from "../../redux/features/sellerApi";
 
-const BASE_URL = "http://10.10.13.75:7777"; // Corrected typo in BASE_URL
+const BASE_URL = "http://10.10.13.60:2100"; // Corrected typo in BASE_URL
 
 function SellerDasFeatureDetails() {
   const { id } = useParams();

@@ -13,7 +13,7 @@ import {
 import { MdOutlineEmail, MdOutlineLocalPhone } from "react-icons/md";
 import { toast, ToastContainer } from "react-toastify";
 
-const BASE_URL = "http://10.10.13.75:7777";
+const BASE_URL = "http://10.10.13.60:2100";
 
 function BuyerDasFeatureDetails() {
   const { id } = useParams();

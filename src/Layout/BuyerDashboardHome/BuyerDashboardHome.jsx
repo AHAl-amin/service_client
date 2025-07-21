@@ -16,6 +16,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 export default function BuyerDashboardHome() {
   const { data: getAllPropertiesFeaturedList } = useGetAllPropertiesFeaturedListQuery();
+  console.log(getAllPropertiesFeaturedList,"lllllllllllllllllllll")
 
 
 
@@ -38,7 +39,7 @@ export default function BuyerDashboardHome() {
         person: `${item.remaining_shares}/${item.max_shares}`,
         payment: item.allow_down_payment ? "Down Payment Available" : "Full Payment Only",
         image: item.main_image
-          ? `http://10.10.13.75:7777${item.main_image}`
+          ? `http://10.10.13.60:2100${item.main_image}`
           : "https://via.placeholder.com/400x300?text=No+Image",
         features: item.features?.map((f) => f.name).join(", ") || "No features listed",
       }));

@@ -4,7 +4,7 @@
 // import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // const baseQuery = fetchBaseQuery({
-//   baseUrl: "http://10.10.13.75:7777/api/",
+//   baseUrl: "http://10.10.13.60:2100/api/",
 //   prepareHeaders: (headers, { getState,  }) => {
 //     // Access token from localStorage or Redux state
 //     const accessToken = localStorage.getItem("access_token");
@@ -80,7 +80,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://10.10.13.75:7777/api/",
+  baseUrl: "http://10.10.13.60:2100/api/",
   prepareHeaders: (headers, { getState }) => {
     const accessToken = localStorage.getItem("access_token");
     const token = getState().auth?.token || accessToken;

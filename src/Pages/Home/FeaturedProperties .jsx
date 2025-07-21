@@ -83,7 +83,7 @@ export const FeaturedProperties = ({ onExploreClick }) => {
             <div key={property.id} className="card w-full bg-white shadow-lg rounded-lg overflow-hidden relative">
               <IoIosHeartEmpty className="absolute right-2 top-2 text-2xl bg-gray-300 rounded" />
               <img
-                src={property.main_image ? `http://10.10.13.75:7777${property.main_image}` : fallbackImage}
+                src={property.main_image ? `http://10.10.13.60:2100${property.main_image}` : fallbackImage}
                 alt={property.title}
                 className="w-full h-48 object-cover"
               />

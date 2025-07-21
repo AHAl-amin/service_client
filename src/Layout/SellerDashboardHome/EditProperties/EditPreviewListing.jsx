@@ -66,7 +66,7 @@ export default function EditPreviewListing({ onNext, onBack, propertyData, updat
 
   const handleUpdate = () => {
     onSave(propertyData);
-    toast.success("Listing updated successfully!");
+    // toast.success("Listing updated successfully!");
   };
 
   if (!propertyData) {

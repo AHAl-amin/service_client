@@ -27,7 +27,7 @@ export default function EditProperties({ PropertiesId }) {
   console.log(propertyData,"ppppppppppppppppppp....")
 
   const { data: getAllPropertiesList, isLoading, isError, error: queryError } = useGetAllPropertiesListQuery();
-  const updateUrl = `http://10.10.13.75:7777/api/properties/seller/update/${PropertiesId}/`;
+  const updateUrl = `http://10.10.13.60:2100/api/properties/seller/update/${PropertiesId}/`;
 
   // Filter and set property data based on PropertiesId
   useEffect(() => {
@@ -55,11 +55,11 @@ export default function EditProperties({ PropertiesId }) {
           description: selectedProperty.description,
           features: selectedProperty.features || [],
           main_image: selectedProperty.main_image
-            ? `http://10.10.13.75:7777${selectedProperty.main_image}`
+            ? `http://10.10.13.60:2100${selectedProperty.main_image}`
             : "https://via.placeholder.com/400x300?text=No+Image",
           images: selectedProperty.images.map((img) => ({
             id: img.id,
-            image: `http://10.10.13.75:7777${img.image}`,
+            image: `http://10.10.13.60:2100${img.image}`,
             image_type: img.image_type,
             uploaded_at: img.uploaded_at,
           })),
