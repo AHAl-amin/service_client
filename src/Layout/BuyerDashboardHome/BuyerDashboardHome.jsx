@@ -371,7 +371,7 @@ export default function BuyerDashboardHome() {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {propertyList?.map((property, index) => (
                   <div key={index} className="card w-full bg-white shadow-lg rounded-lg overflow-hidden relative">
-                    <p className="bg p-2 rounded-xl px-6 top-2 left-2 absolute">Recreational</p>
+                    <p className="bg text-gray-100 p-2 rounded-xl px-6 top-2 left-2 absolute">Recreational</p>
                     {wishlistIds.includes(property.id) ? (
                       <IoIosHeart
                         className="absolute bg-gray-300 right-2  top-2 text-2xl text-[#1C3988] rounded p-1 cursor-pointer"

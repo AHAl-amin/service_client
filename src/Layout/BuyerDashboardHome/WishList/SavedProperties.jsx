@@ -163,7 +163,7 @@ export default function SavedProperties() {
                 key={item.id}
                 className="card w-full bg-white shadow-lg rounded-lg overflow-hidden relative"
               >
-                <p className="bg p-2 rounded-xl px-6 top-2 left-2 absolute">Recreational</p>
+                <p className="bg p-2 rounded-xl px-6 top-2 left-2 absolute text-gray-100">Recreational</p>
                 <FaHeart className="absolute right-2 top-2 text-[#1C3988]  p-1 size-8 rounded bg-gray-200" />
                 <img
                   src={imageUrl}

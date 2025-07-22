@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { CiLocationOn } from "react-icons/ci";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { GrLocation } from "react-icons/gr";
-import { IoIosHeartEmpty } from "react-icons/io";
+
 import { MdOutlineMail, MdOutlinePhone } from "react-icons/md";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
@@ -106,7 +106,7 @@ export default function BuyerDasProfileView() {
                                     </svg>
                                 </div>
                                 <h3 className="font-semibold text-4xl text-[#1C3988]">{sellerData.full_name}</h3>
-                                <p className="text-2xl text-gray-600">{sellerData.business_name || "Real Estate Agent"}</p>
+                                
                             </div>
 
                             <div className="flex flex-col justify-center items-center">
@@ -166,7 +166,7 @@ export default function BuyerDasProfileView() {
                             {properties.map((property, index) => (
                                 <div key={index} className="card w-full bg-white shadow-lg rounded-lg overflow-hidden relative">
                                     <p className="bg-[#1C3988] p-2 rounded-xl px-6 top-2 left-2 absolute text-white">{property.property_type}</p>
-                                    <IoIosHeartEmpty className="absolute right-2 top-2 text-2xl text bg-gray-300 rounded" />
+                                    
                                     <img
                                         src={property.main_image || "https://cdn.pixabay.com/photo/2024/12/28/03/39/field-9295186_640.jpg"}
                                         alt={property.title}

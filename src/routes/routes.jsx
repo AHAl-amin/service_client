@@ -52,7 +52,7 @@ export const router = createBrowserRouter([
         element: <CostCalculation />
       },
       {
-        path: '/view_profice',
+        path: '/view_profile/:sellerId',
         element: <ViewProfice />
       },
       {

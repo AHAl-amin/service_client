@@ -14,7 +14,7 @@ const baseQuery = fetchBaseQuery({
         }
 
         // Skip setting Content-Type for specific endpoints
-        if (!["recipeCreate", "updateProfile", "aiTraining", "Properties"].includes(endpoint)) {
+        if (![ "updateProfile", "aiTraining", "Properties"].includes(endpoint)) {
             headers.set("Content-Type", "application/json");
         }
 
@@ -65,6 +65,12 @@ export const buyerApi = createApi({
             query: () => "/subscriptions/plans/buyer/",
             providesTags: ["Properties"],
         }),
+        getShareOwnership: builder.query({
+            query: () => "/properties/buyer/shared_ownership/",
+            providesTags: ["Properties"],
+        }),
+
+
 
         SellerContactData: builder.mutation({
             query: ({ body, id }) => ({
@@ -75,10 +81,21 @@ export const buyerApi = createApi({
             }),
 
         }),
+         contactWithSeller: builder.mutation({
+            query: ({body, id}) => ({
+                url: `/properties/contact/${id}/`,
+                method: "POST",
+                body: body,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }),
+            invalidatesTags: ["Properties"],
+        }),
 
 
 
     }),
 });
 
-export const { useGetAllPropertiesFeaturedListQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation, useGetWishlistPropertiesQuery, useGetBuyerSubscriptionQuery, useSellerContactDataMutation } = buyerApi;
+export const { useGetAllPropertiesFeaturedListQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation, useGetWishlistPropertiesQuery, useGetBuyerSubscriptionQuery, useSellerContactDataMutation ,useGetShareOwnershipQuery, useContactWithSellerMutation} = buyerApi;
