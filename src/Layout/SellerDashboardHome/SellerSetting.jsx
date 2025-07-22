@@ -47,7 +47,7 @@ export default function SellerSetting() {
         state_province: profile.state_province || "",
         city: profile.city || "",
         postal_code: profile.postal_code || "",
-        company: profile.business_name || "", // Map business_name to company
+        company: profile.company_name || "", // Map company_name to company
       };
       setCountry(profile.country || "");
       setPreviewImage(
@@ -69,7 +69,7 @@ export default function SellerSetting() {
     formDataToSubmit.append("state_province", data.state_province);
     formDataToSubmit.append("city", data.city);
     formDataToSubmit.append("postal_code", data.postal_code);
-    formDataToSubmit.append("business_name", data.company);
+    formDataToSubmit.append("company_name", data.company);
     if (data.profile_picture && data.profile_picture[0] instanceof File) {
       formDataToSubmit.append("profile_picture", data.profile_picture[0]);
     }
@@ -87,7 +87,7 @@ export default function SellerSetting() {
         state_province: response.data.state_province,
         city: response.data.city,
         postal_code: response.data.postal_code,
-        company: response.data.business_name,
+        company: response.data.company_name,
       });
       setCountry(response.data.country || "");
       setPreviewImage(
@@ -275,7 +275,7 @@ export default function SellerSetting() {
 
           <div>
             <label htmlFor="company" className="block font-medium text-xl mb-1 text-[#1C3988]">
-              Business name
+              Company name
             </label>
             <input
               id="company"

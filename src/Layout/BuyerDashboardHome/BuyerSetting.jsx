@@ -24,7 +24,7 @@ export default function SellerSetting() {
 
   const [previewImage, setPreviewImage] = useState(
     profile?.profile_picture
-      ? `$http://10.10.13.60:2100${profile.profile_picture}`
+      ? `http://10.10.13.60:2100${profile.profile_picture}`
       : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"
   );
 
@@ -59,7 +59,7 @@ export default function SellerSetting() {
       setCountry(profile.country || "");
       setPreviewImage(
         profile.profile_picture
-          ? `$http://10.10.13.60:2100${profile.profile_picture}`
+          ? `http://10.10.13.60:2100${profile.profile_picture}`
           : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"
       );
       reset(newFormData);
@@ -278,7 +278,7 @@ export default function SellerSetting() {
 
           <div>
             <label htmlFor="company_name" className="block font-medium text-xl mb-1 text-[#1C3988]">
-              company_name name
+              Company name 
             </label>
             <input
               id="company_name"

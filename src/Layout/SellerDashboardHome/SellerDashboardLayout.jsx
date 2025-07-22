@@ -178,10 +178,15 @@ export default function SellerDashboardLayout() {
 
 
               <div className="flex items-center justify-center gap-2">
-                <div className="w-12">
-                  <img
-                    src="https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"
-                    className="rounded-full"
+                <div className="">
+                  {/* <img
+                    src={profile?.profile_picture ? `http://10.10.13.60:2100${profile?.profile_picture}`}
+                    className="rounded-full w-10 h-10 object-contain"
+                    alt="Admin Avatar"
+                  /> */}
+                   <img
+                    src={profile?.profile_picture ? `http://10.10.13.60:2100${profile?.profile_picture}` : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"}
+                    className="rounded-full w-10 h-10 object-contain"
                     alt="Admin Avatar"
                   />
                 </div>

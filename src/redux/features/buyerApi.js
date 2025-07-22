@@ -93,9 +93,21 @@ export const buyerApi = createApi({
             invalidatesTags: ["Properties"],
         }),
 
+         buyAshare: builder.mutation({
+            query: (body) => ({
+                url: `/properties/buy_a_share/`,
+                method: "POST",
+                body: body,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }),
+            invalidatesTags: ["Properties"],
+        }),
+
 
 
     }),
 });
 
-export const { useGetAllPropertiesFeaturedListQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation, useGetWishlistPropertiesQuery, useGetBuyerSubscriptionQuery, useSellerContactDataMutation ,useGetShareOwnershipQuery, useContactWithSellerMutation} = buyerApi;
+export const { useGetAllPropertiesFeaturedListQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation, useGetWishlistPropertiesQuery, useGetBuyerSubscriptionQuery, useSellerContactDataMutation ,useGetShareOwnershipQuery, useContactWithSellerMutation, useBuyAshareMutation} = buyerApi;
