@@ -38,7 +38,7 @@ export default function SellerDashboardHome() {
       person: `${item.remaining_shares}/${item.max_shares}`,
       payment: item.allow_down_payment ? "Down Payment Available" : "Full Payment Only",
       image: item.main_image
-        ? `http://10.10.13.60:2100/${item.main_image}`
+        ? `http://10.10.13.60:2100${item.main_image}`
         : "https://via.placeholder.com/400x300?text=No+Image",
       features: item.features?.map((f) => f.name).join(", ") || "No features listed",
     }));
@@ -136,8 +136,8 @@ export default function SellerDashboardHome() {
             <div className="flex items-center justify-between">
               <div className="basis-6/12">
                 <h2 className="text-4xl font-bold text-[#1C3988] text-start">Recent listings</h2>
-                <p className="text-[#545454] text-start mt-2 w-11/12 mb-10">
-                  You have 12 total listings with 3 currently boosted.
+                <p className="text-[#545454] text-start text-xl mt-2 w-11/12 mb-10">
+                  You have  total listings {getAllPropertiesList?.length}.
                 </p>
               </div>
             </div>
@@ -145,10 +145,10 @@ export default function SellerDashboardHome() {
               {propertyList.slice(0, 6).map((property, index) => (
                 <div key={index} className="card w-full bg-white shadow-lg rounded-lg overflow-hidden relative">
                   <p className="bg-green-700 p-2 rounded-xl px-6 top-2 left-2 absolute">Boost</p>
-                  <div className="absolute right-2 top-2 bg-gray-300 rounded flex items-center gap-2 p-2">
+                  {/* <div className="absolute right-2 top-2 bg-gray-300 rounded flex items-center gap-2 p-2">
                     <IoEyeOutline className="text-2xl text" />
                     <span className="text">50</span>
-                  </div>
+                  </div> */}
 
                   <img src={property.image} alt={property.title} className="w-full h-48 object-cover" />
 

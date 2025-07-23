@@ -37,6 +37,8 @@ export const sellerApi = createApi({
         getAllPropertiesList: builder.query({
             query: () => "properties/seller/all-properties/",
             providesTags: ["Properties"],
+             refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
         }),
 
         getRecentPropertiesList: builder.query({
@@ -61,6 +63,19 @@ export const sellerApi = createApi({
             query: (id) => `accounts/seller/${id}/detail/`,
             providesTags: ["Properties"],
         }),
+        getActiveBoost: builder.query({
+            query: () => "/properties/seller/boosted-properties/",
+            providesTags: ["Properties"],
+        }),
+        getSubscriptionProperty: builder.query({
+            query: () => "/subscriptions/property-listings/",
+            providesTags: ["Properties"],
+        }),
+        getSubscribtionPlanBoost: builder.query({
+            query: () => "/subscriptions/plans/seller/boost/",
+            providesTags: ["Properties"],
+        }),
+
         deleteProperties: builder.mutation({
             query: (id) => ({
                 url: `/properties/seller/delete/${id}/`,
@@ -78,5 +93,8 @@ export const {
     useGetSellerSubscriptionQuery,
     useGetSellerDetailsQuery,
     useDeletePropertiesMutation,
-    useSubscribtionPlanMutation
+    useSubscribtionPlanMutation,
+    useGetActiveBoostQuery,
+    useGetSubscriptionPropertyQuery,
+    useGetSubscribtionPlanBoostQuery
 } = sellerApi;

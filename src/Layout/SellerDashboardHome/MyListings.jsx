@@ -80,10 +80,10 @@ useEffect(() => {
                                     <div key={index} className="card w-full bg-white shadow-lg rounded-lg overflow-hidden relative">
                                         {/* Boost badge and view count */}
                                         <p className="bg-green-700 p-2 rounded-xl px-6 top-2 left-2 absolute">Bost</p>
-                                        <div className="absolute right-2 top-2 bg-gray-300 rounded flex items-center gap-2 p-2">
+                                        {/* <div className="absolute right-2 top-2 bg-gray-300 rounded flex items-center gap-2 p-2">
                                             <IoEyeOutline className="text-2xl text" />
                                             <span className=" text">50</span>
-                                        </div>
+                                        </div> */}
 
                                         {/* Property image */}
                                         <img src={property.image} alt={property.title} className="w-full h-48 object-cover" />

@@ -177,15 +177,12 @@ export default function DashboardLayout() {
                   </div>
                   <ul
                     tabIndex={0}
-                    className="dropdown-content mt-4 menu bg-base-200 rounded-box z-50 w-32 p-2 shadow-md border border-gray-400"
+                    className="dropdown-content mt-4 menu bg-base-200 rounded-box z-50 w-32 p-2 shadow-md border border-gray-400 cursor-pointer"
                   >
+                  
+                    
                     <li>
-                      <Link to="/profile" className="text-gray-700 hover:text-gray-900">
-                        Profile
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/logout" className="text-gray-700 hover:text-gray-900">
+                      <Link onClick={handleLogout}   className="text-gray-700 hover:text-gray-900">
                         Logout
                       </Link>
                     </li>

@@ -8,7 +8,7 @@ import { MapPin, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { useAddToWishlistMutation,  useGetAllPropertiesFeaturedListQuery,  useRemoveFromWishlistMutation } from "../../redux/features/buyerApi";
+import { useAddToWishlistMutation, useGetAllPropertiesFeaturedListQuery, useRemoveFromWishlistMutation } from "../../redux/features/buyerApi";
 import { toast, ToastContainer } from "react-toastify";
 
 
@@ -16,7 +16,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 export default function BuyerDashboardHome() {
   const { data: getAllPropertiesFeaturedList } = useGetAllPropertiesFeaturedListQuery();
-  console.log(getAllPropertiesFeaturedList,"lllllllllllllllllllll")
+  console.log(getAllPropertiesFeaturedList, "lllllllllllllllllllll")
 
 
 
@@ -24,6 +24,7 @@ export default function BuyerDashboardHome() {
 
   const [wishlistIds, setWishlistIds] = useState([]);
   const [propertyList, setPropertyList] = useState([]);
+  console.log(propertyList, "pppppppppppppppppp")
 
 
 
@@ -402,10 +403,20 @@ export default function BuyerDashboardHome() {
                         <button className="px-5 py-[5px] rounded-full border-[1.5px] cursor-pointer border-[#1C3988] text-[#1C3988]">
                           {property?.payment}
                         </button>
+                      
+
                         <div className="flex items-center gap-1 text-[#8B8B8B]">
                           <Users size={18} className="text-[#1C3988]" />
-                          {property?.person}
+                          {property?.person === "5/5" ? (
+                            <button className="ml-2 px-3 text-xs  py-1 text-white bg-[#1C3988] rounded cursor-pointer">
+                              Contact by Email
+                            </button>
+                          ) : (
+                            <span>{property?.person}</span>
+                          )}
                         </div>
+
+
                       </div>
                       <p className="text-[#8B8B8B] text-start pt-2 line-clamp-2">{property?.description}</p>
                       <Link

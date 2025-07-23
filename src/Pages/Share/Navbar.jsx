@@ -25,7 +25,7 @@ const Navbar = () => {
   const userName = profile ? `${profile.first_name} ` : '';
   const userEmail = profile?.email;
   const profileImage = profile?.profile_picture
-    ? `http://your_base_url_here${profile.profile_picture}`
+    ? `http://10.10.13.60:2100${profile.profile_picture}`
     : 'https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp';
 
 
@@ -58,39 +58,27 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex space-x-8">
-          <Link
+          {/* <Link
             to="/"
             className={`text-lg ${location.pathname === '/' ? activeClass : 'text-gray-600'}`}
           >
             Home
-          </Link>
+          </Link> */}
+
+          <Link
+  to="/"
+  className={`text-lg ${
+    location.pathname.startsWith('/') && !location.pathname.startsWith('/details') && !location.pathname.startsWith('/view_profile') 
+      ? activeClass 
+      : 'text-gray-600'
+  }`}
+>
+  Home
+</Link>
 
 
-          <div className="dropdown relative w-35">
-            <div tabIndex={0} role="button" className={`text-lg cursor-pointer  ${location.pathname.includes('property-types') ? activeClass : 'text-gray-600'}`}> Property Types</div>
-            <FiChevronDown className="text-gray-600 ml-1 absolute bottom-2 right-0 " />
-            <ul tabIndex={0} className="dropdown-content menu bg-white text rounded-box z-1 w-40   p-2 shadow-sm " >
-              <li><a>Farms 7 ranches</a></li>
-              <li><a>Recreational</a></li>
-              <li><a>Residential lots</a></li>
-              <li><a>Commercial</a></li>
-              <li><a>waterfront</a></li>
-            </ul>
-          </div>
 
-          <div className="dropdown relative w-24">
-            <div tabIndex={0} role="button" className={`text-lg cursor-pointer  ${location.pathname.includes('property-types') ? activeClass : 'text-gray-600'}`}> Countries</div>
-            <FiChevronDown className="text-gray-600 ml-1 absolute bottom-2 right-0 " />
-            <ul tabIndex={0} className="dropdown-content menu bg-white text rounded-box z-1 w-40   p-2 shadow " >
-              <li><a>United States</a></li>
-              <li><a>Canada</a></li>
-              <li><a>Mexico</a></li>
-              <li><a>Brazil</a></li>
-              <li><a>Spain</a></li>
-              <li><a>Australia</a></li>
-
-            </ul>
-          </div>
+        
           <Link to="/pricing" className={`text-lg ${location.pathname === '/pricing' ? activeClass : 'text-gray-600'}`}>
             Pricing
           </Link>

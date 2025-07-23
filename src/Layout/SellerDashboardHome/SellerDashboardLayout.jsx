@@ -202,11 +202,7 @@ export default function SellerDashboardLayout() {
                     tabIndex={0}
                     className="dropdown-content mt-4 menu bg-base-200 rounded-box z-50 w-32 p-2 shadow-md border border-gray-400"
                   >
-                    <li>
-                      <Link to="/profile" className="text-gray-700 hover:text-gray-900">
-                        Profile
-                      </Link>
-                    </li>
+                    
                     <li>
                       <button onClick={handleLogout} className="text-gray-700 hover:text-gray-900">
                         Logout

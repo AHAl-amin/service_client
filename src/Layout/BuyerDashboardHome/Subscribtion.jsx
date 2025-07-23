@@ -34,7 +34,7 @@ export default function Subscription() {
       if (response.checkout_url) {
         window.location.href = response.checkout_url;
       } else {
-        navigate("/subscription-success");
+        navigate("/success");
       }
     } catch (err) {
       console.error("Error creating checkout session:", err);
