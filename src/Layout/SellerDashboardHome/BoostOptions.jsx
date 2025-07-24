@@ -9,6 +9,7 @@ import {
   useGetSubscriptionPropertyQuery,
   useSubscribtionPlanMutation,
 } from "../../redux/features/sellerApi";
+import { toast } from "react-toastify";
 
 export default function BoostOptions() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -66,7 +67,7 @@ export default function BoostOptions() {
 // };
 const handleConfirmBoost = async () => {
   if (!selectedProperty) {
-    alert("Please select a property");
+     toast.error("Please select a property");
     return;
   }
 
@@ -75,7 +76,7 @@ const handleConfirmBoost = async () => {
 
   // Check if property and boost exist to avoid undefined errors
   if (!property || !boost) {
-    alert("Error: Invalid property or boost plan selected.");
+     toast.error("Error: Invalid property or boost plan selected.");
     return;
   }
 
@@ -95,7 +96,7 @@ const handleConfirmBoost = async () => {
     console.log("Checkout session created:", response);
 
     // Show success alert
-    alert(`Boost confirmed!\nProperty: ${property.name}\nBoost Type: ${boost.name}\nPrice: ${boostPrice}`);
+     toast.error(`Boost confirmed!\nProperty: ${property.name}\nBoost Type: ${boost.name}\nPrice: ${boostPrice}`);
 
     // Redirect to checkout URL if provided, otherwise navigate to success page
     if (response.checkout_url) {
@@ -116,7 +117,10 @@ const handleConfirmBoost = async () => {
       errorMessage = error.data.plan_id.join(" ");
     }
     
-    alert(errorMessage);
+    else{
+      window.location.href = "/cancel";
+    }
+    toast.error(errorMessage);
   }
 };
 

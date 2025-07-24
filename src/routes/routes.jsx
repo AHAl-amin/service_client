@@ -30,6 +30,8 @@ import BuyerRegistration from "../Pages/Authentication/BuyerRegistration";
 import SellerRegistration from "../Pages/Authentication/SellerRegistration";
 import Pricing from "../Pages/Home/Pricing";
 import SellerDasFeatureDetails from "../Layout/SellerDashboardHome/SellerDasFeatureDetails";
+import PaymentSuccess from "../Payment/PaymentSuccess";
+import PaymentCancel from "../Payment/PaymentCancel";
 
 // import AddProperties from "../Layout/SellerDashboardHome/AddProperties";
 // import WishList from "../Layout/BuyerDashboardHome/WishList";
@@ -58,6 +60,14 @@ export const router = createBrowserRouter([
       {
         path: '/pricing',
         element: <Pricing />
+      },
+      {
+        path: '/success',
+        element: <PaymentSuccess/>
+      },
+      {
+        path: '/cancel',
+        element: <PaymentCancel/>
       },
 
 

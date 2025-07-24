@@ -60,13 +60,9 @@ export default function SavedProperties() {
                  
                     <div className="flex items-center gap-1 text-[#8B8B8B]">
                           <Users size={18} className="text-[#1C3988]" />
-                          {property?.max_shares === 5 ? (
-                            <button className="ml-2 px-3 text-xs  py-1 text-white bg-[#1C3988] rounded cursor-pointer">
-                              Contact by Email
-                            </button>
-                          ) : (
-                            <span>{property?.max_shares}</span>
-                          )}
+                         
+                            <span>{property?.shares_count}/5</span>
+                          
                         </div>
                   </div>
 

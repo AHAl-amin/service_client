@@ -66,19 +66,20 @@ const Navbar = () => {
           </Link> */}
 
           <Link
-  to="/"
-  className={`text-lg ${
-    location.pathname.startsWith('/') && !location.pathname.startsWith('/details') && !location.pathname.startsWith('/view_profile') 
-      ? activeClass 
-      : 'text-gray-600'
-  }`}
->
-  Home
-</Link>
+            to="/"
+            className={`text-lg ${location.pathname === '/' ||
+                location.pathname.startsWith('/dettails') ||
+                location.pathname.startsWith('/view_profile')
+                ? activeClass
+                : 'text-gray-600'
+              }`}
+          >
+            Home
+          </Link>
 
 
 
-        
+
           <Link to="/pricing" className={`text-lg ${location.pathname === '/pricing' ? activeClass : 'text-gray-600'}`}>
             Pricing
           </Link>

@@ -41,7 +41,7 @@ export default function Subscription() {
       if (err?.data?.plan_id) {
         setErrorMessage(err.data.plan_id.join(" "));
       } else {
-        setErrorMessage("Failed to create checkout session. Please try again.");
+        setErrorMessage("No need subscribtion for free.");
       }
     }
   };

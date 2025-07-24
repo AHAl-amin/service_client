@@ -69,6 +69,10 @@ export const buyerApi = createApi({
             query: () => "/properties/buyer/shared_ownership/",
             providesTags: ["Properties"],
         }),
+        getBuyShareOwner: builder.query({
+            query: (id) => `/properties/seller/shareholders/${id}/`,
+            providesTags: ["Properties"],
+        }),
 
 
 
@@ -110,4 +114,4 @@ export const buyerApi = createApi({
     }),
 });
 
-export const { useGetAllPropertiesFeaturedListQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation, useGetWishlistPropertiesQuery, useGetBuyerSubscriptionQuery, useSellerContactDataMutation ,useGetShareOwnershipQuery, useContactWithSellerMutation, useBuyAshareMutation} = buyerApi;
+export const { useGetAllPropertiesFeaturedListQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation, useGetWishlistPropertiesQuery, useGetBuyerSubscriptionQuery, useSellerContactDataMutation ,useGetShareOwnershipQuery, useContactWithSellerMutation, useBuyAshareMutation, useGetBuyShareOwnerQuery} = buyerApi;
