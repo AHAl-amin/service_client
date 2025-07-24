@@ -37,73 +37,113 @@ export default function BoostOptions() {
 
 
 
-//   const handleConfirmBoost = async () => {
+// const handleConfirmBoost = async () => {
 //   if (!selectedProperty) {
-//     alert("Please select a property");
+//      toast.error("Please select a property");
 //     return;
 //   }
 
 //   const property = PropertyList.find((p) => p.id === Number.parseInt(selectedProperty));
 //   const boost = BoostPlans.find((plan) => plan.name.toLowerCase().includes(selectedBoostType));
+
+//   // Check if property and boost exist to avoid undefined errors
+//   if (!property || !boost) {
+//      toast.error("Error: Invalid property or boost plan selected.");
+//     return;
+//   }
+
 //   const boostPrice = boost ? `$${boost.price}/${boost.duration === 1 ? "day" : "week"}` : "";
 
 //   // Prepare getstartedData for the mutation
 //   const getstartedData = {
-//     plan_id: boost.id, // Use the boost plan's ID
+//     plan_id: boost.id,
 //     successUrl: "http://localhost:5173/success",
 //     cancelUrl: "http://localhost:5173/cancel",
-//     property_id:PropertyList.id
+//     property_id: Number.parseInt(selectedProperty), // Ensure property_id is a number
 //   };
 
 //   try {
 //     // Trigger the SubscribtionPlan mutation
 //     const response = await SubscribtionPlan(getstartedData).unwrap();
-//     alert(`Boost confirmed!\nProperty: ${property.name}\nBoost Type: ${boost.name}\nPrice: ${boostPrice}`);
+//     console.log("Checkout session created:", response);
+
+//     // Show success alert
+//      toast.error(`Boost confirmed!\nProperty: ${property.name}\nBoost Type: ${boost.name}\nPrice: ${boostPrice}`);
+
+//     // Redirect to checkout URL if provided, otherwise navigate to success page
+//     if (response.checkout_url) {
+//       window.location.href = response.checkout_url;
+//     } else {
+//       // Assuming you have access to navigate (from react-router-dom)
+//       // If not using react-router-dom, you can use window.location.href = "/success";
+//       window.location.href = "/success";
+//     }
+
 //     closeModal();
 //   } catch (error) {
 //     console.error("Error confirming boost:", error);
-//     alert("Failed to confirm boost. Please try again.");
+//     let errorMessage = "Failed to confirm boost. Please try again.";
+    
+//     // Handle specific error messages if available
+//     if (error?.data?.plan_id) {
+//       errorMessage = error.data.plan_id.join(" ");
+//     }
+    
+//     else{
+//       window.location.href = "/cancel";
+//     }
+//     toast.error(errorMessage);
 //   }
 // };
+
+
 const handleConfirmBoost = async () => {
   if (!selectedProperty) {
-     toast.error("Please select a property");
+    toast.error("Please select a property");
     return;
   }
 
   const property = PropertyList.find((p) => p.id === Number.parseInt(selectedProperty));
   const boost = BoostPlans.find((plan) => plan.name.toLowerCase().includes(selectedBoostType));
 
-  // Check if property and boost exist to avoid undefined errors
-  if (!property || !boost) {
-     toast.error("Error: Invalid property or boost plan selected.");
+  console.log("Selected Property:", property);
+  console.log("Selected Boost:", boost);
+  console.log("getstartedData:", {
+    plan_id: boost?.id,
+    successUrl: "http://localhost:5173/success",
+    cancelUrl: "http://localhost:5173/cancel",
+    property_id: Number.parseInt(selectedProperty),
+  });
+
+  if (!property) {
+    console.error("Property not found for ID:", selectedProperty);
+    toast.error("Error: Invalid property selected.");
+    return;
+  }
+  if (!boost) {
+    console.error("Boost plan not found for type:", selectedBoostType);
+    toast.error("Error: Invalid boost plan selected.");
     return;
   }
 
-  const boostPrice = boost ? `$${boost.price}/${boost.duration === 1 ? "day" : "week"}` : "";
+  const boostPrice = `$${boost.price}/${boost.duration === 1 ? "day" : "week"}`;
 
-  // Prepare getstartedData for the mutation
   const getstartedData = {
     plan_id: boost.id,
     successUrl: "http://localhost:5173/success",
     cancelUrl: "http://localhost:5173/cancel",
-    property_id: Number.parseInt(selectedProperty), // Ensure property_id is a number
+    property_id: Number.parseInt(selectedProperty),
   };
 
   try {
-    // Trigger the SubscribtionPlan mutation
     const response = await SubscribtionPlan(getstartedData).unwrap();
     console.log("Checkout session created:", response);
 
-    // Show success alert
-     toast.error(`Boost confirmed!\nProperty: ${property.name}\nBoost Type: ${boost.name}\nPrice: ${boostPrice}`);
+    toast.success(`Boost confirmed!\nProperty: ${property.name}\nBoost Type: ${boost.name}\nPrice: ${boostPrice}`);
 
-    // Redirect to checkout URL if provided, otherwise navigate to success page
     if (response.checkout_url) {
       window.location.href = response.checkout_url;
     } else {
-      // Assuming you have access to navigate (from react-router-dom)
-      // If not using react-router-dom, you can use window.location.href = "/success";
       window.location.href = "/success";
     }
 
@@ -111,19 +151,18 @@ const handleConfirmBoost = async () => {
   } catch (error) {
     console.error("Error confirming boost:", error);
     let errorMessage = "Failed to confirm boost. Please try again.";
-    
-    // Handle specific error messages if available
     if (error?.data?.plan_id) {
       errorMessage = error.data.plan_id.join(" ");
-    }
-    
-    else{
-      window.location.href = "/cancel";
+    } else if (error?.data?.message) {
+      errorMessage = error.data.message;
     }
     toast.error(errorMessage);
+    closeModal();
+    if (!error?.data?.plan_id) {
+      window.location.href = "/cancel";
+    }
   }
 };
-
   return (
     <div>
       <div className="px-6 space-y-2">
@@ -262,7 +301,7 @@ const handleConfirmBoost = async () => {
               </button>
               <button
                 onClick={handleConfirmBoost}
-                className="flex-1 px-4 py-3 bg-[#059669] text-white rounded-lg hover:bg-green-700 transition-colors"
+                className="flex-1 px-4 py-3 bg-[#059669] text-white rounded-lg hover:bg-green-700 transition-colors cursor-pointer"
               >
                 Confirm Boost
               </button>
