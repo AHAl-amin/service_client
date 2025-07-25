@@ -280,7 +280,7 @@ export default function SellerSetting() {
             <input
               id="company"
               type="text"
-              placeholder="Business name"
+              placeholder="Company name"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-600 focus:ring-[#1C3988] focus:border-transparent"
               {...register("company")}
             />

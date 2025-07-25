@@ -9,6 +9,7 @@ import { useGetWishlistPropertiesQuery } from "../../../redux/features/buyerApi"
 
 export default function SavedProperties() {
   const { data, isLoading, error } = useGetWishlistPropertiesQuery();
+  console.log(data, "Wishlist Properties Data");
 
   if (isLoading) return <p className="text-center mt-10">Loading...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">Failed to load wishlist.</p>;

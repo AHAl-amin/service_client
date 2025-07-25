@@ -53,10 +53,11 @@ export const buyerApi = createApi({
 
 
 
-        getAllPropertiesFeaturedList: builder.query({
-            query: () => "/properties/featured/",
-            providesTags: ["Properties"],
-        }),
+        // getAllPropertiesFeaturedList: builder.query({
+        //     query: () => "/properties/featured/",
+        //     providesTags: ["Properties"],
+        // }),
+
         getWishlistProperties: builder.query({
             query: () => "/properties/buyer/wishlist/",
             providesTags: ["Properties"],

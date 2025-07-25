@@ -36,7 +36,7 @@ function ExploreProperties() {
   };
 
   return (
-    <div className='py-10'>
+    <div className='py-10  mx-auto px-30'>
       <div className='text-center my-6'>
         <h1 className='text font-bold text-2xl'>Explore Properties on the Map</h1>
         <p className='text-gray-400'>Whether you're looking to buy or sell land, we have the right tools and features for you.</p>
@@ -45,15 +45,16 @@ function ExploreProperties() {
         googleMapsApiKey="AIzaSyBzV7Gcll5fLZqubPQ4ZUW9h0DZjc1JAEE"
         libraries={libraries}
       >
-        <div className='relative'>
+        <div className='relative '>
           <Autocomplete
             onLoad={onAutocompleteLoad}
             onPlaceChanged={onPlaceChanged}
+            className='mb-6'
           >
             <input
               type='text'
               placeholder='Search for a location'
-              className='w-full p-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+              className='w-full p-2  border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
               style={{ maxWidth: '400px', margin: '0 auto' }}
             />
           </Autocomplete>
@@ -62,13 +63,14 @@ function ExploreProperties() {
             center={center}
             zoom={10}
             onLoad={onLoad}
+            
           >
             {/* Map markers or other components can be added here */}
           </GoogleMap>
         </div>
       </LoadScript>
       <div className='flex justify-center mt-10'>
-        <button className='bg-blue-500 text-white py-3 px-6 rounded-xl flex justify-center cursor-pointer'>
+        <button className='bg-blue-800 text-white py-3 px-6 rounded-xl flex justify-center cursor-pointer'>
           Open Map View
         </button>
       </div>

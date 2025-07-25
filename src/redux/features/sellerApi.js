@@ -33,12 +33,18 @@ export const sellerApi = createApi({
             }),
             invalidatesTags: ["Properties"],
         }),
+      getAllPropertiesFeaturedList: builder.query({
+    query: () => "/properties/featured/",
+    providesTags: ["Properties"],
+    refetchOnMountOrArgChange: true,  // This will reload data when the component mounts or args change
+    refetchOnFocus: true,             // This will reload data when the page comes back into focus
+}),
 
         getAllPropertiesList: builder.query({
             query: () => "properties/seller/all-properties/",
             providesTags: ["Properties"],
-             refetchOnMountOrArgChange: true,
-    refetchOnFocus: true,
+            refetchOnMountOrArgChange: true,
+            refetchOnFocus: true,
         }),
 
         getRecentPropertiesList: builder.query({
@@ -96,5 +102,6 @@ export const {
     useSubscribtionPlanMutation,
     useGetActiveBoostQuery,
     useGetSubscriptionPropertyQuery,
-    useGetSubscribtionPlanBoostQuery
+    useGetSubscribtionPlanBoostQuery,
+    useGetAllPropertiesFeaturedListQuery
 } = sellerApi;

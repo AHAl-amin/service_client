@@ -59,7 +59,7 @@ export default function Pricing() {
     if (response.checkout_url) {
       window.location.href = response.checkout_url; // Redirect to checkout session
     } else {
-      navigate("/subscription-success"); // Fallback navigation
+      navigate("/success"); // Fallback navigation
     }
   } catch (err) {
     console.error("Error creating checkout session:", err);
@@ -69,6 +69,7 @@ export default function Pricing() {
     } else {
       setErrorMessage("Failed to create checkout session. Please try again.");
     }
+    navigate("/cancel");
   }
 };
   return (

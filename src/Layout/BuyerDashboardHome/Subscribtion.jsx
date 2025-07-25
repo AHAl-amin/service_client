@@ -40,9 +40,11 @@ export default function Subscription() {
       console.error("Error creating checkout session:", err);
       if (err?.data?.plan_id) {
         setErrorMessage(err.data.plan_id.join(" "));
-      } else {
+      } 
+      else  {
         setErrorMessage("No need subscribtion for free.");
       }
+    
     }
   };
 

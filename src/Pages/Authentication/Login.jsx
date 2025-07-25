@@ -63,7 +63,7 @@ const Login = () => {
 
       toast.success("Login successful!");
       // Navigate based on user_type from backend response
-      const dashboard = res.data.user_type === "seller" ? "/seller_dashboard" : "/buyer_dashboard";
+      const dashboard = res.data.user_type === "seller" ? "/" : "/";
 
       navigate(dashboard, { replace: true });
     } catch (err) {

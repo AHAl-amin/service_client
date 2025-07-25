@@ -11,7 +11,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const testimonials = [
     {
         id: 1,
-        name: "Suntan",
+        name: "John Doe",
         position: "Frontend Developer",
         image: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529177/samples/smile.jpg",
         quote:
@@ -19,7 +19,7 @@ const testimonials = [
     },
     {
         id: 2,
-        name: "Rasif",
+        name: "smith",
         position: "Frontend Developer",
         image: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529178/samples/man-portrait.jpg",
         quote:
@@ -27,7 +27,7 @@ const testimonials = [
     },
     {
         id: 3,
-        name: "Bijoy Vi",
+        name: "Matheo",
         position: "Frontend Developer",
         image: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529169/samples/people/boy-snow-hoodie.jpg",
         quote:
@@ -35,7 +35,7 @@ const testimonials = [
     },
     {
         id: 4,
-        name: "Pappu Bhai",
+        name: "Anthony",
         position: "Frontend Developer",
         image: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529168/samples/people/kitchen-bar.jpg",
         quote:
@@ -43,7 +43,7 @@ const testimonials = [
     },
     {
         id: 5,
-        name: "Sojib Bhai",
+        name: "Sarah",
         position: "Frontend Developer",
         image: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529167/samples/animals/cat.jpg",
         quote:

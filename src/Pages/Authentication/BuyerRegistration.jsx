@@ -188,20 +188,20 @@ try {
             Your buyer account has been created. You can now access your buyer dashboard to start browsing properties.
           </p>
           <div className="flex flex-col gap-6 w-1/2 mx-auto">
-            <Link to="/login">
+            {/* <Link to="/login">
               <button
                 onClick={handleGoToLogin}
                 className="w-full px-6 py-3 bg-[#1C3988] cursor-pointer font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 text-white focus:ring-offset-2 transition-all duration-200"
               >
                 Go To Buyer Login
               </button>
-            </Link>
-            <Link to="/buyer_dashboard">
+            </Link> */}
+            <Link to="/login">
               <button
                 onClick={handleRunToHome}
                 className="w-full px-6 py-3 cursor-pointer border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200"
               >
-                Go to Buyer Dashboard
+                Go to login
               </button>
             </Link>
           </div>

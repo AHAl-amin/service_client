@@ -7,7 +7,6 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useSellerRegistrationMutation } from "../../redux/features/baseApi";
 import { toast, ToastContainer } from "react-toastify";
-import Pricing from "../Home/Pricing";
 
 export default function SellerRegistration() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -36,11 +35,11 @@ export default function SellerRegistration() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [sellerRegistration, { isLoading, error }] = useSellerRegistrationMutation();
 
+  // Updated steps array without Pricing
   const steps = [
     { id: 1, name: "Personal Information" },
     { id: 2, name: "Business Information" },
     { id: 3, name: "Terms & Agreement" },
-    { id: 4, name: "Pricing" },
   ];
 
   const handleInputChange = (e) => {
@@ -79,7 +78,7 @@ export default function SellerRegistration() {
     if (currentStep === 3) {
       return formData.agreeToTerms && formData.agreeToPrivacy && formData.acceptResponsibility;
     }
-    return true; // Step 4 has no validation
+    return true;
   };
 
   const handleNext = async () => {
@@ -88,9 +87,8 @@ export default function SellerRegistration() {
       return;
     }
 
-    if (currentStep < 4) {
-      setCurrentStep(currentStep + 1);
-    } else {
+    // If on step 3, submit the registration
+    if (currentStep === 3) {
       const sellerData = {
         email: formData.email,
         password: formData.password,
@@ -111,11 +109,22 @@ export default function SellerRegistration() {
 
       try {
         await sellerRegistration(sellerData).unwrap();
-        setCurrentStep(5);
+        setCurrentStep(5); // Move to success screen
       } catch (err) {
-        console.error("Registration error:", err);
-        toast.error("Failed to register. Please try again.");
-      }
+  const errorData = err?.data?.errors;
+
+  if (errorData) {
+    // Show first error message from backend
+    const firstKey = Object.keys(errorData)[0];
+    const firstErrorMessage = errorData[firstKey][0];
+    toast.error(firstErrorMessage);
+  } else {
+    // Show default error if no specific message from backend
+    toast.error("Failed to register. Please try again.");
+  }
+}
+    } else if (currentStep < 3) {
+      setCurrentStep(currentStep + 1);
     }
   };
 
@@ -167,20 +176,12 @@ export default function SellerRegistration() {
             Your seller account has been created. You can now access your seller dashboard and start listing your products.
           </p>
           <div className="flex flex-col gap-6 w-1/2 mx-auto">
-            <Link to="/seller_dashboard">
+            <Link to="/login">
               <button
                 onClick={handleGoToLogin}
-                className="w-full px-6 py-3 bg-blue-600 cursor-pointer font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 text-white focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200"
-              >
-                Go To Seller Dashboard
-              </button>
-            </Link>
-            <Link to="/">
-              <button
-                onClick={handleRunToHome}
                 className="w-full px-6 py-3 cursor-pointer border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200"
               >
-                Run to Home
+                Go to Login
               </button>
             </Link>
           </div>
@@ -584,20 +585,14 @@ export default function SellerRegistration() {
             </div>
           )}
 
-          {currentStep === 4 && (
-            <div className="h-[700px]">
-              <Pricing />
-            </div>
-          )}
-
           <div className="flex justify-between mt-8">
             <button
               onClick={handleBack}
               disabled={currentStep === 1 || isLoading}
-              className={`px-8 py-2 text-white font-medium rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+              className={`px-8 py-2 text-white font-medium rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer ${
                 currentStep === 1 || isLoading
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700 focus:ring-[#1C3988]"
+                  : "bg-[#1C3988] hover:bg-[#1c3988af] focus:ring-[#1C3988]"
               }`}
             >
               Back
@@ -605,11 +600,11 @@ export default function SellerRegistration() {
             <button
               onClick={handleNext}
               disabled={isLoading}
-              className={`px-8 py-2 cursor-pointer bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200 ${
+              className={`px-8 py-2 cursor-pointer bg-[#1C3988] text-white font-medium rounded-md hover:bg-[#1c3988af] focus:outline-none focus:ring-2 focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200 ${
                 isLoading ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
-              {isLoading ? "Submitting..." : currentStep === 4 ? "Complete Registration" : "Next"}
+              {isLoading ? "Submitting..." : currentStep === 3 ? "Complete Registration" : "Next"}
             </button>
           </div>
         </div>

@@ -16,6 +16,7 @@ function SellerDasFeatureDetails() {
   console.log(getAllPropertiesList, "aaaaaaaaaaaaaaaaaaaaaa");
 
   const [activeTab, setActiveTab] = useState("description");
+  const [mainImage, setMainImage] = useState(""); // State to track the selected main image
 
   if (isLoading) return <div className="p-10 text-gray-600">Loading...</div>;
 
@@ -32,10 +33,18 @@ function SellerDasFeatureDetails() {
     ? property.images.map((img) => `${BASE_URL}${img.image}`)
     : [];
 
+  // Handle thumbnail click to update main image
+  const handleImageClick = (image) => {
+    setMainImage(image);
+  };
+
+  // Default main image fallback
+  const displayedImage = mainImage || `${BASE_URL}${property.main_image}`;
+
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-8">
       <Link
-        to="/seller_dashboard"
+        to="/seller_dashboard/my_listings"
         className="bg-[#1C3988] rounded-xl py-3 px-6 text-white"
       >
         Back to Dashboard
@@ -46,22 +55,27 @@ function SellerDasFeatureDetails() {
           {/* Left - Images */}
           <div className="space-y-4">
             <img
-              src={`${BASE_URL}${property.main_image}`} // Use main_image for primary display
+              src={displayedImage} // Use mainImage state for dynamic display
               alt={property.title}
-              className="w-full object-cover rounded-lg shadow-lg"
+              className="w-full h-[500px] object-cover rounded-lg shadow-lg"
             />
             <div className="grid grid-cols-4 gap-2">
               {thumbnailImages.map((img, index) => (
                 <img
                   key={index}
                   src={img}
-                  className="w-full h-20 object-cover rounded hover:opacity-80 transition-opacity"
+                  onClick={() => handleImageClick(img)} // Set image on click
+                  className="w-full h-20 object-cover rounded hover:opacity-80 transition-opacity cursor-pointer"
                   alt={`Thumbnail ${index + 1}`}
                 />
               ))}
-              <div className="backdrop-blur-md bg-gray-500 text-white rounded flex items-center justify-center h-20">
-                <span className="text-lg font-bold">10+</span>
-              </div>
+              {thumbnailImages.length > 4 && (
+                <div className="backdrop-blur-md bg-gray-500 text-white rounded flex items-center justify-center h-20">
+                  <span className="text-lg font-bold">
+                    {thumbnailImages.length - 4}+ {/* Show remaining images */}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -99,8 +113,6 @@ function SellerDasFeatureDetails() {
                 <span>{property.property_type}</span>
               </div>
             </div>
-
-        
 
             <div>
               <div className="flex justify-around rounded bg-[#E8EBF3] border border-[#1C3988]">
