@@ -12,7 +12,7 @@ const testimonials = [
     {
         id: 1,
         name: "John Doe",
-        // position: "Frontend Developer",
+     
         image: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529177/samples/smile.jpg",
         quote:
             '"A reliable website! I had no issues buying my apartment, and the team was very cooperative."',
@@ -20,7 +20,7 @@ const testimonials = [
     {
         id: 2,
         name: "smith",
-        // position: "Frontend Developer",
+      
         image: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529178/samples/man-portrait.jpg",
         quote:
             '"The process was professional, and detailed information about the properties was provided. I will buy again from here."',
@@ -28,7 +28,7 @@ const testimonials = [
     {
         id: 3,
         name: "Matheo",
-        // position: "Frontend Developer",
+    
         image: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529169/samples/people/boy-snow-hoodie.jpg",
         quote:
             '"I found the perfect land through this website. Customer support was very quick and helpful."',
@@ -36,7 +36,7 @@ const testimonials = [
     {
         id: 4,
         name: "Anthony",
-        // position: "Frontend Developer",
+       
         image: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529168/samples/people/kitchen-bar.jpg",
         quote:
             '"Everything from property selection to purchase was great. The price was reasonable, and the guidance was superb."',

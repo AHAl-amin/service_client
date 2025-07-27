@@ -1,8 +1,10 @@
-"use client";
+
+
+
+
 
 import { MapPin, Users } from "lucide-react";
-import { FaHeart } from "react-icons/fa6";
-import { IoIosHeartEmpty } from "react-icons/io";
+
 import { Link } from "react-router-dom";
 import { useGetShareOwnershipQuery } from "../../../redux/features/buyerApi";
 
@@ -38,57 +40,70 @@ export default function SharedOwnership() {
           {/* Data Display */}
           {!isLoading && !isError && OwnerShipData.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {OwnerShipData?.map((property, index) => (
-                <div
-                  key={index}
-                  className="card w-full bg-white shadow-lg rounded-lg overflow-hidden relative"
-                >
-                  <p className="bg p-2 rounded-xl px-6 top-2 left-2 absolute text-gray-100">
-                    Recreational
-                  </p>
-                  <IoIosHeartEmpty className="absolute right-2 top-2 p-1 size-8 text-2xl text bg-gray-300 rounded" />
-                  <img
-                    src={property.image}
-                    alt={property.title}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-start text-[#1C3988]">
-                      {property.title}
-                    </h3>
-                    <p className="flex items-center gap-1 text-start text-gray-500">
-                      <MapPin size={16} />
-                      <span>{property?.location}</span>
-                    </p>
-                    <p className="text-gray-600 mt-2">
-                      <h1 className="text-lg flex items-center justify-between font-bold text-start text-[#1C3988]">
-                        {property.price}
-                        <span className="text-[#8D8D8D] font-medium">{property?.area}</span>
-                      </h1>
-                    </p>
+              {OwnerShipData.map((property, index) => {
+                const { property_details } = property;
+                const location = `${property_details.city}, ${property_details.state_province}, ${property_details.country}`;
+                const payment = property_details.allow_down_payment
+                  ? `Down Payment: ${property_details.down_payment_percentage}%`
+                  : "Full Payment";
+                const person = `${property_details.shares_count}/${property_details.max_shares} Shares Taken`;
 
-                    <div className="flex items-center justify-between my-3">
-                      <button className="px-5 py-[5px] rounded-full border-[1.5px] cursor-pointer border-[#1C3988] text-[#1C3988]">
-                        {property?.payment}
-                      </button>
+                return (
+                  <div
+                    key={index}
+                    className="card w-full bg-white shadow-lg rounded-lg overflow-hidden relative"
+                  >
+                    <p className="bg-[#1C3988] p-2 rounded-xl px-6 top-2 left-2 absolute text-gray-100">
+                      {property_details.property_type.charAt(0).toUpperCase() +
+                        property_details.property_type.slice(1)}
+                    </p>
+                 
+                    <img
+                      src={
+                        property_details.main_image
+                          ? `https://yoursafeland.duckdns.org${property_details.main_image}`
+                          : "https://via.placeholder.com/300x200?text=No+Image"
+                      }
+                      alt={property_details.title}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-start text-[#1C3988]">
+                        {property_details.title}
+                      </h3>
+                      <p className="flex items-center gap-1 text-start text-gray-500">
+                        <MapPin size={16} />
+                        <span>{location}</span>
+                      </p>
+                      <p className="text-gray-600 mt-2">
+                        <h1 className="text-lg flex items-center justify-between font-bold text-start text-[#1C3988]">
+                          ${parseFloat(property_details.price).toLocaleString()}
+                          <span className="text-[#8D8D8D] font-medium">{property_details.land_size}</span>
+                        </h1>
+                      </p>
 
-                      <div className="flex items-center gap-1 text-[#8B8B8B]">
-                        <Users size={18} className="text-[#1C3988]" />
-                        {property?.person}
+                      <div className="flex items-center justify-between my-3">
+                        <button className="px-5 py-[5px] rounded-full border-[1.5px] cursor-pointer border-[#1C3988] text-[#1C3988]">
+                          {payment}
+                        </button>
+                        <div className="flex items-center gap-1 text-[#8B8B8B]">
+                          <Users size={18} className="text-[#1C3988]" />
+                          {person}
+                        </div>
                       </div>
+
+                      <p className="text-[#8B8B8B] text-start pt-2">{property_details.description}</p>
+
+                      <Link
+                        to={`/buyer_dashboard/buyer_feture_details/${property_details.id}`}
+                        className="btn bg-[#1C3988] py-2 text-white text-base font-medium mt-4 w-full block text-center rounded"
+                      >
+                        View Details
+                      </Link>
                     </div>
-
-                    <p className="text-[#8B8B8B] text-start pt-2">{property?.description}</p>
-
-                    <Link
-                      to={`/buyer_dashboard/buyer_feture_details/${property.id}`}
-                      className="btn bg-[#1C3988] py-2 text-white text-base font-medium mt-4 w-full"
-                    >
-                      View Details
-                    </Link>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

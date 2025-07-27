@@ -7,12 +7,13 @@ import { MapPin, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { useAddToWishlistMutation,  useGetBuyShareOwnerQuery, useRemoveFromWishlistMutation } from "../../redux/features/buyerApi";
+import { useAddToWishlistMutation, useGetBuyShareOwnerQuery, useRemoveFromWishlistMutation } from "../../redux/features/buyerApi";
 import { toast, ToastContainer } from "react-toastify";
+import { RxCross2 } from "react-icons/rx";
 import { useGetAllPropertiesFeaturedListQuery } from "../../redux/features/sellerApi";
 
 export default function BuyerDashboardHome() {
-  const { data: getAllPropertiesFeaturedList ,refetch } = useGetAllPropertiesFeaturedListQuery();
+  const { data: getAllPropertiesFeaturedList, refetch } = useGetAllPropertiesFeaturedListQuery();
   console.log(getAllPropertiesFeaturedList, "lllllllllllllllllllll");
 
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
@@ -65,7 +66,7 @@ export default function BuyerDashboardHome() {
       setPropertyList(transformed);
       setFilteredProperties(transformed); // Initialize filtered properties
     }
-    refetch (); // Refetch to ensure data is up-to-date
+    refetch(); // Refetch to ensure data is up-to-date
   }, [getAllPropertiesFeaturedList]);
 
   const [addToWishlist] = useAddToWishlistMutation();
@@ -472,24 +473,24 @@ export default function BuyerDashboardHome() {
                         <button className="px-5 py-[5px] rounded-full border-[1.5px] cursor-pointer border-[#1C3988] text-[#1C3988]">
                           {property?.payment}
                         </button>
-                        
 
-                       <div className="flex gap-2">
-                         <Users size={18} className="text-[#1C3988]" />
-                        {property?.person === "5/5" ? (
-                          <button
-                            className="ml-2 px-3 text-xs py-1 text-white bg-[#1C3988] rounded cursor-pointer"
-                            onClick={() => {
-                              setSelectedPropertyId(property.id); // Set the property ID to fetch shareholders
-                              setShowShareholderModal(true); // Open the modal
-                            }}
-                          >
-                            Contact by Email
-                          </button>
-                        ) : (
-                          <span>{property?.person}</span>
-                        )}
-                       </div>
+
+                        <div className="flex gap-2">
+                          <Users size={18} className="text-[#1C3988]" />
+                          {property?.person === "5/5" ? (
+                            <button
+                              className="ml-2 px-3 text-xs py-1 text-white bg-[#1C3988] rounded cursor-pointer"
+                              onClick={() => {
+                                setSelectedPropertyId(property.id); // Set the property ID to fetch shareholders
+                                setShowShareholderModal(true); // Open the modal
+                              }}
+                            >
+                              Contact by Email
+                            </button>
+                          ) : (
+                            <span>{property?.person}</span>
+                          )}
+                        </div>
                       </div>
                       <p className="text-[#8B8B8B] text-start pt-2 line-clamp-2">{property?.description}</p>
                       <Link
@@ -504,29 +505,29 @@ export default function BuyerDashboardHome() {
               </div>
 
               {showShareholderModal && (
-                <div className="fixed inset-0 backdrop-blur  bg-opacity-50 flex items-center justify-center z-50">
-                  <div className="bg-white rounded-lg p-6 max-w-md w-full shadow">
-                     <button
-                      className=" px-4 py-2 bg-[#1C3988] text-white text-start rounded hover:bg-blue-700/70 cursor-pointer"
+                <div className="fixed inset-0 backdrop-blur   bg-opacity-50 flex items-center justify-center z-50">
+                  <div className="bg-white rounded-lg p-10 max-w-md w-full shadow relative">
+                    <button
+                      className=" px-2 py-1 absolute border text-[#1C3988] border-[#1C3988] font-bold text-start rounded hover:bg-gray-200 cursor-pointer top-2 right-2 "
                       onClick={() => {
                         setShowShareholderModal(false);
                         setSelectedPropertyId(null); // Reset the property ID
                       }}
                     >
-                      Close
+                      <RxCross2 />
                     </button>
                     <h2 className="text-3xl font-bold mb-4 text-blue-900 ">Shareholder Contacts</h2>
                     {shareholdersLoading ? (
                       <p>Loading shareholders...</p>
                     ) : shareholdersData?.success && shareholdersData?.data?.length > 0 ? (
                       <ul className="space-y-2">
-                       <div className="flex gap-20 justify-center mr-10">
-                         <li className="font-bold underline text-xl ">Name</li>
-                        <li className="font-bold underline text-xl">Email</li>
-                       </div>
+                        <div className="flex gap-20 justify-center mr-10 ">
+                          <li className="font-bold underline text-xl ">Name</li>
+                          <li className="font-bold underline text-xl">Email</li>
+                        </div>
                         {shareholdersData.data.map((shareholder) => (
-                          <li key={shareholder.id} className="text-gray-800">
-                            <span>{shareholder.buyer_name}: </span>
+                          <li key={shareholder.id} className="text-gray-800 flex justify-evenly">
+                            <span className="font-bold">{shareholder.buyer_name}: </span>
                             <a
                               href={`mailto:${shareholder.buyer_email}`}
                               className="text-blue-900 hover:underline"
@@ -535,11 +536,12 @@ export default function BuyerDashboardHome() {
                             </a>
                           </li>
                         ))}
+                        <p className="text-xl font-semibold mt-4">All the shareholders are notified.</p>
                       </ul>
                     ) : (
                       <p>No shareholders found for this property.</p>
                     )}
-                   
+
                   </div>
                 </div>
               )}
