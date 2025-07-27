@@ -1,17 +1,55 @@
+
+
 "use client"
 
 import { MdEmail, MdOutlineWifiCalling3 } from "react-icons/md"
 import { IoLocationSharp } from "react-icons/io5"
+import { useState } from "react"
+import emailjs from "emailjs-com"
+import toast, { Toaster } from "react-hot-toast"
 
-export default function GetInTuch() {
+export default function GetInTouch() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    number: "",
+    message: "",
+  })
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log("Form submitted")
+
+    // Send email using EmailJS
+    emailjs
+      .send(
+        'service_d9pxazn', // Service ID (from EmailJS)
+        'template_qa4mime', // Template ID (from EmailJS)
+        formData, // Form data to be passed to the template
+        'c5c7fHmJkZzxvByD2' // Your EmailJS user ID
+      )
+      .then(
+        (response) => {
+          console.log("SUCCESS", response)
+          toast.success("Your message has been sent!")
+        },
+        (error) => {
+          console.log("FAILED", error)
+          toast.error("Something went wrong, please try again later.")
+        }
+      )
   }
 
   return (
-    <div className="min-h-screen  lg:px-40 md:px-20 p-4 flex items-center justify-center">
-      <div className="w-full  bg-white shadow-lg rounded-lg overflow-hidden">
+    <div className="min-h-screen lg:px-40 md:px-20 p-4 flex items-center justify-center">
+      <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="grid md:grid-cols-2 gap-0">
           {/* Left Side - Contact Information */}
           <div className="bg-white p-8 md:p-12">
@@ -67,9 +105,12 @@ export default function GetInTuch() {
                 </label>
                 <input
                   id="name"
+                  name="name"
                   type="text"
                   placeholder="Enter Your Name"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md  text-gray-600"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-600"
+                  value={formData.name}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -80,9 +121,12 @@ export default function GetInTuch() {
                 </label>
                 <input
                   id="email"
+                  name="email"
                   type="email"
-                  placeholder=" Enter Your Email"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-600  transition-all duration-200"
+                  placeholder="Enter Your Email"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-600"
+                  value={formData.email}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -92,31 +136,36 @@ export default function GetInTuch() {
                   Number
                 </label>
                 <input
-                type="tel"
                   id="number"
-                  
+                  name="number"
+                  type="tel"
                   placeholder="+1(555) 123-4567"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-600  transition-all duration-200"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-600"
+                  value={formData.number}
+                  onChange={handleChange}
                 />
               </div>
 
               {/* Message Field */}
               <div>
-                <label htmlFor="message" className="block text-sm font-medium  mb-2">
+                <label htmlFor="message" className="block text-sm font-medium mb-2">
                   Message
                 </label>
                 <textarea
                   id="message"
+                  name="message"
                   rows={4}
                   placeholder="Write Your Message Here"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-600  resize-none transition-all duration-200"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-600 resize-none"
+                  value={formData.message}
+                  onChange={handleChange}
                 />
               </div>
 
               {/* Send Button */}
               <button
                 type="submit"
-                className="w-full md:w-auto px-8 py-3 bg cursor-pointer  text-white font-medium rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                className="w-full md:w-auto px-8 py-3 bg cursor-pointer text-white font-medium rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
               >
                 Send
               </button>
@@ -124,6 +173,8 @@ export default function GetInTuch() {
           </div>
         </div>
       </div>
+      <Toaster position="top-right"/>
     </div>
   )
 }
+

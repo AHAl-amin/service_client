@@ -9,11 +9,11 @@ export default function BuyerCostCalculation() {
   const [activeTab, setActiveTab] = useState("basic");
 
   // Basic Info State
-  const [landCost, setLandCost] = useState("100000");
-  const [buildingCost, setBuildingCost] = useState("2000");
-  const [permitCost, setPermitCost] = useState("6000");
-  const [utilityConnections, setUtilityConnections] = useState("10000");
-  const [roadAccess, setRoadAccess] = useState("6000");
+  const [landCost, setLandCost] = useState("0");
+  const [buildingCost, setBuildingCost] = useState("0");
+  const [permitCost, setPermitCost] = useState("0");
+  const [utilityConnections, setUtilityConnections] = useState("0");
+  const [roadAccess, setRoadAccess] = useState("0");
   const [buildingQuality, setBuildingQuality] = useState("standard");
   const [locationType, setLocationType] = useState("suburban");
 
@@ -24,20 +24,20 @@ export default function BuyerCostCalculation() {
   const [garageType, setGarageType] = useState("");
 
   const [costs, setCosts] = useState({
-    landCost: 100000,
-    buildingCost: 200000,
-    permitCost: 6000,
-    utilityConnections: 10000,
-    roadAccess: 6000,
+    landCost: 0,
+    buildingCost: 0,
+    permitCost: 0,
+    utilityConnections: 0,
+    roadAccess: 0,
   });
 
   const calculateCosts = () => {
     // Use direct input values from Basic Info tab
-    const newLandCost = Number.parseFloat(landCost) || 100000;
-    const newBuildingCost = Number.parseFloat(buildingCost) || 200000;
-    const newPermitCost = Number.parseFloat(permitCost) || 6000;
-    const newUtilityConnections = Number.parseFloat(utilityConnections) || 10000;
-    const newRoadAccess = Number.parseFloat(roadAccess) || 6000;
+    const newLandCost = Number.parseFloat(landCost) || 0;
+    const newBuildingCost = Number.parseFloat(buildingCost) || 0;
+    const newPermitCost = Number.parseFloat(permitCost) || 0;
+    const newUtilityConnections = Number.parseFloat(utilityConnections) || 0;
+    const newRoadAccess = Number.parseFloat(roadAccess) || 0;
 
     // Apply multipliers for advanced options
     const foundationMultiplier = {

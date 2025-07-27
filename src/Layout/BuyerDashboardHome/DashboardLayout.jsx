@@ -151,12 +151,12 @@ export default function DashboardLayout() {
               </div>
             </div>
             <div className="flex items-center gap-4 me-10">
-              <button
+              {/* <button
                 onClick={() => setIsModalOpen(true)}
                 className="p-2 bg-[#FAE08C1A] hover:bg-[#f8de91] border-2 border-[#B28D2833] rounded-full transition-colors duration-300 cursor-pointer"
               >
                 <Bell size={24} className="text-[#B28D28]" />
-              </button>
+              </button> */}
 
 
               <div className="flex items-center justify-center gap-2">
