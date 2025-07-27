@@ -37,65 +37,6 @@ export default function BoostOptions() {
 
 
 
-// const handleConfirmBoost = async () => {
-//   if (!selectedProperty) {
-//      toast.error("Please select a property");
-//     return;
-//   }
-
-//   const property = PropertyList.find((p) => p.id === Number.parseInt(selectedProperty));
-//   const boost = BoostPlans.find((plan) => plan.name.toLowerCase().includes(selectedBoostType));
-
-//   // Check if property and boost exist to avoid undefined errors
-//   if (!property || !boost) {
-//      toast.error("Error: Invalid property or boost plan selected.");
-//     return;
-//   }
-
-//   const boostPrice = boost ? `$${boost.price}/${boost.duration === 1 ? "day" : "week"}` : "";
-
-//   // Prepare getstartedData for the mutation
-//   const getstartedData = {
-//     plan_id: boost.id,
-//     successUrl: "http://localhost:5173/success",
-//     cancelUrl: "http://localhost:5173/cancel",
-//     property_id: Number.parseInt(selectedProperty), // Ensure property_id is a number
-//   };
-
-//   try {
-//     // Trigger the SubscribtionPlan mutation
-//     const response = await SubscribtionPlan(getstartedData).unwrap();
-//     console.log("Checkout session created:", response);
-
-//     // Show success alert
-//      toast.error(`Boost confirmed!\nProperty: ${property.name}\nBoost Type: ${boost.name}\nPrice: ${boostPrice}`);
-
-//     // Redirect to checkout URL if provided, otherwise navigate to success page
-//     if (response.checkout_url) {
-//       window.location.href = response.checkout_url;
-//     } else {
-//       // Assuming you have access to navigate (from react-router-dom)
-//       // If not using react-router-dom, you can use window.location.href = "/success";
-//       window.location.href = "/success";
-//     }
-
-//     closeModal();
-//   } catch (error) {
-//     console.error("Error confirming boost:", error);
-//     let errorMessage = "Failed to confirm boost. Please try again.";
-    
-//     // Handle specific error messages if available
-//     if (error?.data?.plan_id) {
-//       errorMessage = error.data.plan_id.join(" ");
-//     }
-    
-//     else{
-//       window.location.href = "/cancel";
-//     }
-//     toast.error(errorMessage);
-//   }
-// };
-
 
 const handleConfirmBoost = async () => {
   if (!selectedProperty) {

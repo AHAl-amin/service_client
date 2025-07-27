@@ -4,7 +4,7 @@ export default function PricingOptions({ onNext, onBack, formData, setFormData, 
   const [pricingData, setPricingData] = useState({
     price: formData.price || "",
     allowDownPayment: formData.allow_down_payment || false,
-    lockPeriod: formData.lock_period || "30",
+    lockPeriod: formData.lock_period || "",
     enableBuyShare: formData.buy_share || false,
     boostOptions: formData.boostOptions || {
       dailyBoost: false,
@@ -128,18 +128,21 @@ export default function PricingOptions({ onNext, onBack, formData, setFormData, 
               </label>
               <div className="relative">
                 <select
-                  id="lockPeriod"
-                  name="lockPeriod"
-                  value={pricingData.lockPeriod}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 text-gray-700 bg-white appearance-none cursor-pointer"
-                >
-                  {lockPeriodOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
+  id="lockPeriod"
+  name="lockPeriod"
+  value={pricingData.lockPeriod}
+  onChange={handleInputChange}
+  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 text-gray-700 bg-white appearance-none cursor-pointer"
+>
+  <option value="" disabled hidden>
+    Select a lock period
+  </option>
+  {lockPeriodOptions.map((option) => (
+    <option key={option.value} value={option.value}>
+      {option.label}
+    </option>
+  ))}
+</select>
                 <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
                   <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -189,40 +192,12 @@ export default function PricingOptions({ onNext, onBack, formData, setFormData, 
 
             <div className="border-t border-gray-200 pt-8">
               <div className="mb-6">
-                <h2 className="text-2xl font-bold text mb-2">Boost Options</h2>
-                <p className="text-gray-600 text-xl">Select options to boost your property listing</p>
+                <h2 className="text-2xl font-bold text mb-2">Feature Options</h2>
+                <p className="text-gray-600 text-xl">Select options to your property listing</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="border border-gray-200 rounded-lg p-4">
-                  <label className="flex items-start space-x-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={pricingData.boostOptions.dailyBoost}
-                      onChange={() => handleBoostOptionChange("dailyBoost")}
-                      className="w-12 h-12 text border-gray-300 rounded focus:ring-blue-500 focus:ring-2 mt-1"
-                    />
-                    <div className="flex-1">
-                      <div className="font-medium text-2xl text mb-1">Daily Boost ($30/day)</div>
-                      <p className="text-sm text-gray-500">Premium visibility for 24 hours</p>
-                    </div>
-                  </label>
-                </div>
 
-                <div className="border border-gray-200 rounded-lg p-4">
-                  <label className="flex items-start space-x-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={pricingData.boostOptions.weeklyBoost}
-                      onChange={() => handleBoostOptionChange("weeklyBoost")}
-                      className="w-12 h-12 text border-gray-300 rounded focus:ring-blue-500 focus:ring-2 mt-1"
-                    />
-                    <div className="flex-1">
-                      <div className="font-medium text-2xl text mb-1">Weekly Boost ($100/week)</div>
-                      <p className="text-sm text-gray-500">Premium visibility for 7 days (save $110)</p>
-                    </div>
-                  </label>
-                </div>
 
                 <div className="border border-gray-200 rounded-lg p-4">
                   <label className="flex items-start space-x-3 cursor-pointer">

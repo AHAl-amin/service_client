@@ -56,7 +56,7 @@ export default function BuyerDashboardHome() {
         person: `${item.shares_count}/${item.max_shares}`,
         payment: item.allow_down_payment ? "Down Payment Available" : "Full Payment Only",
         image: item.main_image
-          ? `http://10.10.13.60:2100${item.main_image}`
+          ? `https://yoursafeland.duckdns.org${item.main_image}`
           : "https://via.placeholder.com/400x300?text=No+Image",
         features: item.features?.map((f) => f.name).join(", ") || "No features listed",
         property_type: item.property_type || "unknown", // Add property_type for filtering
@@ -408,7 +408,7 @@ export default function BuyerDashboardHome() {
                 <div className="w-full">
                   <button
                     type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-md transition-colors flex items-center justify-center gap-2"
+                    className="w-full bg-[#1C3988] cursor-pointer text-white font-medium py-3 px-8 rounded-md transition-colors flex items-center justify-center gap-2"
                     aria-label="Search properties"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -520,6 +520,10 @@ export default function BuyerDashboardHome() {
                       <p>Loading shareholders...</p>
                     ) : shareholdersData?.success && shareholdersData?.data?.length > 0 ? (
                       <ul className="space-y-2">
+                       <div className="flex gap-20 justify-center mr-10">
+                         <li className="font-bold underline text-xl ">Name</li>
+                        <li className="font-bold underline text-xl">Email</li>
+                       </div>
                         {shareholdersData.data.map((shareholder) => (
                           <li key={shareholder.id} className="text-gray-800">
                             <span>{shareholder.buyer_name}: </span>

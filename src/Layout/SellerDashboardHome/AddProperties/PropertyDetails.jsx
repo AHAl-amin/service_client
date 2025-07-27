@@ -1,8 +1,10 @@
+
+
 import React, { useState, useRef } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
 
-const PropertyDetails = ({ onNext, onBack, formData, setFormData, toast }) => {
+const PropertyDetails = ({ onNext, formData, setFormData, toast }) => {
   const [features, setFeatures] = useState({
     waterAccess: false,
     electricity: false,
@@ -29,7 +31,7 @@ const PropertyDetails = ({ onNext, onBack, formData, setFormData, toast }) => {
     setFormData((prev) => ({
       ...prev,
       features: checked
-        ? [...prev.features, name]
+        ? [...new Set([...prev.features, name])] // Ensure no duplicates
         : prev.features.filter((f) => f !== name),
     }));
   };
@@ -47,10 +49,13 @@ const PropertyDetails = ({ onNext, onBack, formData, setFormData, toast }) => {
 
   const addNewFeature = (value) => {
     if (value.trim()) {
-      const newFeatureName = value.toLowerCase().replace(" ", "");
+      const newFeatureName = value
+        .toLowerCase()
+        .replace(/\s+/g, "") // Remove all spaces
+        .replace(/[^a-z0-9]/g, ""); // Remove special characters for safe key
       setFeatures((prev) => ({
         ...prev,
-        [newFeatureName]: false,
+        [newFeatureName]: false, // Add new feature, unchecked by default
       }));
       setNewFeature("");
       setShowInput(false);
@@ -83,6 +88,14 @@ const PropertyDetails = ({ onNext, onBack, formData, setFormData, toast }) => {
     }
   };
 
+  // Helper function to format feature names for display
+  const formatFeatureName = (key) => {
+    return key
+      .replace(/([A-Z])/g, " $1") // Add space before capital letters
+      .replace(/^./, (str) => str.toUpperCase()) // Capitalize first letter
+      .trim();
+  };
+
   return (
     <div>
       <div className="mx-auto p-6 bg-[#FFFFFF] border border-[#1C3988] rounded-lg mt-10">
@@ -111,7 +124,7 @@ const PropertyDetails = ({ onNext, onBack, formData, setFormData, toast }) => {
                 value={formData.land_size}
                 onChange={handleInputChange}
                 className="w-full p-2 border rounded text-gray-800"
-                placeholder="1000"
+                placeholder="land size in sqft"
               />
             </div>
 
@@ -123,7 +136,9 @@ const PropertyDetails = ({ onNext, onBack, formData, setFormData, toast }) => {
                 onChange={handleInputChange}
                 className="appearance-none w-full p-2 border rounded text-gray-800"
               >
-                <option value="" disabled className="text-gray-400">Select Property Type</option>
+                <option value="" disabled className="text-gray-400">
+                  Select Property Type
+                </option>
                 <option value="land">Land</option>
                 <option value="ranch">Ranch</option>
                 <option value="farm">Farm</option>
@@ -147,42 +162,16 @@ const PropertyDetails = ({ onNext, onBack, formData, setFormData, toast }) => {
         <div className="mb-4">
           <h3 className="text-lg font-bold text mb-2">Features & Amenities</h3>
           <div className="grid md:grid-cols-4 grid-cols-2 gap-2 text">
-            {[
-              "Water Access",
-              "Electricity",
-              "Road Access",
-              "Sewer System",
-              "Internet Available",
-              "Scenic Views",
-              "Features & Amenities",
-              "Features & Amenitie",
-              ...Object.keys(features)
-                .filter(
-                  (key) =>
-                    ![
-                      "waterAccess",
-                      "electricity",
-                      "roadAccess",
-                      "sewerSystem",
-                      "internetAvailable",
-                      "scenicViews",
-                      "featuresAmenities",
-                      "featuresAmenitie",
-                    ].includes(key)
-                )
-                .map((key) =>
-                  key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())
-                ),
-            ].map((feature) => (
-              <label key={feature} className="flex items-center">
+            {Object.keys(features).map((key) => (
+              <label key={key} className="flex items-center">
                 <input
                   type="checkbox"
-                  name={feature.toLowerCase().replace(" ", "")}
-                  checked={features[feature.toLowerCase().replace(" ", "")]}
+                  name={key}
+                  checked={features[key]}
                   onChange={handleCheckboxChange}
                   className="mr-2 w-4 h-4 bg-white border-2 border-[#1C3988]"
                 />
-                {feature}
+                {formatFeatureName(key)}
               </label>
             ))}
           </div>
@@ -230,5 +219,3 @@ const PropertyDetails = ({ onNext, onBack, formData, setFormData, toast }) => {
 };
 
 export default PropertyDetails;
-
-

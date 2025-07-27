@@ -185,7 +185,7 @@ export default function EditPricingOptions({ onNext, onBack, propertyData, updat
               </div>
             </div>
 
-            <div className="border-t border-gray-200 pt-8">
+            {/* <div className="border-t border-gray-200 pt-8">
               <div className="mb-6">
                 <h2 className="text-2xl font-bold text mb-2">Boost Options</h2>
                 <p className="text-gray-600 text-xl">Set your property price and payment options</p>
@@ -239,7 +239,7 @@ export default function EditPricingOptions({ onNext, onBack, propertyData, updat
                   </label>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 

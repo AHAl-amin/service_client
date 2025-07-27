@@ -1,30 +1,4 @@
-// // components/NotificationModal.jsx
-// import React from "react";
 
-// export default function BuyerNotification({ isOpen, onClose }) {
-//   if (!isOpen) return null;
-
-//   return (
-//     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur bg-opacity-30">
-//       <div className="bg-white p-6 rounded-lg w-96 shadow-xl relative">
-//         <button
-//           className="absolute top-2 right-2 text hover:text-gray-800"
-//           onClick={onClose}
-//         >
-//           ✕
-//         </button>
-//         <h2 className="text-xl font-bold mb-4">Notifications</h2>
-//         <ul className="space-y-2 text-gray-700">
-//           <li>🔔 New message from seller</li>
-//           <li>📦 Your item has been shipped</li>
-//           <li>✅ Payment received</li>
-//         </ul>
-//       </div>
-//     </div>
-//   );
-// }
-
-"use client"
 
 import { useState } from "react"
 

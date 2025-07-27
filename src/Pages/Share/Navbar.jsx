@@ -17,7 +17,7 @@ const Navbar = () => {
   const { data: getSellerDataProfile } = useGetSellerDataProfileQuery(undefined, {
     skip: userType !== "seller"
   });
-  //  console.log(getSellerDataProfile, "profile.....................");
+   console.log(getSellerDataProfile, "profile.....................");
 
   const profile =
     userType === "buyer" ? getBuyerDataProfile?.data : getSellerDataProfile?.data;
@@ -25,7 +25,7 @@ const Navbar = () => {
   const userName = profile ? `${profile.first_name} ` : '';
   const userEmail = profile?.email;
   const profileImage = profile?.profile_picture
-    ? `http://10.10.13.60:2100${profile.profile_picture}`
+    ? `https://yoursafeland.duckdns.org${profile.profile_picture}`
     : 'https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp';
 
 

@@ -17,7 +17,7 @@ export default function SellerSetting() {
 
   const [previewImage, setPreviewImage] = useState(
     profile?.profile_picture
-      ? `http://10.10.13.60:2100${profile.profile_picture}`
+      ? `https://yoursafeland.duckdns.org${profile.profile_picture}`
       : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"
   );
 
@@ -52,7 +52,7 @@ export default function SellerSetting() {
       setCountry(profile.country || "");
       setPreviewImage(
         profile.profile_picture
-          ? `http://10.10.13.60:2100${profile.profile_picture}`
+          ? `https://yoursafeland.duckdns.org${profile.profile_picture}`
           : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"
       );
       reset(newFormData);
@@ -92,7 +92,7 @@ export default function SellerSetting() {
       setCountry(response.data.country || "");
       setPreviewImage(
         response.data.profile_picture
-          ? `http://10.10.13.60:2100${response.data.profile_picture}`
+          ? `https://yoursafeland.duckdns.org${response.data.profile_picture}`
           : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"
       );
     }
@@ -337,7 +337,7 @@ export default function SellerSetting() {
             <img
               src={
                 profile?.profile_picture
-                  ? `http://10.10.13.60:2100${profile.profile_picture}`
+                  ? `https://yoursafeland.duckdns.org${profile.profile_picture}`
                   : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"
               }
               alt="User Avatar"

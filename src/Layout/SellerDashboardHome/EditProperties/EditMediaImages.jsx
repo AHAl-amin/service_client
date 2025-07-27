@@ -1,3 +1,6 @@
+
+
+
 import { useState, useEffect } from "react";
 
 export default function EditMediaImages({ onNext, onBack, propertyData, updatePropertyData }) {
@@ -11,8 +14,8 @@ export default function EditMediaImages({ onNext, onBack, propertyData, updatePr
     if (propertyData) {
       setUploadedImages({
         mainProperty: propertyData.main_image || null,
-        aerialDrone: propertyData.images?.find((img) => img.image_type === "aerial")?.image || null,
-        additional: propertyData.images?.filter((img) => img.image_type !== "aerial").map((img) => img.image) || [],
+        aerialDrone: propertyData.images?.find((img) => img.image_type === "drone")?.image || null,
+        additional: propertyData.images?.filter((img) => img.image_type === "additional").map((img) => img.image) || [],
       });
     }
   }, [propertyData]);
@@ -34,16 +37,21 @@ export default function EditMediaImages({ onNext, onBack, propertyData, updatePr
               [type]: e.target.result,
             };
           }
+
+          // Create imagesArray with only the appropriate images
           const imagesArray = [
             ...(updatedImages.mainProperty ? [{ image: updatedImages.mainProperty, image_type: "main" }] : []),
-            ...(updatedImages.aerialDrone ? [{ image: updatedImages.aerialDrone, image_type: "aerial" }] : []),
+            ...(updatedImages.aerialDrone ? [{ image: updatedImages.aerialDrone, image_type: "drone" }] : []),
             ...updatedImages.additional.map((img) => ({ image: img, image_type: "additional" })),
           ];
+
+          // Update propertyData with the correct images
           updatePropertyData({
             ...propertyData,
             main_image: updatedImages.mainProperty,
             images: imagesArray,
           });
+
           return updatedImages;
         });
       };
@@ -246,4 +254,3 @@ export default function EditMediaImages({ onNext, onBack, propertyData, updatePr
     </div>
   );
 }
-

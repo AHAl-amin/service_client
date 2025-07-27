@@ -181,7 +181,7 @@ export default function SellerDashboardLayout() {
                 <div className="w-12 h-12 ">
                
                    <img
-                    src={profile?.profile_picture ? `http://10.10.13.60:2100${profile?.profile_picture}` : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"}
+                    src={profile?.profile_picture ? `https://yoursafeland.duckdns.org${profile?.profile_picture}` : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp"}
                     className="w-full h-full object-cover rounded-full"
                     alt="Admin Avatar"
                   />

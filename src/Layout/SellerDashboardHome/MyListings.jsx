@@ -14,36 +14,36 @@ import EditProperties from "./EditProperties/EditProperties";
 import { useGetAllPropertiesListQuery } from "../../redux/features/sellerApi";
 
 export default function MyListings() {
-     const {data:getAllPropertiesList} = useGetAllPropertiesListQuery();
-  console.log(getAllPropertiesList,"getAllPropertiesList.....................");
+    const { data: getAllPropertiesList } = useGetAllPropertiesListQuery();
+    console.log(getAllPropertiesList, "getAllPropertiesList.....................");
 
 
     const [propertyList, setPropertyList] = useState([]);
-     
-useEffect(() => {
-  if (getAllPropertiesList?.length > 0) {
-    const transformed = getAllPropertiesList.map((item) => ({
-      id: item.id,
-      title: item.title,
-      price: `$${Number(item.price).toLocaleString()}`,
-      area: `${item.land_size} sq ft`,
-      location: ` ${item.country},${item.city}`,
-      description: item.description,
-      person: `${item.remaining_shares}/${item.max_shares}`,
-      payment: item.allow_down_payment ? "Down Payment Available" : "Full Payment Only",
-      image: item.main_image
-        ? `http://10.10.13.60:2100${item.main_image}`
-        : "https://via.placeholder.com/400x300?text=No+Image",
-      features: item.features?.map((f) => f.name).join(", ") || "No features listed",
-    }));
 
-    setPropertyList(transformed);
-  }
-}, [getAllPropertiesList]);
+    useEffect(() => {
+        if (getAllPropertiesList?.length > 0) {
+            const transformed = getAllPropertiesList.map((item) => ({
+                id: item.id,
+                title: item.title,
+                price: `$${Number(item.price).toLocaleString()}`,
+                area: `${item.land_size} sq ft`,
+                location: ` ${item.country},${item.city}`,
+                description: item.description,
+                person: `${item.remaining_shares}/${item.max_shares}`,
+                payment: item.allow_down_payment ? "Down Payment Available" : "Full Payment Only",
+                image: item.main_image
+                    ? `https://yoursafeland.duckdns.org${item.main_image}`
+                    : "https://via.placeholder.com/400x300?text=No+Image",
+                features: item.features?.map((f) => f.name).join(", ") || "No features listed",
+            }));
 
-      
+            setPropertyList(transformed);
+        }
+    }, [getAllPropertiesList]);
 
-  
+
+
+
 
 
     return (
@@ -79,17 +79,20 @@ useEffect(() => {
                                 {propertyList.map((property, index) => (
                                     <div key={index} className="card w-full bg-white shadow-lg rounded-lg overflow-hidden relative">
                                         {/* Boost badge and view count */}
-                                        <p className="bg-green-700 p-2 rounded-xl px-6 top-2 left-2 absolute">Bost</p>
-                                        {/* <div className="absolute right-2 top-2 bg-gray-300 rounded flex items-center gap-2 p-2">
-                                            <IoEyeOutline className="text-2xl text" />
-                                            <span className=" text">50</span>
-                                        </div> */}
+                                        {/* <p className="bg-green-700 p-2 rounded-xl px-6 top-2 left-2 absolute">Bost</p> */}
+
+                                        {property.booststatus === "Active" && (
+                                            <p className="bg-green-700 p-2 rounded-xl px-6 top-2 left-2 absolute">
+                                                Boost
+                                            </p>
+                                        )}
+
 
                                         {/* Property image */}
                                         <img src={property.image} alt={property.title} className="w-full h-48 object-cover" />
 
                                         <div className="p-6">
-                                          
+
                                             <p className="flex items-center gap-1 text-start text-gray-500">
                                                 <MapPin size={16} />
                                                 <span>{property?.location}</span>

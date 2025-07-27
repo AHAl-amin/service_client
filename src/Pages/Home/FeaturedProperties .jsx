@@ -2,16 +2,17 @@
 
 
 
+
 import { MapPin, Users, Search, CircleDollarSign } from "lucide-react";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { Link } from "react-router-dom";
 // import { useGetAllPropertiesFeaturedListQuery } from "../../redux/features/buyerApi";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useGetAllPropertiesFeaturedListQuery  } from "../../redux/features/sellerApi";
+import { useGetAllPropertiesFeaturedListQuery } from "../../redux/features/sellerApi";
 
 export const FeaturedProperties = ({ onExploreClick }) => {
-  const { data: getAllPropertiesFeaturedList, isLoading, error ,refetch } = useGetAllPropertiesFeaturedListQuery();
+  const { data: getAllPropertiesFeaturedList, isLoading, error } = useGetAllPropertiesFeaturedListQuery();
   const properties = getAllPropertiesFeaturedList?.data || [];
   const [sortOption, setSortOption] = useState("Featured");
   const [filteredProperties, setFilteredProperties] = useState([]);
@@ -21,7 +22,7 @@ export const FeaturedProperties = ({ onExploreClick }) => {
   const { register, handleSubmit } = useForm();
 
   // Base URL for images
-  const baseImageUrl = "http://10.10.13.60:2100";
+  const baseImageUrl = "https://yoursafeland.duckdns.org";
   const fallbackImage = "https://via.placeholder.com/300x200?text=No+Image+Available";
 
   // Handle form submission and filter properties
@@ -126,7 +127,6 @@ export const FeaturedProperties = ({ onExploreClick }) => {
         });
       setFilteredProperties(initialFiltered);
     }
-    refetch (); 
   }, [properties]); // Only run when properties change
 
   // Update filtered properties when sortOption changes
@@ -341,7 +341,7 @@ export const FeaturedProperties = ({ onExploreClick }) => {
               ))
             ) : (
               <div className="text-center col-span-full text-gray-500">
-                No properties match your search criteria.
+                properties loading...
               </div>
             )}
           </div>

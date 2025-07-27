@@ -17,8 +17,8 @@ import toast, { Toaster } from "react-hot-toast";
 import EditProperties from "./EditProperties/EditProperties";
 
 export default function SellerDashboardHome() {
-  const { data: getAllPropertiesList} = useGetAllPropertiesListQuery();
-  console.log(getAllPropertiesList,"llllllllllllllllll")
+  const { data: getAllPropertiesList } = useGetAllPropertiesListQuery();
+  console.log(getAllPropertiesList, "llllllllllllllllll")
   const [deleteProperties] = useDeletePropertiesMutation();
   const [editPropertyId, setEditPropertyId] = useState(null);
   const [propertyList, setPropertyList] = useState([]);
@@ -27,38 +27,39 @@ export default function SellerDashboardHome() {
 
 
   useEffect(() => {
-  if (getAllPropertiesList?.length > 0) {
-    const transformed = getAllPropertiesList.map((item) => ({
-      id: item.id,
-      title: item.title,
-      price: `$${Number(item.price).toLocaleString()}`,
-      area: `${item.land_size} sq ft`,
-      location: `${item.country},${item.city}`,
-      description: item.description,
-      person: `${item.remaining_shares}/${item.max_shares}`,
-      payment: item.allow_down_payment ? "Down Payment Available" : "Full Payment Only",
-      image: item.main_image
-        ? `http://10.10.13.60:2100${item.main_image}`
-        : "https://via.placeholder.com/400x300?text=No+Image",
-      features: item.features?.map((f) => f.name).join(", ") || "No features listed",
-    }));
-    console.log("Updated propertyList:", transformed);
-    setPropertyList(transformed);
-  }
-}, [getAllPropertiesList]);
+    if (getAllPropertiesList?.length > 0) {
+      const transformed = getAllPropertiesList.map((item) => ({
+        id: item.id,
+        title: item.title,
+        price: `$${Number(item.price).toLocaleString()}`,
+        area: `${item.land_size} sq ft`,
+        location: `${item.country},${item.city}`,
+        description: item.description,
+        person: `${item.remaining_shares}/${item.max_shares}`,
+        payment: item.allow_down_payment ? "Down Payment Available" : "Full Payment Only",
+        image: item.main_image
+          ? `https://yoursafeland.duckdns.org${item.main_image}`
+          : "https://via.placeholder.com/400x300?text=No+Image",
+        features: item.features?.map((f) => f.name).join(", ") || "No features listed",
+        booststatus: item.booststatus
+      }));
+      console.log("Updated propertyList:", transformed);
+      setPropertyList(transformed);
+    }
+  }, [getAllPropertiesList]);
 
 
   const handleDelete = async (id) => {
-  const previousList = [...propertyList]; // Backup current list
-  setPropertyList((prevList) => prevList.filter((property) => property.id !== id)); // Optimistic update
-  try {
-    const response = await deleteProperties(id).unwrap();
-    toast.success(response.message);
-  } catch (error) {
-    toast.error("Failed to delete property: " + error.message);
-    setPropertyList(previousList); // Restore on error
-  }
-};
+    const previousList = [...propertyList]; // Backup current list
+    setPropertyList((prevList) => prevList.filter((property) => property.id !== id)); // Optimistic update
+    try {
+      const response = await deleteProperties(id).unwrap();
+      toast.success(response.message);
+    } catch (error) {
+      toast.error("Failed to delete property: " + error.message);
+      setPropertyList(previousList); // Restore on error
+    }
+  };
 
   const handleEdit = async (property) => {
     console.log("Editing property ID:", property.id); // Debug log
@@ -144,11 +145,15 @@ export default function SellerDashboardHome() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {propertyList.slice(0, 6).map((property, index) => (
                 <div key={index} className="card w-full bg-white shadow-lg rounded-lg overflow-hidden relative">
-                  <p className="bg-green-700 p-2 rounded-xl px-6 top-2 left-2 absolute">Boost</p>
-                  {/* <div className="absolute right-2 top-2 bg-gray-300 rounded flex items-center gap-2 p-2">
-                    <IoEyeOutline className="text-2xl text" />
-                    <span className="text">50</span>
-                  </div> */}
+                  {/* <p className="bg-green-700 p-2 rounded-xl px-6 top-2 left-2 absolute">Boost</p> */}
+
+                  {property.booststatus === "Active" && (
+                    <p className="bg-green-700 p-2 rounded-xl px-6 top-2 left-2 absolute">
+                      Boost
+                    </p>
+                  )}
+
+
 
                   <img src={property.image} alt={property.title} className="w-full h-48 object-cover" />
 

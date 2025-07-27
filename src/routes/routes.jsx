@@ -32,6 +32,8 @@ import Pricing from "../Pages/Home/Pricing";
 import SellerDasFeatureDetails from "../Layout/SellerDashboardHome/SellerDasFeatureDetails";
 import PaymentSuccess from "../Payment/PaymentSuccess";
 import PaymentCancel from "../Payment/PaymentCancel";
+import Unauthorized from "../Unauthorized/Unauthorized";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 // import AddProperties from "../Layout/SellerDashboardHome/AddProperties";
 // import WishList from "../Layout/BuyerDashboardHome/WishList";
@@ -69,14 +71,22 @@ export const router = createBrowserRouter([
         path: '/cancel',
         element: <PaymentCancel/>
       },
+           {
+        path: "/unauthorized",
+        element: <Unauthorized />,
+      },
 
 
     ]
   },
   // Buyer dashboard
+
+   
   {
     path: 'buyer_dashboard',
-    element: <DashboardLayout />,
+   element: (<PrivateRoute allowedRoles={['buyer']}>
+      <DashboardLayout />
+    </PrivateRoute>),
     children: [
       { index: true, element: <BuyerDashboardHome /> },
       {
@@ -104,6 +114,7 @@ export const router = createBrowserRouter([
         path: 'buyer_setting',
         element: <BuyerSetting />
       },
+    
 
 
     ]
@@ -114,7 +125,9 @@ export const router = createBrowserRouter([
 
   {
     path: 'seller_dashboard',
-    element: <SellerDashboardLayout />,
+     element: (<PrivateRoute allowedRoles={['seller']}>
+      <SellerDashboardLayout />
+    </PrivateRoute>),
     children: [
       { index: true, element: <SellerDashboardHome /> },
 

@@ -99,91 +99,6 @@ function PreviewListing({ onNext, onBack, formData, toast }) {
     }
   };
 
-// const handleSubmit = async () => {
-//   if (!validateForm()) return;
-
-//   try {
-//     const formDataToSend = new FormData();
-
-//     // Basic fields
-//     formDataToSend.append("title", formData.title);
-//     formDataToSend.append("land_size", formData.land_size);
-//     formDataToSend.append("property_type", formData.property_type);
-//     formDataToSend.append("description", formData.description);
-
-//     // Features array → send as JSON string
-//     if (formData.features && Array.isArray(formData.features)) {
-//       formDataToSend.append("features", JSON.stringify(formData.features));
-//     }
-
-//     // File fields (assumed to be File objects)
-//     if (formData.main_image) {
-//       formDataToSend.append("main_image", formData.main_image);
-//     }
-
-//     if (formData.drone_shots) {
-//       formDataToSend.append("drone_shots", formData.drone_shots);
-//     }
-
-//     // Additional images (optional)
-//     if (formData.additional_images?.length) {
-//       formData.additional_images.forEach((file) => {
-//         formDataToSend.append("additional_images", file); // Send as multiple files
-//       });
-//     }
-
-//     // Location fields
-//     formDataToSend.append("country", formData.country);
-//     formDataToSend.append("state_province", formData.state_province);
-//     formDataToSend.append("city", formData.city);
-//     formDataToSend.append("street_address", formData.street_address);
-//     formDataToSend.append("postal_code", formData.postal_code);
-//     formDataToSend.append("latitude", formData.latitude || "0");
-//     formDataToSend.append("longitude", formData.longitude || "0");
-
-//     // Numeric & Boolean fields
-//     formDataToSend.append("price", formData.price);
-//     formDataToSend.append("allow_down_payment", formData.allow_down_payment ? "true" : "false");
-
-//     if (formData.down_payment_percentage) {
-//       formDataToSend.append("down_payment_percentage", formData.down_payment_percentage);
-//     }
-
-//     if (formData.lock_period) {
-//       formDataToSend.append("lock_period", formData.lock_period);
-//     }
-
-//     formDataToSend.append("buy_share", formData.buy_share ? "true" : "false");
-
-//     if (formData.max_shares) {
-//       formDataToSend.append("max_shares", formData.max_shares);
-//     }
-
-//     // Boost section
-//     if (formData.boost_type) {
-//       formDataToSend.append("boost_type", formData.boost_type);
-//     }
-
-//     if (formData.boost_start) {
-//       formDataToSend.append("boost_start", formData.boost_start);
-//     }
-
-//     if (formData.boost_end) {
-//       formDataToSend.append("boost_end", formData.boost_end);
-//     }
-
-//     formDataToSend.append("featured_listing", formData.boostOptions?.featuredListing ? "true" : "false");
-
-//     // API call
-//     const res = await propertieCreate(formDataToSend).unwrap();
-//     toast.success("Property created successfully!");
-//     console.log("✅Property Created:", res);
-
-//   } catch (error) {
-//     toast.error(" Failed to create property: " + (error?.data?.message || "Unknown error"));
-//     console.error("Error:", error);
-//   }
-// };
 
 
 
@@ -285,8 +200,8 @@ function PreviewListing({ onNext, onBack, formData, toast }) {
           </div>
 
           <div className="border border-[#1C3988] bg-[#E8EBF3] rounded-2xl p-6">
-            <h2 className="text-2xl font-bold text mb-2">Boost your listing</h2>
-            <p className="text-gray-600 text-sm">Selected boost: {formData.boost_type || "None"}</p>
+            <h2 className="text-2xl font-bold text mb-2">Feature your listing</h2>
+            <p className="text-gray-600 text-sm">Selected feature: {formData.boost_type || "None"}</p>
           </div>
 
           <div className="flex justify-between items-center pt-6">

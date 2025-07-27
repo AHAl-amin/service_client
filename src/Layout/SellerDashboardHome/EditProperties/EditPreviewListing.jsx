@@ -195,7 +195,7 @@ export default function EditPreviewListing({ onNext, onBack, propertyData, updat
             </div>
           </div>
 
-          <div className="border border-[#1C3988] bg-[#E8EBF3] rounded-2xl p-6">
+          {/* <div className="border border-[#1C3988] bg-[#E8EBF3] rounded-2xl p-6">
             <div className="mb-6">
               <h2 className="text-2xl font-bold text mb-2">Boost your listing</h2>
               <p className="text-gray-600 text-sm">Increase visibility and engagement</p>
@@ -224,7 +224,7 @@ export default function EditPreviewListing({ onNext, onBack, propertyData, updat
                 <span className="text-sm font-medium text">Weekly Boost ($100/week)</span>
               </label>
             </div>
-          </div>
+          </div> */}
 
           <div className="flex justify-between items-center pt-6">
             <button

@@ -5,7 +5,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const baseApi = createApi({
     reducerPath: 'baseApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://10.10.13.60:2100/' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://yoursafeland.duckdns.org/' }),
 
     tagTypes: [],
     endpoints: (builder) => ({
@@ -44,7 +44,5 @@ export const {
     useBuyerRegistrationMutation,useLoginMutation,useSellerRegistrationMutation
 
  } = baseApi
-
-
 
 

@@ -17,7 +17,7 @@ export default function ViewProfice() {
     const [error, setError] = useState(null);
 
     // Base URL for images
-    const baseImageUrl = "http://10.10.13.60:2100";
+    const baseImageUrl = "https://yoursafeland.duckdns.org";
     const fallbackImage = "https://via.placeholder.com/300x200?text=No+Image+Available";
 
     // Fetch seller profile and properties
@@ -25,7 +25,7 @@ export default function ViewProfice() {
         const fetchSellerProfile = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch(`http://10.10.13.60:2100/api/accounts/seller/${sellerId}/detail/`);
+                const response = await fetch(`https://yoursafeland.duckdns.org/api/accounts/seller/${sellerId}/detail/`);
                 if (!response.ok) {
                     throw new Error("Failed to fetch seller profile");
                 }
@@ -155,10 +155,10 @@ export default function ViewProfice() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                 {properties.map((property) => (
                                     <div key={property.id} className="card w-full bg-white shadow-lg rounded-lg overflow-hidden relative">
-                                        <p className="bg-[#1C3988] p-2 rounded-xl px-6 top-2 left-2 absolute text-white">{property.property_type}</p>
+                                        <p className="bg-[#1C3988] p-2 rounded-xl px-6 top-2 left-2 absolute text-white">{property?.property_type}</p>
                                         <IoIosHeartEmpty className="absolute right-2 top-2 text-2xl bg-gray-300 rounded" />
                                         <img
-                                            src={property.main_image ? `${baseImageUrl}${property.main_image}` : fallbackImage}
+                                            src={property?.main_image ? `${baseImageUrl}${property?.main_image}` : fallbackImage}
                                             alt={property.title}
                                             className="w-full h-48 object-cover"
                                         />
@@ -171,7 +171,7 @@ export default function ViewProfice() {
                                             <p className="text-gray-600 mt-2">
                                                 <h1 className="text-lg flex items-center justify-between font-bold text-start text-[#1C3988]">
                                                     ${parseFloat(property.price).toLocaleString()}
-                                                    <span className="text-[#8D8D8D] font-medium">{property.land_size}</span>
+                                                    <span className="text-[#8D8D8D] font-medium">{property.land_size} </span>
                                                 </h1>
                                             </p>
                                             <div className="flex items-center justify-between my-3">
@@ -180,7 +180,7 @@ export default function ViewProfice() {
                                                 </button>
                                                 <div className="flex items-center gap-1 text-[#8B8B8B]">
                                                     <Users size={18} className="text-[#1C3988]" />
-                                                    {property.remaining_shares}/{property.max_shares}
+                                                    {property.shares_count}/{property.max_shares}
                                                 </div>
                                             </div>
                                             <p className="text-[#8B8B8B] text-start pt-2 line-clamp-2">{property.description}</p>

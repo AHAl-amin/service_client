@@ -13,7 +13,7 @@ export default function SellerPricing() {
   const [SubscribtionPlan, { isLoading, error }] = useSubscribtionPlanMutation();
 
   useEffect(() => {
-    fetch("http://10.10.13.60:2100/api/subscriptions/plans/seller/subscriptions/")
+    fetch("https://yoursafeland.duckdns.org/api/subscriptions/plans/seller/subscriptions/")
       .then((response) => response.json())
       .then((data) => {
         const formattedPlans = data.map((plan) => ({

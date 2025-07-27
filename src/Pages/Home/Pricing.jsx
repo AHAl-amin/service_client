@@ -15,7 +15,7 @@ export default function Pricing() {
 
 
   useEffect(() => {
-    fetch("http://10.10.13.60:2100/api/subscriptions/plans/seller/subscriptions/")
+    fetch("https://yoursafeland.duckdns.org/api/subscriptions/plans/seller/subscriptions/")
       .then((response) => response.json())
       .then((data) => {
         console.log(data)

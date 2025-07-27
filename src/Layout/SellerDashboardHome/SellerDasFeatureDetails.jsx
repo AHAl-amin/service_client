@@ -8,7 +8,7 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { IoLocationOutline } from "react-icons/io5";
 import { useGetAllPropertiesListQuery } from "../../redux/features/sellerApi";
 
-const BASE_URL = "http://10.10.13.60:2100"; // Corrected typo in BASE_URL
+const BASE_URL = "https://yoursafeland.duckdns.org"; // Corrected typo in BASE_URL
 
 function SellerDasFeatureDetails() {
   const { id } = useParams();
@@ -44,7 +44,7 @@ function SellerDasFeatureDetails() {
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-8">
       <Link
-        to="/seller_dashboard/my_listings"
+        to="/seller_dashboard"
         className="bg-[#1C3988] rounded-xl py-3 px-6 text-white"
       >
         Back to Dashboard

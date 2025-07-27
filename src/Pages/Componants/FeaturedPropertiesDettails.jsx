@@ -26,7 +26,7 @@ function FeaturedPropertiesDetails() {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const baseImageUrl = "http://10.10.13.60:2100";
+  const baseImageUrl = "https://yoursafeland.duckdns.org";
   const fallbackImage = "https://via.placeholder.com/300x200?text=No+Image+Available";
 
   // Handle input changes
