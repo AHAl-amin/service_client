@@ -472,16 +472,7 @@ export default function BuyerDashboardHome() {
                         <button className="px-5 py-[5px] rounded-full border-[1.5px] cursor-pointer border-[#1C3988] text-[#1C3988]">
                           {property?.payment}
                         </button>
-                        {/* <div className="flex items-center gap-1 text-[#8B8B8B]">
-                          <Users size={18} className="text-[#1C3988]" />
-                          {property?.person === "5/5" ? (
-                            <button className="ml-2 px-3 text-xs py-1 text-white bg-[#1C3988] rounded cursor-pointer">
-                              Contact by Email
-                            </button>
-                          ) : (
-                            <span>{property?.person}</span>
-                          )}
-                        </div> */}
+                        
 
                        <div className="flex gap-2">
                          <Users size={18} className="text-[#1C3988]" />
@@ -515,6 +506,15 @@ export default function BuyerDashboardHome() {
               {showShareholderModal && (
                 <div className="fixed inset-0 backdrop-blur  bg-opacity-50 flex items-center justify-center z-50">
                   <div className="bg-white rounded-lg p-6 max-w-md w-full shadow">
+                     <button
+                      className=" px-4 py-2 bg-[#1C3988] text-white text-start rounded hover:bg-blue-700/70 cursor-pointer"
+                      onClick={() => {
+                        setShowShareholderModal(false);
+                        setSelectedPropertyId(null); // Reset the property ID
+                      }}
+                    >
+                      Close
+                    </button>
                     <h2 className="text-3xl font-bold mb-4 text-blue-900 ">Shareholder Contacts</h2>
                     {shareholdersLoading ? (
                       <p>Loading shareholders...</p>
@@ -539,15 +539,7 @@ export default function BuyerDashboardHome() {
                     ) : (
                       <p>No shareholders found for this property.</p>
                     )}
-                    <button
-                      className="mt-4 px-4 py-2 bg-[#1C3988] text-white rounded hover:bg-blue-700/70 cursor-pointer"
-                      onClick={() => {
-                        setShowShareholderModal(false);
-                        setSelectedPropertyId(null); // Reset the property ID
-                      }}
-                    >
-                      Close
-                    </button>
+                   
                   </div>
                 </div>
               )}
