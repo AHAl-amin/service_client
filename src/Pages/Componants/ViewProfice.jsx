@@ -57,6 +57,7 @@ export default function ViewProfice() {
     }
 
     const properties = sellerData.properties || [];
+    console.log(properties, "Properties Data");
 
     return (
         <div className="min-h-screen bg-yellow-50/90">
@@ -153,7 +154,7 @@ export default function ViewProfice() {
                     <div className="grid lg:grid-cols-4 gap-6">
                         <div className="lg:col-span-4">
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                                {properties.map((property) => (
+                                {properties?.map((property) => (
                                     <div key={property.id} className="card w-full bg-white shadow-lg rounded-lg overflow-hidden relative">
                                         <p className="bg-[#1C3988] p-2 rounded-xl px-6 top-2 left-2 absolute text-white">{property?.property_type}</p>
                                         <IoIosHeartEmpty className="absolute right-2 top-2 text-2xl bg-gray-300 rounded" />

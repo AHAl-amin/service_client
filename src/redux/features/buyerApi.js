@@ -25,7 +25,7 @@ const baseQuery = fetchBaseQuery({
 export const buyerApi = createApi({
     reducerPath: "api",
     baseQuery,
-    tagTypes: ["Profile"],
+    tagTypes: ["Profile", "Properties"],
     endpoints: (builder) => ({
 
         addToWishlist: builder.mutation({

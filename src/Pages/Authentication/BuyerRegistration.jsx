@@ -601,7 +601,7 @@ try {
           {currentStep === 4 && (
             <div>
               <div className="mb-6">
-                <h2 className="text-2xl font-semibold text-[#1C3988] mb-2">Trust & Responsibility Agreement</h2>
+                <h2 className="text-3xl font-semibold text-[#1C3988] mb-2">Trust & Responsibility Agreement</h2>
                 <p className="text-xl text-gray-600">
                   Please Review And Accept Our Terms And Conditions To Complete Your Registration
                 </p>
@@ -629,40 +629,40 @@ try {
                     </div>
                   </div>
                 </div>
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <h3 className="text-xl font-semibold text-[#1C3988] mb-3">Platform Terms of Service</h3>
-                  <div className="text-xs text-gray-700 space-y-2">
-                    <p>
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 ">
+                  <h3 className="text-2xl font-semibold text-[#1C3988] mb-3">Platform Terms of Service</h3>
+                  <div className="text-xs text-gray-700 space-y-4">
+                    <p className="text-gray-500 font-medium text-[16px]">
                       Welcome to — a land listing and connection platform. Our mission is to offer verified listing
                       space, affordable access to co-buying opportunities, and a smart way to explore land deals
                       globally.
                     </p>
-                    <p className="text-[#1C3988] text-xl">We do not:</p>
-                    <ul className="list-disc list-inside space-y-1 ml-3 text-xs">
-                      <li>Hold or transfer any funds</li>
-                      <li>Facilitate or guarantee any transactions</li>
-                      <li>Provide legal advice or legal transactions</li>
-                      <li>Act as a broker, legal agent, or real estate advisor</li>
+                    <p className="text-[#1c3988c5] text-xl font-bold">We do not:</p>
+                    <ul className=" list-inside space-y-1 ml-3 text-sm text-gray-500">
+                      <li className="before:content-['➤'] ">  Hold or transfer any funds</li>
+                      <li className="before:content-['➤'] " >  Facilitate or guarantee any transactions</li>
+                      <li className="before:content-['➤'] " >  Provide legal advice or legal transactions</li>
+                      <li className="before:content-['➤'] " >  Act as a broker, legal agent, or real estate advisor</li>
                     </ul>
-                    <p className="text-[#1C3988] text-xl">All users are 100% responsible for:</p>
-                    <ul className="list-disc list-inside space-y-1 ml-3 text-xs">
-                      <li>Performing due diligence</li>
-                      <li>Hiring their own real estate lawyer or licensed professional</li>
-                      <li>Conducting all transactions with public records or land registry</li>
+                    <p className="text-[#1c3988c5] text-xl font-bold ">All users are 100% responsible for:</p>
+                    <ul className="list-inside space-y-1 ml-3 text-sm text-gray-500">
+                      <li className="before:content-['➤'] ">  Performing due diligence</li>
+                      <li className="before:content-['➤'] ">  Hiring their own real estate lawyer or licensed professional</li>
+                      <li className="before:content-['➤'] ">  Conducting all transactions with public records or land registry</li>
                     </ul>
-                    <p className="text-[#1C3988] text-xl">We strongly advise:</p>
-                    <ul className="list-disc list-inside space-y-1 ml-3 text-xs">
-                      <li>Consulting with a qualified real estate professional or legal channels</li>
-                      <li>Using our provided lawyer list as a starting point for guidance</li>
-                      <li>Treating all property decisions as your own independent choice</li>
+                    <p className="text-[#1c3988c5] text-xl font-bold ">We strongly advise:</p>
+                    <ul className="list-inside space-y-1 ml-3 text-sm text-gray-500">
+                      <li className="before:content-['➤'] " >  Consulting with a qualified real estate professional or legal channels</li>
+                      <li className="before:content-['➤'] " >  Using our provided lawyer list as a starting point for guidance</li>
+                      <li className="before:content-['➤'] " >  Treating all property decisions as your own independent choice</li>
                     </ul>
-                    <p className="text-[#1C3988] text-xl">What we provide:</p>
-                    <ul className="list-disc list-inside space-y-1 ml-3 text-xs">
-                      <li>A tool to discover and list land</li>
-                      <li>A system to connect multiple co-buyers</li>
-                      <li>A professional calculator to estimate the investment cost</li>
-                      <li>A comprehensive directory to help deals happen faster</li>
-                      <li>Easier access to land ownership for people with limited budgets</li>
+                    <p className="text-[#1c3988c5] text-xl font-bold">What we provide:</p>
+                    <ul className="list-inside space-y-1 ml-3 text-sm text-gray-500">
+                      <li className="before:content-['➤'] " >  A tool to discover and list land</li>
+                      <li className="before:content-['➤'] " >  A system to connect multiple co-buyers</li>
+                      <li className="before:content-['➤'] " >  A professional calculator to estimate the investment cost</li>
+                      <li className="before:content-['➤'] " >  A comprehensive directory to help deals happen faster</li>
+                      <li className="before:content-['➤'] " >  Easier access to land ownership for people with limited budgets</li>
                     </ul>
                   </div>
                 </div>

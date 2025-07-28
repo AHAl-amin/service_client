@@ -8,48 +8,101 @@ import { useState } from "react";
 // import img4 from "../../../public/img/map.png";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const testimonials = [
-    {
-        id: 1,
-        name: "John Doe",
-     
-        image: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529177/samples/smile.jpg",
-        quote:
-            '"A reliable website! I had no issues buying my apartment, and the team was very cooperative."',
-    },
-    {
-        id: 2,
-        name: "smith",
-      
-        image: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529178/samples/man-portrait.jpg",
-        quote:
-            '"The process was professional, and detailed information about the properties was provided. I will buy again from here."',
-    },
-    {
-        id: 3,
-        name: "Matheo",
-    
-        image: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529169/samples/people/boy-snow-hoodie.jpg",
-        quote:
-            '"I found the perfect land through this website. Customer support was very quick and helpful."',
-    },
-    {
-        id: 4,
-        name: "Anthony",
-       
-        image: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529168/samples/people/kitchen-bar.jpg",
-        quote:
-            '"Everything from property selection to purchase was great. The price was reasonable, and the guidance was superb."',
-    },
-    {
-        id: 5,
-        name: "Sarah",
-        // position: "Frontend Developer",
-        image: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529167/samples/animals/cat.jpg",
-        quote:
-            '"I bought my dream house from this website! The service was excellent, and the process was very easy. Thank you!"',
-    },
-];
+const testimonials =
+
+[
+  {
+    "id": 1,
+    "name": "Richard Anderson",
+    "image": "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529177/samples/smile.jpg",
+    "quote": "\"A seamless experience from start to finish! The property was exactly as described, and the team was incredibly helpful throughout the entire process.\""
+  },
+  {
+    "id": 2,
+    "name": "Emily Thompson",
+    "image": "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529178/samples/man-portrait.jpg",
+    "quote": "\"I was able to find a wonderful home thanks to this website. The process was straightforward, and the customer service exceeded my expectations.\""
+  },
+  {
+    "id": 3,
+    "name": "David Martinez",
+    "image": "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529169/samples/people/boy-snow-hoodie.jpg",
+    "quote": "\"I couldn't have asked for a better experience. The property listings were thorough, and my questions were answered quickly and clearly.\""
+  },
+  {
+    "id": 4,
+    "name": "Sophia Johnson",
+    "image": "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529168/samples/people/kitchen-bar.jpg",
+    "quote": "\"This platform made it so easy to find a property. The team was very responsive and professional, and the entire buying experience was stress-free.\""
+  },
+  {
+    "id": 5,
+    "name": "James Williams",
+    "image": "https://i.ibb.co/35jgdnGk/image-7.png",
+    "quote": "\"From browsing to closing, the entire process was incredibly smooth. I highly recommend this service to anyone looking for real estate.\""
+  },
+  {
+    "id": 6,
+    "name": "Olivia Brown",
+    "image": "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529177/samples/smile.jpg",
+    "quote": "\"I found my dream home with this website. The detailed property information made all the difference. Their team was always available to assist.\""
+  },
+  {
+    "id": 7,
+    "name": "Ethan Davis",
+    "image": "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529178/samples/man-portrait.jpg",
+    "quote": "\"A very reliable platform for real estate transactions. The staff was knowledgeable and guided me every step of the way.\""
+  },
+  {
+    "id": 8,
+    "name": "Isabella Wilson",
+    "image": "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529169/samples/people/boy-snow-hoodie.jpg",
+    "quote": "\"I couldn't be happier with my purchase. The website is easy to navigate, and the team offered fantastic support and advice.\""
+  },
+  {
+    "id": 9,
+    "name": "Michael Harris",
+    "image": "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529168/samples/people/kitchen-bar.jpg",
+    "quote": "\"Excellent service! They provided all the information I needed to make an informed decision. I'm very pleased with my new property.\""
+  },
+  {
+    "id": 10,
+    "name": "Ava Clark",
+    "image": "https://i.ibb.co/GCB97mB/young-adult-doing-indoor-sport-gym-23-2149205541.jpg",
+    "quote": "\"A top-notch real estate experience. The website was easy to use, and the team was always there when I needed help. Highly recommended!\""
+  },
+  {
+    "id": 11,
+    "name": "Daniel Rodriguez",
+    "image": "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529177/samples/smile.jpg",
+    "quote": "\"A fantastic platform with excellent customer service. The entire property search and purchasing process was very smooth and quick.\""
+  },
+  {
+    "id": 12,
+    "name": "Mia Walker",
+    "image": "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529178/samples/man-portrait.jpg",
+    "quote": "\"I was impressed with how easy it was to find the perfect property. The customer support team was professional and attentive to my needs.\""
+  },
+  {
+    "id": 13,
+    "name": "Lucas Hall",
+    "image": "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529169/samples/people/boy-snow-hoodie.jpg",
+    "quote": "\"From property browsing to finalizing the deal, everything was handled professionally. I will definitely return for future property investments.\""
+  },
+  {
+    "id": 14,
+    "name": "Charlotte Lee",
+    "image": "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529168/samples/people/kitchen-bar.jpg",
+    "quote": "\"This platform has made my real estate journey much easier. The properties are well listed with all necessary details, making decision-making a breeze.\""
+  },
+  {
+    "id": 15,
+    "name": "Benjamin Scott",
+    "image": "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529167/samples/animals/cat.jpg",
+    "quote": "\"The whole process was seamless and well-managed. I felt supported throughout the journey, and the platform was user-friendly. I highly recommend it!\""
+  }
+]
+
 
 const Review = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
