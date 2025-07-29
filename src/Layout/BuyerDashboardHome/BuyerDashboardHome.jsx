@@ -7,13 +7,15 @@ import { MapPin, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { useAddToWishlistMutation, useGetBuyShareOwnerQuery, useRemoveFromWishlistMutation } from "../../redux/features/buyerApi";
+import { useAddToWishlistMutation, useGetBuyShareOwnerQuery, useGetDesBuyerHeaderQuery, useRemoveFromWishlistMutation } from "../../redux/features/buyerApi";
 import { toast, ToastContainer } from "react-toastify";
 import { RxCross2 } from "react-icons/rx";
 import { useGetAllPropertiesFeaturedListQuery } from "../../redux/features/sellerApi";
 
 export default function BuyerDashboardHome() {
   const { data: getAllPropertiesFeaturedList, refetch } = useGetAllPropertiesFeaturedListQuery();
+  const {data: getDesBuyerHeader} = useGetDesBuyerHeaderQuery();
+  
   console.log(getAllPropertiesFeaturedList, "lllllllllllllllllllll");
 
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
@@ -185,24 +187,11 @@ export default function BuyerDashboardHome() {
 
   // Stats data (unchanged)
   const statsData = [
-    {
-      id: 1,
-      title: "Recently Viewed",
-      count: 15,
-      description: "Properties viewed in the last 30 days",
-      icon: {
-        paths: [
-          "M15 12a3 3 0 11-6 0 3 3 0 016 0z",
-          "M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z",
-        ],
-        strokeColor: "text-blue-600",
-        bgColor: "bg-blue-100",
-      },
-    },
+   
     {
       id: 2,
       title: "Saved Properties",
-      count: 7,
+      count: getDesBuyerHeader?.property_wishlisted || 0,
       description: "Properties in your wishlist",
       icon: {
         paths: [
@@ -214,8 +203,8 @@ export default function BuyerDashboardHome() {
     },
     {
       id: 3,
-      title: "Active Chats",
-      count: 3,
+      title: "Completed Shares",
+      count: getDesBuyerHeader?.completed_shares || 0,
       description: "Ongoing conversations with sellers",
       icon: {
         paths: [
@@ -228,7 +217,7 @@ export default function BuyerDashboardHome() {
     {
       id: 4,
       title: "Share Interest",
-      count: 2,
+      count: getDesBuyerHeader?.total_shares_owned || 0,
       description: "Jointly owned properties",
       icon: {
         paths: [
@@ -244,7 +233,7 @@ export default function BuyerDashboardHome() {
     <div className="">
       <div className="mx-auto">
         <h1 className="text text-4xl font-semibold mb-6">Dashboard overview</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
           {statsData.map((stat) => (
             <div
               key={stat.id}

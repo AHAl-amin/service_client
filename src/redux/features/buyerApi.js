@@ -109,10 +109,14 @@ export const buyerApi = createApi({
             }),
             invalidatesTags: ["Properties"],
         }),
+          getDesBuyerHeader: builder.query({
+            query: () => "/properties/buyer/stats/",
+           
+        }),
 
 
 
     }),
 });
 
-export const { useGetAllPropertiesFeaturedListQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation, useGetWishlistPropertiesQuery, useGetBuyerSubscriptionQuery, useSellerContactDataMutation ,useGetShareOwnershipQuery, useContactWithSellerMutation, useBuyAshareMutation, useGetBuyShareOwnerQuery} = buyerApi;
+export const { useGetAllPropertiesFeaturedListQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation, useGetWishlistPropertiesQuery, useGetBuyerSubscriptionQuery, useSellerContactDataMutation ,useGetShareOwnershipQuery, useContactWithSellerMutation, useBuyAshareMutation, useGetBuyShareOwnerQuery, useGetDesBuyerHeaderQuery} = buyerApi;

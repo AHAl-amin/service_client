@@ -7,6 +7,7 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useSellerRegistrationMutation } from "../../redux/features/baseApi";
 import { toast, ToastContainer } from "react-toastify";
+import { getNames } from "country-list";
 
 export default function SellerRegistration() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -111,18 +112,18 @@ export default function SellerRegistration() {
         await sellerRegistration(sellerData).unwrap();
         setCurrentStep(5); // Move to success screen
       } catch (err) {
-  const errorData = err?.data?.errors;
+        const errorData = err?.data?.errors;
 
-  if (errorData) {
-    // Show first error message from backend
-    const firstKey = Object.keys(errorData)[0];
-    const firstErrorMessage = errorData[firstKey][0];
-    toast.error(firstErrorMessage);
-  } else {
-    // Show default error if no specific message from backend
-    toast.error("Failed to register. Please try again.");
-  }
-}
+        if (errorData) {
+          // Show first error message from backend
+          const firstKey = Object.keys(errorData)[0];
+          const firstErrorMessage = errorData[firstKey][0];
+          toast.error(firstErrorMessage);
+        } else {
+          // Show default error if no specific message from backend
+          toast.error("Failed to register. Please try again.");
+        }
+      }
     } else if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     }
@@ -138,27 +139,13 @@ export default function SellerRegistration() {
     console.log("Navigate to seller dashboard");
   };
 
-  const handleRunToHome = () => {
-    console.log("Navigate to home");
-  };
+
 
   const countries = [
-    "United States",
-    "Canada",
-    "United Kingdom",
-    "Australia",
-    "Germany",
-    "France",
-    "Japan",
-    "Brazil",
-    "India",
-    "China",
-    "Mexico",
-    "Italy",
-    "Spain",
-    "Netherlands",
-    "Sweden",
+    {  value: null },
+    ...getNames().sort().map(name => ({ name, value: name.toLowerCase() }))
   ];
+
 
   if (currentStep === 5) {
     return (
@@ -204,9 +191,8 @@ export default function SellerRegistration() {
                       className={`w-12 h-12 ${currentStep >= step.id ? "text-[#1C3988]" : "text-gray-300"}`}
                     />
                     <span
-                      className={`absolute inset-0 flex items-center justify-center text-xl font-bold ${
-                        currentStep > step.id ? "text-gray-500" : "text-gray-400"
-                      }`}
+                      className={`absolute inset-0 flex items-center justify-center text-xl font-bold ${currentStep > step.id ? "text-gray-500" : "text-gray-400"
+                        }`}
                     >
                       {currentStep > step.id ? (
                         <svg className="w-5 h-5 text-[#1C3988]" fill="currentColor" viewBox="0 0 20 20">
@@ -432,8 +418,8 @@ export default function SellerRegistration() {
                 </div>
                 <div>
                   <label className="block text-xl font-medium text-[#1C3988] mb-2">Country</label>
-                  <div className="relative">
-                    <select
+                  <div className="relative ">
+                    {/* <select
                       name="country"
                       value={formData.country}
                       onChange={handleInputChange}
@@ -445,7 +431,26 @@ export default function SellerRegistration() {
                           {country}
                         </option>
                       ))}
+                    </select> */}
+
+                    <select
+                      id="country"
+                      name="country"
+                      value={formData.country} // Use formData.country instead of locationData.country
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border  border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none transition-all duration-200 text-gray-700 bg-white appearance-none cursor-pointer"
+                    >
+                      <option value="" className="text-gray-400 ">Select Country</option>
+                      {countries.map((country) => (
+                        <option  key={country.name} value={country.value}>
+                          {country.name}
+                        </option>
+                      ))}
                     </select>
+
+
+
+
                     <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
                       <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -589,20 +594,18 @@ export default function SellerRegistration() {
             <button
               onClick={handleBack}
               disabled={currentStep === 1 || isLoading}
-              className={`px-8 py-2 text-white font-medium rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer ${
-                currentStep === 1 || isLoading
+              className={`px-8 py-2 text-white font-medium rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer ${currentStep === 1 || isLoading
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-[#1C3988] hover:bg-[#1c3988af] focus:ring-[#1C3988]"
-              }`}
+                }`}
             >
               Back
             </button>
             <button
               onClick={handleNext}
               disabled={isLoading}
-              className={`px-8 py-2 cursor-pointer bg-[#1C3988] text-white font-medium rounded-md hover:bg-[#1c3988af] focus:outline-none focus:ring-2 focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200 ${
-                isLoading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`px-8 py-2 cursor-pointer bg-[#1C3988] text-white font-medium rounded-md hover:bg-[#1c3988af] focus:outline-none focus:ring-2 focus:ring-[#1C3988] focus:ring-offset-2 transition-all duration-200 ${isLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
             >
               {isLoading ? "Submitting..." : currentStep === 3 ? "Complete Registration" : "Next"}
             </button>

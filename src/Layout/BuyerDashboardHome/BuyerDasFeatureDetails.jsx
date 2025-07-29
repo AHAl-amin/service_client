@@ -10,7 +10,7 @@ import scanImag from "../../../public/img/scan.png"; // Ensure this path is corr
 import {
   useBuyAshareMutation,
   useContactWithSellerMutation,
-  
+
 } from "../../redux/features/buyerApi";
 import { MdOutlineEmail, MdOutlineLocalPhone } from "react-icons/md";
 import { toast, ToastContainer } from "react-toastify";
@@ -80,7 +80,7 @@ function BuyerDasFeatureDetails() {
       } else {
         toast.error(
           "Something went wrong while purchasing the share: " +
-            (error.data?.message || error.message || "Unknown error")
+          (error.data?.message || error.message || "Unknown error")
         );
       }
     }
@@ -117,7 +117,7 @@ function BuyerDasFeatureDetails() {
       } else {
         toast.error(
           "Something went wrong while sending the message: " +
-            (error.data?.message || error.message || "Unknown error")
+          (error.data?.message || error.message || "Unknown error")
         );
       }
     }
@@ -203,7 +203,13 @@ function BuyerDasFeatureDetails() {
               >
                 Buy a Share
               </button>
-              <button className="border border-gray-300 hover:bg-gray-100 text-gray-700 px-6 py-2 rounded">
+              <button
+                className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-2 rounded font-medium transition-colors cursor-pointer"
+                onClick={() => {
+                  const section = document.getElementById("target-section");
+                  section?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
                 Contact Seller
               </button>
             </div>
@@ -214,19 +220,18 @@ function BuyerDasFeatureDetails() {
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`py-2 px-4 m-2 rounded-xl text-sm font-medium capitalize transition-colors cursor-pointer ${
-                      activeTab === tab
+                    className={`py-2 px-4 m-2 rounded-xl text-sm font-medium capitalize transition-colors cursor-pointer ${activeTab === tab
                         ? "bg-[#1C3988] text-white"
                         : "text-gray-500"
-                    }`}
+                      }`}
                   >
                     {tab === "description"
                       ? "Property Description"
                       : tab === "information"
-                      ? "Property Info"
-                      : tab === "map"
-                      ? "Address Map"
-                      : "Features"}
+                        ? "Property Info"
+                        : tab === "map"
+                          ? "Address Map"
+                          : "Features"}
                   </button>
                 ))}
               </div>
@@ -282,7 +287,7 @@ function BuyerDasFeatureDetails() {
         </div>
 
         {/* Contact Seller Section */}
-        <div className="bg-[#E8EBF3] border border-[#1C3988] rounded-lg shadow-lg p-8">
+        <div id="target-section" className="bg-[#E8EBF3] border border-[#1C3988] rounded-lg shadow-lg p-8">
           <div className="flex justify-between">
             <div className="flex items-center mb-6">
               <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center mr-4">

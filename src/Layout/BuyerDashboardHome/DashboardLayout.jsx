@@ -81,14 +81,14 @@ export default function DashboardLayout() {
           } bg-[#1C3988] border-r border-gray-200 transition-all duration-500 ease-in-out`}
       >
         {/* Logo */}
-        <div className="h-16 flex items-center px-4">
+        <div className="h-16 flex items-center justify-center px-4">
           <div className="flex items-center ms-1 gap-2 mt-20">
-            <div
+            <Link to="/"
               className={`transform transition-all duration-500 ${isCollapsed ? "opacity-0 -translate-x-full" : "opacity-100 translate-x-0"
                 }`}
             >
               <img src={Logo} alt="Logo" />
-            </div>
+            </Link>
           </div>
         </div>
 
@@ -146,7 +146,7 @@ export default function DashboardLayout() {
               <div className="flex flex-col">
                 <span className="text-gray-700 font-bold text-xl">{selectedItem}</span>
                 <h1 className="text-gray-900">
-                  Hi, Welcome <span className="text-[#B28D28] font-bold">{profile?.first_name}</span>
+                  Hi, Welcome <span className="text-[#B28D28] font-bold">{profile?.first_name} {profile?.last_name}</span>
                 </h1>
               </div>
             </div>

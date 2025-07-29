@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { IoIosArrowDown } from 'react-icons/io';
 import Logo from '../../../public/img/logo.png'; // Adjust the path as necessary
 import { HashLink } from 'react-router-hash-link';
+import { getNames } from 'country-list';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const Navbar = () => {
 
   const profile = userType === "buyer" ? getBuyerDataProfile?.data : getSellerDataProfile?.data;
 
-  const userName = profile ? `${profile.first_name} ` : '';
+  const userName = profile ? `${profile.first_name} ${profile.last_name}` : '';
   const userEmail = profile?.email;
   const profileImage = profile?.profile_picture
     ? `https://yoursafeland.duckdns.org${profile.profile_picture}`
@@ -85,26 +86,17 @@ const Navbar = () => {
     { name: 'Ranch', value: 'ranch' },
   ];
 
-  const countries = [
-    { name: 'All ', value: null },
-    { name: 'United States', value: 'usa' },
-    { name: 'Canada', value: 'canada' },
-    { name: 'United Kingdom', value: 'uk' },
-    { name: 'Australia', value: 'australia' },
-    { name: 'Germany', value: 'germany' },
-    { name: 'France', value: 'france' },
-    { name: 'Japan', value: 'japan' },
-    { name: 'Brazil', value: 'brazil' },
-    { name: 'India', value: 'india' },
-    { name: 'China', value: 'china' },
-  ];
+const countries = [{ name: 'All', value: null }, ...getNames().map(name => ({ name, value: name.toLowerCase() }))];
+
 
   return (
     <nav className="bg-white py-3 px-6 shadow-md sticky top-0 z-50 shadow-black/20">
       <div className="container mx-auto flex justify-between items-center">
+        <Link to='/'>
         <div className="flex items-center space-x-4">
           <img src={Logo} alt="Logo" className="h-18 w-auto" />
         </div>
+        </Link>
 
         <div className="hidden md:flex space-x-8">
           <Link
@@ -167,7 +159,7 @@ const Navbar = () => {
               <IoIosArrowDown />
             </button>
             {countriesDropdownOpen && (
-              <div className="absolute top-10 bg-gray-300 border shadow-md rounded-md cursor-pointer p-3 z-30 w-40">
+              <div className="absolute top-10 h-100 overflow-y-auto bg-gray-300 border shadow-md rounded-md cursor-pointer p-3 z-30 w-50">
                 {countries.map((country) => (
                   <button
                     key={country.value || 'all-countries'}

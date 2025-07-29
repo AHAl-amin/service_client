@@ -1,3 +1,4 @@
+import { getNames } from "country-list";
 import { useState, useEffect } from "react";
 
 export default function EditLocationInfo({ onNext, onBack, propertyData, updatePropertyData }) {
@@ -48,17 +49,10 @@ export default function EditLocationInfo({ onNext, onBack, propertyData, updateP
   };
 
   const countries = [
-    "United States",
-    "Canada",
-    "United Kingdom",
-    "Australia",
-    "Germany",
-    "France",
-    "Japan",
-    "Brazil",
-    "India",
-    "China",
+    { name: 'All', value: null },
+    ...getNames().sort().map(name => ({ name, value: name.toLowerCase() }))
   ];
+
 
   if (!propertyData) {
     return <div>Loading property data...</div>;
@@ -79,7 +73,7 @@ export default function EditLocationInfo({ onNext, onBack, propertyData, updateP
                 Country
               </label>
               <div className="relative">
-                <select
+                {/* <select
                   id="country"
                   name="country"
                   value={locationData.country}
@@ -92,7 +86,23 @@ export default function EditLocationInfo({ onNext, onBack, propertyData, updateP
                       {country}
                     </option>
                   ))}
+                </select> */}
+
+                <select
+                  id="country"
+                  name="country"
+                  value={locationData.country}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3  border border-gray-300 rounded-lg  focus:ring-2 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none transition-all duration-200 text-gray-700 bg-white appearance-none cursor-pointer"
+                >
+                  <option value="" className="text-gray-400 ">Select Country</option>
+                  {countries.map((country) => (
+                    <option key={country.name} value={country.value}>
+                      {country.name}
+                    </option>
+                  ))}
                 </select>
+
                 <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
                   <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />

@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { useBuyerRegistrationMutation } from "../../redux/features/baseApi";
 import { toast } from "react-toastify";
 import { ToastContainer } from 'react-toastify';
+import { getNames } from "country-list";
 // import { useBuyerRegistrationMutation } from "../../redux/features/baseApi.js"; 
 
 export default function BuyerRegistration() {
@@ -153,22 +154,9 @@ try {
     console.log("Navigate to home");
   };
 
-  const countries = [
-    "United States",
-    "Canada",
-    "United Kingdom",
-    "Australia",
-    "Germany",
-    "France",
-    "Japan",
-    "Brazil",
-    "India",
-    "China",
-    "Mexico",
-    "Italy",
-    "Spain",
-    "Netherlands",
-    "Sweden",
+ const countries = [
+    {  value: null },
+    ...getNames().sort().map(name => ({ name, value: name.toLowerCase() }))
   ];
 
   // Success Page
@@ -188,14 +176,7 @@ try {
             Your buyer account has been created. You can now access your buyer dashboard to start browsing properties.
           </p>
           <div className="flex flex-col gap-6 w-1/2 mx-auto">
-            {/* <Link to="/login">
-              <button
-                onClick={handleGoToLogin}
-                className="w-full px-6 py-3 bg-[#1C3988] cursor-pointer font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 text-white focus:ring-offset-2 transition-all duration-200"
-              >
-                Go To Buyer Login
-              </button>
-            </Link> */}
+           
             <Link to="/login">
               <button
                 onClick={handleRunToHome}
@@ -467,7 +448,7 @@ try {
                       Country
                     </label>
                     <div className="relative">
-                      <select
+                      {/* <select
                         id="country"
                         name="country"
                         value={formData.country}
@@ -480,7 +461,22 @@ try {
                             {country}
                           </option>
                         ))}
-                      </select>
+                      </select> */}
+
+                    <select
+  id="country"
+  name="country"
+  value={formData.country}
+  onChange={handleInputChange}
+  className="w-full px-3 py-3 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none text-xl bg-white appearance-none cursor-pointer"
+>
+  <option value="">Select your country</option>
+  {countries.map((country) => (
+    <option key={country.value} value={country.value}>
+      {country.name}
+    </option>
+  ))}
+</select>
                       <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
                         <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -536,6 +532,7 @@ try {
                         id="confirmPassword"
                         type={showConfirmPassword ? "text" : "password"}
                         name="confirmPassword"
+                        placeholder="Confirm your password"
                         value={formData.confirmPassword}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 text-gray-800 focus:ring-[#1C3988] focus:border-[#1C3988] outline-none text-xl pr-10"

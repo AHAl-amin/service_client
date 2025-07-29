@@ -24,8 +24,8 @@ export default function Subscription() {
 
     const getstartedData = {
       plan_id: planId,
-      successUrl: "http://localhost:5173/success",
-      cancelUrl: "http://localhost:5173/cancel",
+      successUrl: "https://leafy-lebkuchen-fbb411.netlify.app/success",
+      cancelUrl: "https://leafy-lebkuchen-fbb411.netlify.app/cancel",
     };
 
     try {
@@ -40,11 +40,11 @@ export default function Subscription() {
       console.error("Error creating checkout session:", err);
       if (err?.data?.plan_id) {
         setErrorMessage(err.data.plan_id.join(" "));
-      } 
-      else  {
+      }
+      else {
         setErrorMessage("No need subscribtion for free.");
       }
-    
+
     }
   };
 
@@ -81,7 +81,9 @@ export default function Subscription() {
                   <p className="text-lg mb-4 min-h-[2.5rem] md:text-xl">{plan.description}</p>
                   <div className="relative">
                     <span className="text-4xl font-bold md:text-5xl">${plan.price}</span>
-                    <span className="text-white/70 ml-1 text-lg">/month</span>
+                    <span className="text-[#1C3988] ml-1 text-lg">
+                        {String(plan.duration) === "999999" ? "/Forever" : `/Annually`}
+                    </span>
                   </div>
                 </div>
 
@@ -101,9 +103,8 @@ export default function Subscription() {
                   <button
                     onClick={() => handleGetStarted(plan.id)}
                     disabled={isMutationLoading}
-                    className={`w-full bg-[#1C3988] text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 mt-auto ${
-                      isMutationLoading ? "hover:bg-[#152a6b]" : "hover:bg-[#152a6b]"
-                    }`}
+                    className={`w-full bg-[#1C3988] text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 mt-auto ${isMutationLoading ? "hover:bg-[#152a6b]" : "hover:bg-[#152a6b]"
+                      }`}
                   >
                     {isMutationLoading ? "Get Started" : "Get Started"}
                   </button>

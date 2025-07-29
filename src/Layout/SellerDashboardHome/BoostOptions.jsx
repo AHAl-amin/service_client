@@ -51,8 +51,8 @@ const handleConfirmBoost = async () => {
   console.log("Selected Boost:", boost);
   console.log("getstartedData:", {
     plan_id: boost?.id,
-    successUrl: "http://localhost:5173/success",
-    cancelUrl: "http://localhost:5173/cancel",
+    successUrl: "https://leafy-lebkuchen-fbb411.netlify.app/success",
+      cancelUrl: "https://leafy-lebkuchen-fbb411.netlify.app/cancel",
     property_id: Number.parseInt(selectedProperty),
   });
 

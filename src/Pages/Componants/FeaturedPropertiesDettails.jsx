@@ -206,11 +206,17 @@ function FeaturedPropertiesDetails() {
               >
                 Buy a Share
               </button>
-              <button
-                className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-2 rounded font-medium transition-colors"
-              >
-                Contact Seller
-              </button>
+          
+
+               <button
+    className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-2 rounded font-medium transition-colors cursor-pointer"
+    onClick={() => {
+      const section = document.getElementById("target-section");
+      section?.scrollIntoView({ behavior: "smooth" });
+    }}
+  >
+     Contact Seller
+  </button>
             </div>
 
             {/* Tabs */}
@@ -277,7 +283,7 @@ function FeaturedPropertiesDetails() {
         </div>
 
         {/* Contact Seller Section */}
-        <div className="bg-[#E8EBF3] border border-[#1C3988] rounded-lg shadow-lg p-8">
+        <div id="target-section" className="bg-[#E8EBF3] border border-[#1C3988] rounded-lg shadow-lg p-8">
           <div className="flex justify-between">
             <div className="flex items-center mb-6">
               <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center mr-4">

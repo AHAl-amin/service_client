@@ -5,24 +5,28 @@
 import { MapPin, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { IoIosHeartEmpty } from "react-icons/io";
+
 import { IoEyeOutline } from "react-icons/io5";
 import { LuClipboardList } from "react-icons/lu";
 import { PiCurrencyDollarSimple } from "react-icons/pi";
 import { SiBosch } from "react-icons/si";
 import { Link } from "react-router-dom";
+import { CiViewList } from "react-icons/ci";
 // import EditProperties from "./EditProperties";
-import { useDeletePropertiesMutation, useGetAllPropertiesListQuery } from "../../redux/features/sellerApi";
+import { useDeletePropertiesMutation, useGetAllPropertiesListQuery, useGetSellerDesHeaderQuery } from "../../redux/features/sellerApi";
 import toast, { Toaster } from "react-hot-toast";
 import EditProperties from "./EditProperties/EditProperties";
 
 export default function SellerDashboardHome() {
   const { data: getAllPropertiesList } = useGetAllPropertiesListQuery();
+  const {data: getSellerDesHeader} = useGetSellerDesHeaderQuery();
   console.log(getAllPropertiesList, "llllllllllllllllll")
   const [deleteProperties] = useDeletePropertiesMutation();
   const [editPropertyId, setEditPropertyId] = useState(null);
   const [propertyList, setPropertyList] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
+  
+  console.log(getSellerDesHeader, "getSellerDesHeader");
 
 
 
@@ -77,32 +81,37 @@ export default function SellerDashboardHome() {
     {
       id: 1,
       title: "Total Listings",
-      count: 15,
-      description: "+2 from last month",
+     count: getSellerDesHeader?.total_listings,
+   
       icon: <LuClipboardList size={24} className="text-blue-600" />,
       bgColor: "bg-blue-100",
     },
     {
       id: 2,
-      title: "Total Views",
-      count: 7,
-      description: "+18.2% from last month",
-      icon: <IoEyeOutline size={24} className="text-purple-600" />,
+      title: "Total Wishlisted",
+    
+       count: getSellerDesHeader?.property_wishlisted,
+    
+      icon: <CiViewList  size={24} className="text-purple-600" />,
       bgColor: "bg-purple-100",
     },
     {
       id: 3,
       title: "Active Boosts",
-      count: 3,
-      description: "2 daily, 1 weekly boost active",
+     
+       count: getSellerDesHeader?.active_boosts,
+
+      
       icon: <SiBosch size={24} className="text-green-600" />,
       bgColor: "bg-green-100",
     },
     {
       id: 4,
       title: "Interested Buyers",
-      count: 2,
-      description: "$5,200 in pending deals",
+      
+    
+         count: getSellerDesHeader?.interested_buyers,
+     
       icon: <PiCurrencyDollarSimple size={24} className="text-red-300" />,
       bgColor: "bg-red-100",
     },
@@ -126,7 +135,7 @@ export default function SellerDashboardHome() {
                 </div>
               </div>
               <div className="text-3xl text font-bold mb-1">{stat.count}</div>
-              <p className="text-sm text-[#00B69B]">{stat.description}</p>
+              
             </div>
           ))}
         </div>

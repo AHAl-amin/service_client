@@ -34,44 +34,44 @@ export default function Pricing() {
         setErrorMessage("Failed to load plans. Please try again.");
       });
   }, []);
- 
+
   // Handle button click
- const handleGetStarted = async (planId) => {
-  if (!planId) {
-    setErrorMessage("Plan ID is missing. Please try again.");
-    return;
-  }
+  const handleGetStarted = async (planId) => {
+    if (!planId) {
+      setErrorMessage("Plan ID is missing. Please try again.");
+      return;
+    }
 
-  if (userType !== "seller") {
-    navigate("/seller_registration");
-    return;
-  }
+    if (userType !== "seller") {
+      navigate("/seller_registration");
+      return;
+    }
 
-  const getstartedData = {
-    plan_id: planId, // Fixed: Use planId parameter
-    successUrl: "http://localhost:5173/success",
-    cancelUrl: "http://localhost:5173/cancel",
+    const getstartedData = {
+      plan_id: planId, // Fixed: Use planId parameter
+      successUrl: "https://leafy-lebkuchen-fbb411.netlify.app/success",
+      cancelUrl: "https://leafy-lebkuchen-fbb411.netlify.app/cancel",
+    };
+
+    try {
+      const response = await SubscribtionPlan(getstartedData).unwrap();
+      console.log("Checkout session created:", response);
+      if (response.checkout_url) {
+        window.location.href = response.checkout_url; // Redirect to checkout session
+      } else {
+        navigate("/success"); // Fallback navigation
+      }
+    } catch (err) {
+      console.error("Error creating checkout session:", err);
+      // Handle specific backend error
+      if (err?.data?.plan_id) {
+        setErrorMessage(err.data.plan_id.join(" "));
+      } else {
+        setErrorMessage("Failed to create checkout session. Please try again.");
+      }
+      navigate("/cancel");
+    }
   };
-
-  try {
-    const response = await SubscribtionPlan(getstartedData).unwrap();
-    console.log("Checkout session created:", response);
-    if (response.checkout_url) {
-      window.location.href = response.checkout_url; // Redirect to checkout session
-    } else {
-      navigate("/success"); // Fallback navigation
-    }
-  } catch (err) {
-    console.error("Error creating checkout session:", err);
-    // Handle specific backend error
-    if (err?.data?.plan_id) {
-      setErrorMessage(err.data.plan_id.join(" "));
-    } else {
-      setErrorMessage("Failed to create checkout session. Please try again.");
-    }
-    navigate("/cancel");
-  }
-};
   return (
     <div className="bg-stone-50 py-8 px-4">
       <div className="max-w-6xl mx-auto">
@@ -89,9 +89,17 @@ export default function Pricing() {
             <div key={index} className="relative bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full">
               <div className="text-white px-6 pt-6 pb-12">
                 <h3 className="text-3xl font-bold mb-2 text-[#1C3988]">{plan.name}</h3>
-                <p className="text-sm mb-4 min-h-[2.5rem] text-[#1C3988]">{plan.subtitle}</p>
+                <p className="text-sm  mb-4 min-h-[2.5rem] text-[#1C3988]">{plan.subtitle}</p>
                 <div className="relative">
                   <span className="text-4xl font-bold text-[#1C3988]">{plan.price}</span>
+  <span className="text-[#1C3988] font-medium text-xl">
+  {plan?.name === "Basic"
+    ? "/Month"
+    : plan?.name === "Premium"
+    ? "/Month"
+    : "/Annually"}
+</span>
+
                 </div>
               </div>
 
@@ -108,9 +116,8 @@ export default function Pricing() {
                 <button
                   onClick={() => handleGetStarted(plan.id)}
                   disabled={isLoading}
-                  className={`w-full bg-[#1C3988] text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 mt-auto ${
-                    isLoading ? "cursor-pointer" : "cursor-pointer"
-                  }`}
+                  className={`w-full bg-[#1C3988] text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 mt-auto ${isLoading ? "cursor-pointer" : "cursor-pointer"
+                    }`}
                 >
                   {isLoading ? "Get Started" : "Get Started"}
                 </button>

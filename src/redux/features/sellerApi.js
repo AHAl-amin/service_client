@@ -81,6 +81,10 @@ export const sellerApi = createApi({
             query: () => "/subscriptions/plans/seller/boost/",
             providesTags: ["Properties"],
         }),
+        getSellerDesHeader: builder.query({
+            query: () => "/properties/seller/stats/",
+            
+        }),
 
         deleteProperties: builder.mutation({
             query: (id) => ({
@@ -103,5 +107,6 @@ export const {
     useGetActiveBoostQuery,
     useGetSubscriptionPropertyQuery,
     useGetSubscribtionPlanBoostQuery,
-    useGetAllPropertiesFeaturedListQuery
+    useGetAllPropertiesFeaturedListQuery,
+    useGetSellerDesHeaderQuery
 } = sellerApi;
